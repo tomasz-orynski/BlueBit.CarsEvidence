@@ -1,0 +1,360 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
+    xmlns:localModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents"
+    xmlns:localViewModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents"
+>
+    <DataTemplate DataType="{x:Type localViewModel:PeriodEditDocumentViewModel}">
+        <Grid x:Name="root">
+            <Grid.Resources>
+                <SolidColorBrush x:Key="RedGridLine" Color="#FFFF4444" />
+                <SolidColorBrush x:Key="BlueGridLine" Color="#554444FF"/>
+            </Grid.Resources>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Label 
+                Grid.Row="1" Grid.Column="0"
+                Content="{StaticResource strObjectProp_Period}"/>
+            <StackPanel
+                Grid.Row="1" Grid.Column="1" 
+                Orientation="Horizontal"
+                >
+                <TextBox 
+                Text="{Binding Item.Year, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                MaxLength="{StaticResource lenObjectProp_Year}"
+                Width="{StaticResource widthObjectProp_Year}"/>
+                <ComboBox 
+                    ItemsSource="{Binding Item.AllMonths}"
+                    SelectedItem="{Binding Item.Month, ValidatesOnNotifyDataErrors=True}"
+                    Width="{StaticResource widthObjectProp_Description}"
+                    >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Description}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </StackPanel>
+                
+            <Label 
+                Grid.Row="2" Grid.Column="0" 
+                Content="{StaticResource strObjectProp_Car}"/>
+            <ComboBox 
+                Grid.Row="2" Grid.Column="1" 
+                ItemsSource="{Binding Item.AllCars}"
+                SelectedItem="{Binding Item.Car, ValidatesOnNotifyDataErrors=True}"
+                Width="{StaticResource widthObjectProp_Description}"
+                >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Description}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Label 
+                Grid.Row="3" Grid.Column="0"
+                Content="{StaticResource strObjectProp_DistanceTotal}"/>
+            <StackPanel
+                Grid.Row="3" Grid.Column="1" 
+                Orientation="Horizontal"
+                >
+                <TextBox 
+                Text="{Binding Item.DistanceTotal, Mode=OneWay}" 
+                IsEnabled="False"
+                TextAlignment="Right"
+                MaxLength="{StaticResource lenObjectPropType_Number}"
+                Width="{StaticResource widthObjectPropType_Number}"/>
+            </StackPanel>
+
+            <Label 
+                Grid.Row="4" Grid.Column="0"
+                Content="{StaticResource strObjectProp_EvidenceCounterBegin}"/>
+            <StackPanel
+                Grid.Row="4" Grid.Column="1" 
+                Orientation="Horizontal"
+                >
+                <TextBox 
+                Text="{Binding CounterBegin, Mode=OneWay}" 
+                IsEnabled="False"
+                TextAlignment="Right"
+                MaxLength="{StaticResource lenObjectPropType_Number}"
+                Width="{StaticResource widthObjectPropType_Number}"/>
+            </StackPanel>
+
+            <Label 
+                Grid.Row="5" Grid.Column="0"
+                Content="{StaticResource strObjectProp_EvidenceCounterEnd}"/>
+            <StackPanel
+                Grid.Row="5" Grid.Column="1" 
+                Orientation="Horizontal"
+                >
+                <TextBox 
+                Text="{Binding Item.CounterEnd, Mode=OneWay}" 
+                IsEnabled="False"
+                TextAlignment="Right"
+                MaxLength="{StaticResource lenObjectPropType_Number}"
+                Width="{StaticResource widthObjectPropType_Number}"/>
+            </StackPanel>
+
+            <Label 
+                Grid.Row="6" Grid.Column="0" 
+                Content="{StaticResource strObjectProp_Entries}"/>
+            <DataGrid 
+                Grid.Row="6" Grid.Column="1" 
+                ItemsSource="{Binding Item.Entries}"
+                AutoGenerateColumns="False"
+                CanUserAddRows="True"
+                CanUserDeleteRows="True"
+                CanUserResizeRows="False"
+                CanUserResizeColumns="False"
+                CanUserSortColumns="True"
+                MaxHeight="800"
+                >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <mvvm:EventToCommand Command="{Binding Path=EventCmdEntriesSelectectionChanged}" PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <mvvm:EventToCommand Command="{Binding Path=EventCmdEntriesSelectectionChanged}" PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="InitializingNewItem">
+                        <mvvm:EventToCommand Command="{Binding Path=EventCmdEntriesInitializingNewItem}" PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                
+                <DataGrid.Resources>
+                    <!-- Niestety style globalne nie działają bo są też tu używane! -->
+                    <Style TargetType="DataGrid">
+                        <Setter Property="Margin" Value="2" />
+                        <Setter Property="VerticalGridLinesBrush" Value="LightGray" />
+                        <Setter Property="HorizontalGridLinesBrush" Value="LightGray" />
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu 
+                                    ItemsSource="{Binding EntriesCommands.Items}" 
+                                    ItemContainerStyle="{DynamicResource sCommandMenuItem}" />
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    <Style TargetType="{x:Type TextBox}">
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="VerticalAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                    </Style>
+
+                    <Style TargetType="{x:Type ComboBox}">
+                        <Setter Property="Margin" Value="0" />
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="VerticalAlignment" Value="Stretch" />
+                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                    </Style>
+                </DataGrid.Resources>
+
+                <DataGrid.Columns>
+<!--                    
+                    <DataGridTemplateColumn
+                        MinWidth="30"
+                        MaxWidth="30"
+                        >
+                        <DataGridTemplateColumn.Header>
+                            <CheckBox IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.EventCmdEntriesSelectectionChanged.SelectedState}" />
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox 
+                                    Tag="{Binding ID}" 
+                                    ToolTip="{Binding ID}"
+                                    IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}, Path=IsSelected}" 
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+-->
+                    <DataGridTemplateColumn
+                        Header="{StaticResource strObjectProp_Day_}"
+                        MinWidth="{StaticResource widthObjectProp_Description_}"
+                        >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock 
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Text="{Binding Day.Description}" 
+                                    />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <ComboBox
+                                    ItemsSource="{Binding AllDays}"
+                                    SelectedItem="{Binding Day}"
+                                    >
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Description}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn
+                        Header="{StaticResource strObjectProp_Person_}"
+                        MinWidth="{StaticResource widthObjectProp_Description_}"
+                        >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock 
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Text="{Binding Person.Description}" 
+                                    />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <ComboBox
+                                    ItemsSource="{Binding AllPersons}"
+                                    SelectedItem="{Binding Person}"
+                                    Width="{StaticResource widthObjectProp_Description_}"
+                                    >
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock 
+                                                Text="{Binding Description}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn
+                        Header="{StaticResource strObjectProp_Route_}"
+                        MinWidth="{StaticResource widthObjectProp_Description_}"
+                        >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Left"
+                                    Text="{Binding Route.Description}" 
+                                    />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <ComboBox
+                                    ItemsSource="{Binding AllRoutes}"
+                                    SelectedItem="{Binding Route}"
+                                    Width="{StaticResource widthObjectProp_Description_}"
+                                    >
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Description}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn
+                        Header="{StaticResource strObjectProp_Distance_}"
+                        MinWidth="{StaticResource widthObjectPropType_Number_}"
+                        >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock 
+                                    Text="{Binding Route.Distance}"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Right"
+                                    TextAlignment="Right"
+                                    Width="{StaticResource widthObjectPropType_Number_}"
+                                    />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn
+                        Header="{StaticResource strObjectProp_DistanceIsInBothDirections_}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox 
+                                    IsChecked="{Binding Route.DistanceIsInBothDirections, UpdateSourceTrigger=PropertyChanged}"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    IsEnabled="False" 
+                                    />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn
+                        Header="{StaticResource strObjectProp_Distance_}"
+                        MinWidth="{StaticResource widthObjectPropType_Number_}"
+                        >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock 
+                                    Text="{Binding Distance}"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Right"
+                                    TextAlignment="Right"
+                                    Width="{StaticResource widthObjectPropType_Number_}"
+                                    />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <TextBox 
+                                    Text="{Binding Distance, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Right"
+                                    TextAlignment="Right"
+                                    MaxLength="{StaticResource lenObjectPropType_Number}"
+                                    Width="{StaticResource widthObjectPropType_Number_}"
+                                    />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+                
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="{Binding Colour}" />
+                    </Style>
+                </DataGrid.RowStyle>
+            </DataGrid>
+
+            <ContentControl 
+                Grid.Row="7" Grid.Column="1" 
+                Margin="5,5,0,5" HorizontalAlignment="Right" 
+                Content="{Binding EntriesCommands}" 
+                ContentTemplate="{DynamicResource dtCommandsButons}" />
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

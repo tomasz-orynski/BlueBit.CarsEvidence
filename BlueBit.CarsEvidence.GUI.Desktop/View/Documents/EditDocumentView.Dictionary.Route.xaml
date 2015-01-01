@@ -1,0 +1,85 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
+    xmlns:localModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents"
+    xmlns:localViewModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents"
+>
+    <DataTemplate DataType="{x:Type localViewModel:RouteEditDocumentViewModel}">
+        <Grid DataContext="{Binding Item}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Label 
+                Grid.Row="1" Grid.Column="0"
+                Content="{StaticResource strObjectProp_Code}"/>
+            <TextBox 
+                Grid.Row="1" Grid.Column="1" 
+                Text="{Binding Code, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                MaxLength="{StaticResource lenObjectProp_Code}"
+                Width="{StaticResource widthObjectProp_Code}"
+                />
+            <Label 
+                Grid.Row="2" Grid.Column="0" 
+                Content="{StaticResource strObjectProp_AddressFrom}"/>
+            <ComboBox 
+                Grid.Row="2" Grid.Column="1" 
+                ItemsSource="{Binding AllAddresses}"
+                SelectedItem="{Binding AddressFrom, ValidatesOnNotifyDataErrors=True}"
+                Width="{StaticResource widthObjectProp_Description}"
+                >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Code}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Label 
+                Grid.Row="3" Grid.Column="0" 
+                Content="{StaticResource strObjectProp_AddressTo}"/>
+            <ComboBox 
+                Grid.Row="3" Grid.Column="1" 
+                ItemsSource="{Binding AllAddresses}"
+                SelectedItem="{Binding AddressTo, ValidatesOnNotifyDataErrors=True}"
+                Width="{StaticResource widthObjectProp_Description}"
+                >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Code}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Label 
+                Grid.Row="4" Grid.Column="0"
+                Content="{StaticResource strObjectProp_Distance}"/>
+            <TextBox 
+                Grid.Row="4" Grid.Column="1" 
+                Text="{Binding Distance, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                MaxLength="{StaticResource lenObjectPropType_Number}"
+                Width="{StaticResource widthObjectPropType_Number}"/>
+
+            <Label 
+                Grid.Row="5" Grid.Column="0"
+                Content="{StaticResource strObjectProp_DistanceIsInBothDirections}"/>
+            <CheckBox 
+                Grid.Row="5" Grid.Column="1" 
+                IsChecked="{Binding DistanceIsInBothDirections, ValidatesOnNotifyDataErrors=True}" 
+                />
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

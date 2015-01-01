@@ -1,0 +1,446 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{36C49851-463D-4C82-991E-56ED967D56A7}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BlueBit.CarsEvidence.GUI.Desktop</RootNamespace>
+    <AssemblyName>BlueBit.CarsEvidence.GUI.Desktop</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=3.3.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoMapper.3.3.0\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4, Version=3.3.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoMapper.3.3.0\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="dotNetExt">
+      <HintPath>..\packages\dotNetExt.1.3.0\lib\net\dotNetExt.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation, Version=5.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\FluentValidation.5.5.0.0\lib\Net40\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight">
+      <HintPath>..\packages\MvvmLightLibs.5.0.2.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Extras">
+      <HintPath>..\packages\MvvmLightLibs.5.0.2.0\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
+    </Reference>
+    <Reference Include="GalaSoft.MvvmLight.Platform">
+      <HintPath>..\packages\MvvmLightLibs.5.0.2.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception">
+      <HintPath>..\packages\Unity.Interception.3.5.1404.0\lib\Net45\Microsoft.Practices.Unity.Interception.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Interception.Configuration">
+      <HintPath>..\packages\Unity.Interception.3.5.1404.0\lib\Net45\Microsoft.Practices.Unity.Interception.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\NHibernate.4.0.2.4000\lib\net40\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Controls.Ribbon" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=2.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.3\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=2.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.3\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=2.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.3\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=2.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.3\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=2.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.3\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=2.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.3\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="..\BlueBit.CarsEvidence.ProductInfo.cs">
+      <Link>Properties\BlueBit.CarsEvidence.ProductInfo.cs</Link>
+    </Compile>
+    <Compile Include="App.ResourceDictionary.cs">
+      <DependentUpon>App.ResourceDictionary.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Configuration\Attributes\Register.cs" />
+    <Compile Include="Configuration\Attributes\RegisterAll.cs" />
+    <Compile Include="Configuration\Settings.cs" />
+    <Compile Include="Configuration\Settings.UnityContainerExtensions.cs" />
+    <Compile Include="Configuration\Settings.UnityContainerExtensions.Utils.cs" />
+    <Compile Include="Resources\Info.cs" />
+    <Compile Include="ViewModel\Behaviors\WindowCloseBehavior.cs" />
+    <Compile Include="ViewModel\Commands\Handlers\Data.cs" />
+    <Compile Include="ViewModel\Commands\Handlers\DataExport.cs" />
+    <Compile Include="ViewModel\Commands\Handlers\DataImport.cs" />
+    <Compile Include="ViewModel\Commands\Handlers\Settings.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.Ribbon.cs" />
+    <Compile Include="ViewModel\Panels\Commands\Handlers\ShowList.cs" />
+    <Compile Include="Model\Attributes\EditInDocumentViewAsChild.cs" />
+    <Compile Include="Model\Attributes\Validation\ConverterType.cs" />
+    <Compile Include="Model\Attributes\EditInDocumentView.cs" />
+    <Compile Include="Model\Attributes\EntityType.cs" />
+    <Compile Include="Model\Attributes\ShowInPanelView.cs" />
+    <Compile Include="Model\Attributes\Validation\DateRange.cs" />
+    <Compile Include="Model\Attributes\Validation\DateTimeRange.cs" />
+    <Compile Include="Model\Attributes\Validation\YearRange.cs" />
+    <Compile Include="Model\Objects\Converter.cs" />
+    <Compile Include="Model\Objects\Edit\Documents\Address.cs" />
+    <Compile Include="Model\Objects\Edit\Documents\Car.cs" />
+    <Compile Include="Model\Objects\Edit\Documents\Period.cs" />
+    <Compile Include="Model\Objects\Edit\Documents\PeriodEntry.cs" />
+    <Compile Include="Model\Objects\Edit\Documents\Person.cs" />
+    <Compile Include="Model\Objects\Edit\Documents\Route.cs" />
+    <Compile Include="Model\Objects\Edit\EditObjectBase.cs" />
+    <Compile Include="Model\Objects\ObjectBase.cs" />
+    <Compile Include="Model\Objects\View\Converter.cs" />
+    <Compile Include="Model\Objects\View\General\Address.cs" />
+    <Compile Include="Model\Objects\View\General\Car.cs" />
+    <Compile Include="Model\Objects\View\General\Helpers\Day.cs" />
+    <Compile Include="Model\Objects\View\General\Helpers\Month.cs" />
+    <Compile Include="Model\Objects\View\General\Person.cs" />
+    <Compile Include="Model\Objects\View\General\Route.cs" />
+    <Compile Include="Model\Objects\View\General\ViewGeneralObjectBase.cs" />
+    <Compile Include="Model\Objects\View\Panels\Address.cs" />
+    <Compile Include="Model\Objects\View\Panels\Car.cs" />
+    <Compile Include="Model\Objects\View\General\Company.cs" />
+    <Compile Include="Model\Objects\View\Panels\Period.cs" />
+    <Compile Include="Model\Objects\View\Panels\Person.cs" />
+    <Compile Include="Model\Objects\View\Panels\Route.cs" />
+    <Compile Include="Model\Objects\View\ViewObjectBase.cs" />
+    <Compile Include="Model\Repository.cs" />
+    <Compile Include="Model\Repository.Objects.cs" />
+    <Compile Include="Resources\ImageInfo.cs" />
+    <Compile Include="Services\EnviromentService.cs" />
+    <Compile Include="ViewModel\Commands\Command.cs" />
+    <Compile Include="ViewModel\Commands\CommandInfo.cs" />
+    <Compile Include="ViewModel\Commands\SelectionCommand.cs" />
+    <Compile Include="ViewModel\Dialogs\Commands\Periods\GenerateEntriesDialogViewModel.cs" />
+    <Compile Include="ViewModel\Dialogs\DialogViewModel.cs" />
+    <Compile Include="ViewModel\Documents\Commands\Handlers\Periods\GenerateEntriesCommand.cs" />
+    <Compile Include="ViewModel\Panels\Commands\Handlers\Add.cs" />
+    <Compile Include="ViewModel\Documents\Commands\Handlers\Cancel.cs" />
+    <Compile Include="ViewModel\Panels\Commands\Command.cs" />
+    <Compile Include="ViewModel\Panels\Commands\Handlers\Delete.cs" />
+    <Compile Include="ViewModel\Panels\Commands\Handlers\Edit.cs" />
+    <Compile Include="ViewModel\Documents\Commands\Handlers\Apply.cs" />
+    <Compile Include="ViewModel\DockViewModel.cs" />
+    <Compile Include="ViewModel\Documents\Commands\Handlers\Periods\AddEntryCommand.cs" />
+    <Compile Include="ViewModel\Documents\Commands\Handlers\Periods\DeleteEntriesCommand.cs" />
+    <Compile Include="ViewModel\Documents\DocumentViewModel.cs" />
+    <Compile Include="ViewModel\Documents\EditDocumentViewModel.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\Panels\ListPanelViewModel.cs" />
+    <Compile Include="ViewModel\Panels\PanelViewModel.cs" />
+    <Compile Include="ViewModel\Commands\SortCommand.cs" />
+    <Compile Include="ViewModel\ViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="ViewModel\DialogService.cs" />
+    <Compile Include="View\Dialogs\DialogView.xaml.cs">
+      <DependentUpon>DialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Documents\EditDocumentView.xaml.cs">
+      <DependentUpon>EditDocumentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Panels\ListPanelView.xaml.cs">
+      <DependentUpon>ListPanelView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="App.ResourceDictionary.Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="App.ResourceDictionary.Templates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="App.ResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainWindowView.ResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MainWindowView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="View\MainWindowView.xaml.cs">
+      <DependentUpon>MainWindowView.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="View\Dialogs\Commands\Periods\DialogView.Dictionary.GenerateEntries.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialogs\DialogView.Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialogs\DialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Documents\EditDocumentView.Dictionary.Address.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Documents\EditDocumentView.Dictionary.Car.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Documents\EditDocumentView.Dictionary.Period.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Documents\EditDocumentView.Dictionary.Person.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Documents\EditDocumentView.Dictionary.Route.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Documents\EditDocumentView.Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Documents\EditDocumentView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Panels\ListPanelView.Dictionary.Address.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Panels\ListPanelView.Dictionary.Car.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Panels\ListPanelView.Dictionary.Period.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Panels\ListPanelView.Dictionary.Person.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Panels\ListPanelView.Dictionary.Route.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Panels\ListPanelView.Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Panels\ListPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\Icons\cmd-generate-26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BlueBit.CarsEvidence.BL\BlueBit.CarsEvidence.BL.csproj">
+      <Project>{77827cac-6645-4b19-af2a-1ddf0ff16d2c}</Project>
+      <Name>BlueBit.CarsEvidence.BL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BlueBit.CarsEvidence.Commons\BlueBit.CarsEvidence.Commons.csproj">
+      <Project>{eada7872-148f-499a-8689-0e7f02bb5437}</Project>
+      <Name>BlueBit.CarsEvidence.Commons</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SplashScreen Include="App.SplashScreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\car-32.png" />
+    <Resource Include="Resources\Icons\car-48.png" />
+    <Resource Include="Resources\Icons\cars-48.png" />
+    <Resource Include="Resources\Icons\department-32.png" />
+    <Resource Include="Resources\Icons\department-48.png" />
+    <Resource Include="Resources\Icons\driver-32.png" />
+    <Resource Include="Resources\Icons\driver-48.png" />
+    <Resource Include="Resources\Icons\overtime-32.png" />
+    <Resource Include="Resources\Icons\overtime-48.png" />
+    <Resource Include="Resources\Icons\route-32.png" />
+    <Resource Include="Resources\Icons\route-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\cars-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\cmd-showlist-26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\cmd-add-26.png" />
+    <Resource Include="Resources\Icons\cmd-delete-26.png" />
+    <Resource Include="Resources\Icons\cmd-edit-26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\cmd-apply-26.png" />
+    <Resource Include="Resources\Icons\cmd-cancel-26.png" />
+    <Resource Include="Resources\Icons\cmd-delete-24.png" />
+    <Resource Include="Resources\Icons\cmd-settings-26.png" />
+    <Resource Include="Resources\Icons\settings_filled-25.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\globe-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\car-24.png" />
+    <Resource Include="Resources\Icons\department-26.png" />
+    <Resource Include="Resources\Icons\driver-26.png" />
+    <Resource Include="Resources\Icons\overtime-26.png" />
+    <Resource Include="Resources\Icons\route-24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\cmd-exit-26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\cmd-exit-32.png" />
+    <Resource Include="Resources\Icons\cmd-exit-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\cmd-settings-32.png" />
+    <Resource Include="Resources\Icons\cmd-settings-48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\cmd-export-26.png" />
+    <Resource Include="Resources\Icons\cmd-import-26.png" />
+    <Resource Include="Resources\Icons\data_configuration-26.png" />
+    <Resource Include="Resources\Icons\data_configuration-32.png" />
+    <Resource Include="Resources\Icons\data_configuration-48.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <Import Project="$(XamlSpyInstallPath)MSBuild\FirstFloor.XamlSpy.WPF.targets" Condition="'$(XamlSpyInstallPath)' != '' and '$(Configuration)' == 'DEBUG'" />
+  <Import Project="..\packages\AutoMapper.3.3.0\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.0\tools\AutoMapper.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

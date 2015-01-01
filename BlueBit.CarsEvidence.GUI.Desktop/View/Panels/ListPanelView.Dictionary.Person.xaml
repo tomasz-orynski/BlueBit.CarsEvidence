@@ -1,0 +1,67 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
+    xmlns:localModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.Model.Objects"
+    xmlns:localViewModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels"
+    xmlns:cmd="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands"
+>
+    <DataTemplate DataType="{x:Type localViewModel:PersonsListPanelViewModel}">
+        <ListView ItemsSource="{Binding Items}" cmd:SortCommand.AutoSort="true">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Loaded">
+                    <mvvm:EventToCommand Command="{Binding Path=EventCmdSelectectionChanged}" PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <mvvm:EventToCommand Command="{Binding Path=EventCmdSelectectionChanged}" PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <mvvm:EventToCommand Command="{Binding Path=EventCmdMouseDoubleClick}" PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ListView.InputBindings>
+                <KeyBinding Key="Insert" Command="{Binding Path=EventCmdKeyInsertPressed}" />
+                <KeyBinding Key="Delete" Command="{Binding Path=EventCmdKeyDeletePressed}" />
+                <KeyBinding Key="Enter" Command="{Binding Path=EventCmdKeyEnterPressed}" />
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding Path=EventCmdMouseDoubleClick}" />
+            </ListView.InputBindings>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <CheckBox IsChecked="{Binding Path=EventCmdSelectectionChanged.SelectedState}" />
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox 
+                                    Tag="{Binding ID}" 
+                                    ToolTip="{Binding ID}"
+                                    IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected}" 
+                                    HorizontalAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn DisplayMemberBinding="{Binding Code}" cmd:SortCommand.PropertyName="Code">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{StaticResource strObjectProp_Code}" ToolTip="{StaticResource strObjectProp_Code}" />
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+
+                    <GridViewColumn DisplayMemberBinding="{Binding FirstName}" cmd:SortCommand.PropertyName="FirstName">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{StaticResource strObjectProp_FirstName_}" ToolTip="{StaticResource strObjectProp_FirstName}" />
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+
+                    <GridViewColumn DisplayMemberBinding="{Binding LastName}" cmd:SortCommand.PropertyName="LastName">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{StaticResource strObjectProp_LastName}" ToolTip="{StaticResource strObjectProp_LastName}" />
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DataTemplate>
+</ResourceDictionary>

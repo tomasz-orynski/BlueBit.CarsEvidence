@@ -1,0 +1,140 @@
+﻿<RibbonWindow 
+    x:Class="BlueBit.CarsEvidence.GUI.Desktop.View.MainWindowView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
+    xmlns:ad="http://schemas.xceed.com/wpf/xaml/avalondock"
+    xmlns:_ccDesktop="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop"
+    xmlns:_ccView="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.View"
+    xmlns:_ccPanels="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.View.Panels"
+    xmlns:_ccDocuments="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.View.Documents"
+    xmlns:_ccBevaviors="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Behaviors"
+    xmlns:_ccCommands="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands"
+    DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
+    Title="{Binding Title}"
+    Icon="{StaticResource imgApp}"
+    >
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <mvvm:EventToCommand Command="{Binding Path=EventCmdClosing}" PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Close">
+            <mvvm:EventToCommand Command="{Binding Path=EventCmdClose}" PassEventArgsToCommand="False" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <i:Interaction.Behaviors>
+        <_ccBevaviors:WindowCloseBehavior ViewModel="{Binding}" />
+    </i:Interaction.Behaviors>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <Ribbon Grid.Row="0">
+            <Ribbon.Resources>
+                <DataTemplate x:Key="ribbonButton" DataType="{x:Type _ccCommands:CommandsGroupInfo}">
+                    <RibbonMenuButton
+                        Label="{Binding Name}" 
+                        LargeImageSource="{Binding ImageSource}" 
+                        ItemsSource="{Binding Commands}">
+                        <RibbonMenuButton.Resources>
+                            <Style TargetType="RibbonMenuItem">
+                                <Setter Property="Header" Value="{Binding Name}" />
+                                <Setter Property="ImageSource" Value="{Binding ImageSource_S}" />
+                                <Setter Property="Command" Value="{Binding Command}" />
+                            </Style>
+                        </RibbonMenuButton.Resources>
+                    </RibbonMenuButton>
+                </DataTemplate>
+
+                <Style x:Key="sRibbonCommandMenuItem" TargetType="RibbonApplicationMenuItem">
+                    <Setter Property="Header" Value="{Binding Name}" />
+                    <Setter Property="Command" Value="{Binding Command}" />
+                    <Setter Property="ImageSource" Value="{Binding ImageSource_N}" />
+                </Style>
+            </Ribbon.Resources>
+
+            <Ribbon.ApplicationMenu>
+                <RibbonApplicationMenu 
+                    ItemsSource="{Binding Commands.Items}"
+                    ItemContainerStyle="{StaticResource sRibbonCommandMenuItem}"
+                    KeyTip="{StaticResource strApp_RibbonMenu_Key}" 
+                    />
+            </Ribbon.ApplicationMenu>
+            
+            <RibbonTab 
+                Header="{StaticResource strApp_RibbonTab_Repository}" 
+                KeyTip="{StaticResource strApp_RibbonTab_RepositoryKey}"
+                >
+                <RibbonGroup 
+                    ItemsSource="{Binding RepositoryCommandsGroups.Items}" 
+                    ItemTemplate="{StaticResource ribbonButton}"/>
+                <RibbonGroup 
+                    ItemsSource="{Binding RepositoryExtraCommandsGroups.Items}" 
+                    ItemTemplate="{StaticResource ribbonButton}"/>
+            </RibbonTab>
+            <RibbonTab 
+                Header="{StaticResource strApp_RibbonTab_Reps}" 
+                KeyTip="{StaticResource strApp_RibbonTab_RepsKey}"
+                />
+        </Ribbon>
+
+        <ContentControl Grid.Row="1">
+            <ContentControl.Resources>
+                <ResourceDictionary Source="MainWindowView.ResourceDictionary.xaml" />
+            </ContentControl.Resources>
+
+            <ad:DockingManager
+                DocumentsSource="{Binding DocumentViewModels}"
+                AnchorablesSource="{Binding PanelViewModels}"
+                >
+                <ad:DockingManager.Resources>
+                    <ad:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+                </ad:DockingManager.Resources>
+                <ad:DockingManager.LayoutItemTemplateSelector>
+                    <_ccView:MainWindowViewPanelDataTemplateSelector>
+                        <_ccView:MainWindowViewPanelDataTemplateSelector.ListPanel>
+                            <DataTemplate>
+                                <_ccPanels:ListPanelView/>
+                            </DataTemplate>
+                        </_ccView:MainWindowViewPanelDataTemplateSelector.ListPanel>
+                        <_ccView:MainWindowViewPanelDataTemplateSelector.EditDocument>
+                            <DataTemplate>
+                                <_ccDocuments:EditDocumentView/>
+                            </DataTemplate>
+                        </_ccView:MainWindowViewPanelDataTemplateSelector.EditDocument>
+                    </_ccView:MainWindowViewPanelDataTemplateSelector>
+                </ad:DockingManager.LayoutItemTemplateSelector>
+                <ad:DockingManager.LayoutItemContainerStyleSelector>
+                    <_ccView:MainWindowViewPanelStyleSelector>
+                        <_ccView:MainWindowViewPanelStyleSelector.ListPanel>
+                            <Style TargetType="{x:Type ad:LayoutAnchorableItem}">
+                                <Setter Property="Title" Value="{Binding Model.Title}"/>
+                                <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>
+                            </Style>
+                        </_ccView:MainWindowViewPanelStyleSelector.ListPanel>
+                        <_ccView:MainWindowViewPanelStyleSelector.EditDocument>
+                            <Style TargetType="{x:Type ad:LayoutItem}">
+                                <Setter Property="Title" Value="{Binding Model.Title}"/>
+                                <Setter Property="CloseCommand" Value="{Binding Model.CmdClose}"/>
+                            </Style>
+                        </_ccView:MainWindowViewPanelStyleSelector.EditDocument>
+                    </_ccView:MainWindowViewPanelStyleSelector>
+                </ad:DockingManager.LayoutItemContainerStyleSelector>
+
+                <ad:LayoutRoot>
+                    <ad:LayoutPanel Orientation="Horizontal">
+                        <ad:LayoutDocumentPane>
+                        </ad:LayoutDocumentPane>
+                        <ad:LayoutAnchorablePane DockWidth="400">
+                        </ad:LayoutAnchorablePane>
+                    </ad:LayoutPanel>
+                </ad:LayoutRoot>
+            </ad:DockingManager>
+        </ContentControl>
+    </Grid>
+</RibbonWindow>

@@ -1,0 +1,16 @@
+<Application 
+    x:Class="CarsEvidence.GUI.App" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    StartupUri="View\MainWindowView.xaml"
+>
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="App.ResourceDictionary.xaml" />
+                <ResourceDictionary Source="App.ResourceDictionary.Styles.xaml" />
+                <ResourceDictionary Source="App.ResourceDictionary.Templates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

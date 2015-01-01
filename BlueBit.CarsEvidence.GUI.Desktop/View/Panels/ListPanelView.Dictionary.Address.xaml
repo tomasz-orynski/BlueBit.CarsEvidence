@@ -1,0 +1,78 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
+    xmlns:localModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.Model.Objects"
+    xmlns:localViewModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels"
+    xmlns:cmd="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands"
+>
+    <DataTemplate DataType="{x:Type localViewModel:AddressesListPanelViewModel}">
+        <ListView ItemsSource="{Binding Items}" cmd:SortCommand.AutoSort="true">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Loaded">
+                    <mvvm:EventToCommand Command="{Binding Path=EventCmdSelectectionChanged}" PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <mvvm:EventToCommand Command="{Binding Path=EventCmdSelectectionChanged}" PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <mvvm:EventToCommand Command="{Binding Path=EventCmdMouseDoubleClick}" PassEventArgsToCommand="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <ListView.InputBindings>
+                <KeyBinding Key="Insert" Command="{Binding Path=EventCmdKeyInsertPressed}" />
+                <KeyBinding Key="Delete" Command="{Binding Path=EventCmdKeyDeletePressed}" />
+                <KeyBinding Key="Enter" Command="{Binding Path=EventCmdKeyEnterPressed}" />
+                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding Path=EventCmdMouseDoubleClick}" />
+            </ListView.InputBindings>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn>
+                        <GridViewColumn.Header>
+                            <CheckBox IsChecked="{Binding Path=EventCmdSelectectionChanged.SelectedState}" />
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox 
+                                    Tag="{Binding ID}" 
+                                    ToolTip="{Binding ID}"
+                                    IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected}" 
+                                    HorizontalAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn DisplayMemberBinding="{Binding Code}" cmd:SortCommand.PropertyName="Code">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{StaticResource strObjectProp_Code}" ToolTip="{StaticResource strObjectProp_Code}" />
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+
+                    <GridViewColumn cmd:SortCommand.PropertyName="PostalCode">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{StaticResource strObjectProp_PostalCode_}" ToolTip="{StaticResource strObjectProp_PostalCode}" />
+                        </GridViewColumn.Header>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding PostalCode}" HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn DisplayMemberBinding="{Binding City}" cmd:SortCommand.PropertyName="City">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{StaticResource strObjectProp_City}" ToolTip="{StaticResource strObjectProp_City}" />
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+
+                    <GridViewColumn DisplayMemberBinding="{Binding StreetWithNo}" cmd:SortCommand.PropertyName="StreetWithNo">
+                        <GridViewColumn.Header>
+                            <TextBlock Text="{StaticResource strObjectProp_StreetWithNo}" ToolTip="{StaticResource strObjectProp_StreetWithNo}" />
+                        </GridViewColumn.Header>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DataTemplate>
+</ResourceDictionary>

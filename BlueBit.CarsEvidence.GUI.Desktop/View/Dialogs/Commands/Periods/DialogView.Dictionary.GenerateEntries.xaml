@@ -1,0 +1,62 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
+    xmlns:localViewModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Dialogs.Commands.Periods"
+>
+    <DataTemplate DataType="{x:Type localViewModel:GenerateEntriesDialogViewModel}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Label 
+                Grid.Row="1" Grid.Column="0" 
+                Content="{StaticResource strObjectProp_Person}"/>
+            <ComboBox 
+                Grid.Row="1" Grid.Column="1" 
+                ItemsSource="{Binding AllPersons}"
+                SelectedItem="{Binding Person}"
+                Width="{StaticResource widthObjectProp_Description}"
+                >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Description}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            
+            <Label 
+                Grid.Row="2" Grid.Column="0" 
+                Content="{StaticResource strObjectProp_Route}"/>
+            <ComboBox 
+                Grid.Row="2" Grid.Column="1" 
+                ItemsSource="{Binding AllRoutes}"
+                SelectedItem="{Binding Route}"
+                Width="{StaticResource widthObjectProp_Description}"
+                >
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Description}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Label 
+                Grid.Row="3" Grid.Column="0" 
+                Content="{StaticResource strObjectProp_OnlyWorkDays}"/>
+            <CheckBox 
+                Grid.Row="3" Grid.Column="1" 
+                IsChecked="{Binding OnlyWorkDays}">
+            </CheckBox>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

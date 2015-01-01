@@ -1,0 +1,205 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:syscol="clr-namespace:System.Collections;assembly=mscorlib"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:_ccViewModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel"
+    d1p1:Ignorable="d"
+    >
+    <_ccViewModel:ViewModelLocator x:Key="Locator" d:IsDataSource="True"/>
+
+    <sys:String x:Key="strApp">CarsEvidence</sys:String>
+    <BitmapImage x:Key="imgApp" UriSource="Resources/Icons/globe-24.png" />
+    
+    <sys:String x:Key="strApp_RibbonMenu_Key">P</sys:String>
+    <sys:String x:Key="strApp_RibbonTab_Repository">Kartoteki</sys:String>
+    <sys:String x:Key="strApp_RibbonTab_RepositoryKey">K</sys:String>
+    <sys:String x:Key="strApp_RibbonTab_Reps">Raportowanie</sys:String>
+    <sys:String x:Key="strApp_RibbonTab_RepsKey">D</sys:String>
+
+    <sys:String x:Key="strApp_RibbonGroup_Data">Dane</sys:String>
+    <BitmapImage x:Key="imgApp_RibbonGroup_Data" UriSource="Resources/Icons/data_configuration-32.png" />
+
+    <sys:String x:Key="strCmd_ShowList">Pokaż listę</sys:String>
+    <BitmapImage x:Key="imgCmd_s_ShowList" UriSource="Resources/Icons/cmd-showlist-26.png" />
+
+    <sys:String x:Key="strCmd_Add">Dodaj</sys:String>
+    <BitmapImage x:Key="imgCmd_s_Add" UriSource="Resources/Icons/cmd-add-26.png" />
+
+    <sys:String x:Key="strCmd_Edit">Edytuj</sys:String>
+    <BitmapImage x:Key="imgCmd_s_Edit" UriSource="Resources/Icons/cmd-edit-26.png" />
+
+    <sys:String x:Key="strCmd_Delete">Usuń</sys:String>
+    <BitmapImage x:Key="imgCmd_s_Delete" UriSource="Resources/Icons/cmd-delete-26.png" />
+
+    <sys:String x:Key="strCmd_Generate">Generuj</sys:String>
+    <BitmapImage x:Key="imgCmd_s_Generate" UriSource="Resources/Icons/cmd-generate-26.png" />
+
+    <sys:String x:Key="strCmd_Apply">Zatwierdź</sys:String>
+    <BitmapImage x:Key="imgCmd_s_Apply" UriSource="Resources/Icons/cmd-apply-26.png" />
+
+    <sys:String x:Key="strCmd_Cancel">Anuluj</sys:String>
+    <BitmapImage x:Key="imgCmd_s_Cancel" UriSource="Resources/Icons/cmd-cancel-26.png" />
+
+    <sys:String x:Key="strCmd_Import">Import danych</sys:String>
+    <BitmapImage x:Key="imgCmd_s_Import" UriSource="Resources/Icons/cmd-import-26.png" />
+
+    <sys:String x:Key="strCmd_Export">Eksport danych</sys:String>
+    <BitmapImage x:Key="imgCmd_s_Export" UriSource="Resources/Icons/cmd-export-26.png" />
+    
+    <sys:String x:Key="strCmd_Exit">Koniec</sys:String>
+    <BitmapImage x:Key="imgCmd_s_Exit" UriSource="Resources/Icons/cmd-exit-26.png" />
+    <BitmapImage x:Key="imgCmd_n_Exit" UriSource="Resources/Icons/cmd-exit-32.png" />
+    <BitmapImage x:Key="imgCmd_l_Exit" UriSource="Resources/Icons/cmd-exit-48.png" />
+
+    <sys:String x:Key="strCmd_Settings">Ustawienia</sys:String>
+    <BitmapImage x:Key="imgCmd_s_Settings" UriSource="Resources/Icons/cmd-settings-26.png" />
+    <BitmapImage x:Key="imgCmd_n_Settings" UriSource="Resources/Icons/cmd-settings-32.png" />
+    <BitmapImage x:Key="imgCmd_l_Settings" UriSource="Resources/Icons/cmd-settings-48.png" />
+
+
+    <sys:String x:Key="strObject_Address">Adres</sys:String>
+    <sys:String x:Key="strObject_Address_Frmt">Adres [ID:{0}]</sys:String>
+    <BitmapImage x:Key="imgObject_Address" UriSource="Resources/Icons/department-26.png" />
+    
+    <sys:String x:Key="strObject_Company">Firma</sys:String>
+    <sys:String x:Key="strObject_Company_Frmt">Firma [ID:{0}]</sys:String>
+    
+    <sys:String x:Key="strObject_Car">Pojazd</sys:String>
+    <sys:String x:Key="strObject_Car_Frmt">Pojazd [ID:{0}]</sys:String>
+    <BitmapImage x:Key="imgObject_Car" UriSource="Resources/Icons/car-24.png" />
+
+    <sys:String x:Key="strObject_Period">Okres</sys:String>
+    <sys:String x:Key="strObject_Period_Frmt">Okres [ID:{0}]</sys:String>
+    <BitmapImage x:Key="imgObject_Period" UriSource="Resources/Icons/overtime-26.png" />
+
+    <sys:String x:Key="strObject_Person">Osoba</sys:String>
+    <sys:String x:Key="strObject_Person_Frmt">Osoba [ID:{0}]</sys:String>
+    <BitmapImage x:Key="imgObject_Person" UriSource="Resources/Icons/driver-26.png" />
+
+    <sys:String x:Key="strObject_Route">Trasa</sys:String>
+    <sys:String x:Key="strObject_Route_Frmt">Trasa [ID:{0}]</sys:String>
+    <BitmapImage x:Key="imgObject_Route" UriSource="Resources/Icons/route-24.png" />
+
+    <sys:String x:Key="strObjects_Address">Adresy</sys:String>
+    <sys:String x:Key="strObjects_Address_Frmt">Adresy [#{0}]</sys:String>
+    <BitmapImage x:Key="imgObjects_Address" UriSource="Resources/Icons/department-32.png" />
+
+    <sys:String x:Key="strObjects_Car">Pojazdy</sys:String>
+    <sys:String x:Key="strObjects_Car_Frmt">Pojazdy [#{0}]</sys:String>
+    <BitmapImage x:Key="imgObjects_Car" UriSource="Resources/Icons/car-32.png" />
+
+    <sys:String x:Key="strObjects_Period">Okresy</sys:String>
+    <sys:String x:Key="strObjects_Period_Frmt">Okresy [#{0}]</sys:String>
+    <BitmapImage x:Key="imgObjects_Period" UriSource="Resources/Icons/overtime-32.png" />
+
+    <sys:String x:Key="strObjects_Person">Osoby</sys:String>
+    <sys:String x:Key="strObjects_Person_Frmt">Osoby [#{0}]</sys:String>
+    <BitmapImage x:Key="imgObjects_Person" UriSource="Resources/Icons/driver-32.png" />
+
+    <sys:String x:Key="strObjects_Route">Trasy</sys:String>
+    <sys:String x:Key="strObjects_Route_Frmt">Trasy [#{0}]</sys:String>
+    <BitmapImage x:Key="imgObjects_Route" UriSource="Resources/Icons/route-32.png" />
+
+    <sys:Int32 x:Key="lenObjectPropType_Number">10</sys:Int32>
+    <sys:Double x:Key="widthObjectPropType_Number">100</sys:Double>
+    <sys:Double x:Key="widthObjectPropType_Number_">60</sys:Double>
+    <sys:Int32 x:Key="lenObjectPropType_Text">250</sys:Int32>
+    <sys:Double x:Key="widthObjectPropType_Text">400</sys:Double>
+    <sys:Double x:Key="widthObjectPropType_Date">100</sys:Double>
+
+    <sys:String x:Key="strObjectProp_ID">ID</sys:String>
+    <sys:String x:Key="strObjectProp_Code">Kod</sys:String>
+    <sys:Int32 x:Key="lenObjectProp_Code">30</sys:Int32>
+    <sys:Double x:Key="widthObjectProp_Code">150</sys:Double>
+    <sys:Double x:Key="widthObjectProp_Description">150</sys:Double>
+    <sys:Double x:Key="widthObjectProp_Description_">120</sys:Double>
+    <sys:Int32 x:Key="lenObjectProp_Year">4</sys:Int32>
+    <sys:Double x:Key="widthObjectProp_Year">40</sys:Double>
+    <sys:Int32 x:Key="lenObjectProp_PostalCode">6</sys:Int32>
+    <sys:Double x:Key="widthObjectProp_PostalCode">50</sys:Double>
+
+    <sys:String x:Key="strObjectProp_RegisterNumber">Numer rejestracyjny</sys:String>
+    <sys:String x:Key="strObjectProp_RegisterNumber_">Nr rej.</sys:String>
+    <sys:Int32 x:Key="lenObjectProp_RegisterNumber">9</sys:Int32>
+    <sys:Double x:Key="widthObjectProp_RegisterNumber">100</sys:Double>
+
+    <sys:String x:Key="strObjectProp_BrandInfo">Informacje o marce</sys:String>
+    <sys:String x:Key="strObjectProp_BrandInfo_">Marka</sys:String>
+
+    <sys:String x:Key="strObjectProp_EvidenceDateBegin">Data rozpoczęcia ewidencji</sys:String>
+    <sys:String x:Key="strObjectProp_EvidenceDateBegin_">Data rozp.</sys:String>
+    
+    <sys:String x:Key="strObjectProp_EvidenceDateEnd">Data zakończenia ewidencji</sys:String>
+    <sys:String x:Key="strObjectProp_EvidenceDateEnd_">Data zak.</sys:String>
+    
+    <sys:String x:Key="strObjectProp_EvidenceCounterBegin">Stan początkowy licznika</sys:String>
+    <sys:String x:Key="strObjectProp_EvidenceCounterBegin_">Licznik rozp.</sys:String>
+    
+    <sys:String x:Key="strObjectProp_EvidenceCounterEnd">Stan końcowy licznika </sys:String>
+    <sys:String x:Key="strObjectProp_EvidenceCounterEnd_">Licznik zak.</sys:String>
+
+    <sys:String x:Key="strObjectProp_PostalCode">Kod pocztowy</sys:String>
+    <sys:String x:Key="strObjectProp_PostalCode_">Kod</sys:String>
+    
+    <sys:String x:Key="strObjectProp_City">Miasto</sys:String>
+    
+    <sys:String x:Key="strObjectProp_StreetWithNo">Ulica/numer</sys:String>
+    
+    <sys:String x:Key="strObjectProp_Street">Ulica</sys:String>
+    
+    <sys:String x:Key="strObjectProp_BuildingNo">Numer budynku</sys:String>
+    
+    <sys:String x:Key="strObjectProp_LocalNo">Numer lokalu</sys:String>
+
+    <sys:String x:Key="strObjectProp_AddressFrom">Adres początkowy</sys:String>
+    <sys:String x:Key="strObjectProp_AddressFrom_">Adr. pocz.</sys:String>
+
+    <sys:String x:Key="strObjectProp_AddressTo">Adres końcowy</sys:String>
+    <sys:String x:Key="strObjectProp_AddressTo_">Adr. końc.</sys:String>
+
+    <sys:String x:Key="strObjectProp_Car">Pojazd</sys:String>
+    <sys:String x:Key="strObjectProp_Car_">Pojazd</sys:String>
+
+    <sys:String x:Key="strObjectProp_Person">Osoba</sys:String>
+    <sys:String x:Key="strObjectProp_Person_">Osoba</sys:String>
+
+    <sys:String x:Key="strObjectProp_Route">Trasa</sys:String>
+    <sys:String x:Key="strObjectProp_Route_">Trasa</sys:String>
+
+    <sys:String x:Key="strObjectProp_Distance">Odległość</sys:String>
+    <sys:String x:Key="strObjectProp_Distance_">Odl.</sys:String>
+
+    <sys:String x:Key="strObjectProp_DistanceTotal">Odległość całkowita</sys:String>
+    <sys:String x:Key="strObjectProp_DistanceTotal_">Odl.cał.</sys:String>
+
+    <sys:String x:Key="strObjectProp_DistanceIsInBothDirections">Czy w obie strony</sys:String>
+    <sys:String x:Key="strObjectProp_DistanceIsInBothDirections_">TP</sys:String>
+
+    <sys:String x:Key="strObjectProp_Period">Okres</sys:String>
+    <sys:String x:Key="strObjectProp_Period_">Okres</sys:String>
+    
+    <sys:String x:Key="strObjectProp_Year">Rok</sys:String>
+    <sys:String x:Key="strObjectProp_Year_">Rok</sys:String>
+
+    <sys:String x:Key="strObjectProp_Month">Miesiąc</sys:String>
+    <sys:String x:Key="strObjectProp_Month_">Miesiąc</sys:String>
+
+    <sys:String x:Key="strObjectProp_Day">Dzień</sys:String>
+    <sys:String x:Key="strObjectProp_Day_">Dzień</sys:String>
+
+    <sys:String x:Key="strObjectProp_FirstName">Imię</sys:String>
+    <sys:String x:Key="strObjectProp_FirstName_">Imię</sys:String>
+
+    <sys:String x:Key="strObjectProp_LastName">Nazwisko</sys:String>
+    <sys:String x:Key="strObjectProp_LastName_">Nazwisko</sys:String>
+
+    <sys:String x:Key="strObjectProp_Entries">Wpisy</sys:String>
+    <sys:String x:Key="strObjectProp_Entries_">Wpisy</sys:String>
+
+    <sys:String x:Key="strObjectProp_OnlyWorkDays">Tylko dni robocze</sys:String>
+
+    <sys:String x:Key="strFilterXML">"Dokumenty XML ({0})|*{0}</sys:String>
+</ResourceDictionary>

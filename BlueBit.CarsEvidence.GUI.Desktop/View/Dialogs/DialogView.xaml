@@ -1,0 +1,49 @@
+﻿<Window 
+    x:Class="BlueBit.CarsEvidence.GUI.Desktop.View.Dialogs.DialogView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:_ccBevaviors="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Behaviors"
+    SizeToContent="WidthAndHeight" 
+    WindowStartupLocation="CenterOwner" 
+    ResizeMode="NoResize"
+    Title="{Binding Title}"
+    Icon="{StaticResource imgApp}"
+    >
+    <i:Interaction.Behaviors>
+        <_ccBevaviors:WindowCloseBehavior ViewModel="{Binding}" />
+    </i:Interaction.Behaviors>
+
+    <Window.Resources>
+        <ResourceDictionary Source="DialogView.Dictionary.xaml" />
+    </Window.Resources>
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}">
+                <ContentControl Margin="5,10,5,5" Content="{Binding}">
+                    <ContentControl.Resources>
+                        <ResourceDictionary>
+                            <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="Commands\Periods\DialogView.Dictionary.GenerateEntries.xaml" />
+                            </ResourceDictionary.MergedDictionaries>
+                        </ResourceDictionary>
+                    </ContentControl.Resources>
+                </ContentControl>
+            </Border>
+            <ContentControl 
+                    Grid.Row="1" Grid.Column="0" 
+                    Margin="5,5,0,5" 
+                    HorizontalAlignment="Right"
+                    Content="{Binding Commands}"
+                    ContentTemplate="{DynamicResource dtCommandsButons}" />
+        </StackPanel>
+    </Grid>
+</Window>
