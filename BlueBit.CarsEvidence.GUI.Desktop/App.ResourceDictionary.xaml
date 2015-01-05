@@ -61,46 +61,51 @@
 
 
     <sys:String x:Key="strObject_Address">Adres</sys:String>
-    <sys:String x:Key="strObject_Address_Frmt">Adres [ID:{0}]</sys:String>
+    <sys:String x:Key="strObject_Address_Frmt">Adres [{0}]</sys:String>
     <BitmapImage x:Key="imgObject_Address" UriSource="Resources/Icons/department-26.png" />
     
     <sys:String x:Key="strObject_Company">Firma</sys:String>
-    <sys:String x:Key="strObject_Company_Frmt">Firma [ID:{0}]</sys:String>
-    
+    <sys:String x:Key="strObject_Company_Frmt">Firma [{0}]</sys:String>
+    <BitmapImage x:Key="imgObject_Company" UriSource="Resources/Icons/company-24.png" />
+
     <sys:String x:Key="strObject_Car">Pojazd</sys:String>
-    <sys:String x:Key="strObject_Car_Frmt">Pojazd [ID:{0}]</sys:String>
+    <sys:String x:Key="strObject_Car_Frmt">Pojazd [{0}]</sys:String>
     <BitmapImage x:Key="imgObject_Car" UriSource="Resources/Icons/car-24.png" />
 
     <sys:String x:Key="strObject_Period">Okres</sys:String>
-    <sys:String x:Key="strObject_Period_Frmt">Okres [ID:{0}]</sys:String>
+    <sys:String x:Key="strObject_Period_Frmt">Okres [{0}]</sys:String>
     <BitmapImage x:Key="imgObject_Period" UriSource="Resources/Icons/overtime-26.png" />
 
     <sys:String x:Key="strObject_Person">Osoba</sys:String>
-    <sys:String x:Key="strObject_Person_Frmt">Osoba [ID:{0}]</sys:String>
+    <sys:String x:Key="strObject_Person_Frmt">Osoba [{0}]</sys:String>
     <BitmapImage x:Key="imgObject_Person" UriSource="Resources/Icons/driver-26.png" />
 
     <sys:String x:Key="strObject_Route">Trasa</sys:String>
-    <sys:String x:Key="strObject_Route_Frmt">Trasa [ID:{0}]</sys:String>
+    <sys:String x:Key="strObject_Route_Frmt">Trasa [{0}]</sys:String>
     <BitmapImage x:Key="imgObject_Route" UriSource="Resources/Icons/route-24.png" />
 
     <sys:String x:Key="strObjects_Address">Adresy</sys:String>
-    <sys:String x:Key="strObjects_Address_Frmt">Adresy [#{0}]</sys:String>
+    <sys:String x:Key="strObjects_Address_Frmt">Adresy</sys:String>
     <BitmapImage x:Key="imgObjects_Address" UriSource="Resources/Icons/department-32.png" />
 
+    <sys:String x:Key="strObjects_Company">Firma</sys:String>
+    <sys:String x:Key="strObjects_Company_Frmt">Firma</sys:String>
+    <BitmapImage x:Key="imgObjects_Company" UriSource="Resources/Icons/company-32.png" />
+
     <sys:String x:Key="strObjects_Car">Pojazdy</sys:String>
-    <sys:String x:Key="strObjects_Car_Frmt">Pojazdy [#{0}]</sys:String>
+    <sys:String x:Key="strObjects_Car_Frmt">Pojazdy</sys:String>
     <BitmapImage x:Key="imgObjects_Car" UriSource="Resources/Icons/car-32.png" />
 
     <sys:String x:Key="strObjects_Period">Okresy</sys:String>
-    <sys:String x:Key="strObjects_Period_Frmt">Okresy [#{0}]</sys:String>
+    <sys:String x:Key="strObjects_Period_Frmt">Okresy</sys:String>
     <BitmapImage x:Key="imgObjects_Period" UriSource="Resources/Icons/overtime-32.png" />
 
     <sys:String x:Key="strObjects_Person">Osoby</sys:String>
-    <sys:String x:Key="strObjects_Person_Frmt">Osoby [#{0}]</sys:String>
+    <sys:String x:Key="strObjects_Person_Frmt">Osoby</sys:String>
     <BitmapImage x:Key="imgObjects_Person" UriSource="Resources/Icons/driver-32.png" />
 
     <sys:String x:Key="strObjects_Route">Trasy</sys:String>
-    <sys:String x:Key="strObjects_Route_Frmt">Trasy [#{0}]</sys:String>
+    <sys:String x:Key="strObjects_Route_Frmt">Trasy</sys:String>
     <BitmapImage x:Key="imgObjects_Route" UriSource="Resources/Icons/route-32.png" />
 
     <sys:Int32 x:Key="lenObjectPropType_Number">10</sys:Int32>
@@ -120,6 +125,10 @@
     <sys:Double x:Key="widthObjectProp_Year">40</sys:Double>
     <sys:Int32 x:Key="lenObjectProp_PostalCode">6</sys:Int32>
     <sys:Double x:Key="widthObjectProp_PostalCode">50</sys:Double>
+    <sys:Int32 x:Key="lenObjectProp_IdentifierNIP">13</sys:Int32>
+    <sys:Double x:Key="widthObjectProp_IdentifierNIP">100</sys:Double>
+    <sys:Int32 x:Key="lenObjectProp_IdentifierREGON">14</sys:Int32>
+    <sys:Double x:Key="widthObjectProp_IdentifierREGON">100</sys:Double>
 
     <sys:String x:Key="strObjectProp_RegisterNumber">Numer rejestracyjny</sys:String>
     <sys:String x:Key="strObjectProp_RegisterNumber_">Nr rej.</sys:String>
@@ -153,6 +162,9 @@
     <sys:String x:Key="strObjectProp_BuildingNo">Numer budynku</sys:String>
     
     <sys:String x:Key="strObjectProp_LocalNo">Numer lokalu</sys:String>
+
+    <sys:String x:Key="strObjectProp_Address">Adres</sys:String>
+    <sys:String x:Key="strObjectProp_Address_">Adres</sys:String>
 
     <sys:String x:Key="strObjectProp_AddressFrom">Adres początkowy</sys:String>
     <sys:String x:Key="strObjectProp_AddressFrom_">Adr. pocz.</sys:String>
@@ -190,6 +202,9 @@
     <sys:String x:Key="strObjectProp_Day">Dzień</sys:String>
     <sys:String x:Key="strObjectProp_Day_">Dzień</sys:String>
 
+    <sys:String x:Key="strObjectProp_Name">Nazwa</sys:String>
+    <sys:String x:Key="strObjectProp_Name_">Nazwa</sys:String>
+
     <sys:String x:Key="strObjectProp_FirstName">Imię</sys:String>
     <sys:String x:Key="strObjectProp_FirstName_">Imię</sys:String>
 
@@ -199,7 +214,14 @@
     <sys:String x:Key="strObjectProp_Entries">Wpisy</sys:String>
     <sys:String x:Key="strObjectProp_Entries_">Wpisy</sys:String>
 
+    <sys:String x:Key="strObjectProp_IdentifierNIP">NIP</sys:String>
+    <sys:String x:Key="strObjectProp_IdentifierNIP_">NIP</sys:String>
+
+    <sys:String x:Key="strObjectProp_IdentifierREGON">REGON</sys:String>
+    <sys:String x:Key="strObjectProp_IdentifierREGON_">REGON</sys:String>
+
     <sys:String x:Key="strObjectProp_OnlyWorkDays">Tylko dni robocze</sys:String>
 
     <sys:String x:Key="strFilterXML">"Dokumenty XML ({0})|*{0}</sys:String>
+    <sys:String x:Key="strSelectionInfo">Wybranych obiektów</sys:String>
 </ResourceDictionary>

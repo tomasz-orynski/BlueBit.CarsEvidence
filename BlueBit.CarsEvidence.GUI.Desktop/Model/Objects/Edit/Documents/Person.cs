@@ -6,7 +6,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
     [Attributes.EntityType(typeof(BL.Entities.Person))]
     [Attributes.ConverterType(typeof(EditObjectConverter<,>))]
     public class Person :
-        EditObjectWithCodeBase
+        EditDocumentObjectWithCodeBase
     {
         private string _FirstName;
         [Required]

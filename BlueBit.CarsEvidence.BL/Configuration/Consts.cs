@@ -12,6 +12,8 @@ namespace BlueBit.CarsEvidence.BL.Configuration
         public const int LengthText = 250;
         public const int LengthRegisterNumber = 8;
         public const int LengthPostalCode = 6;
+        public const int LengthIdentifierNIP = 13;
+        public const int LengthIdentifierREGON = 14;
 
         public const string FormatDate = "YYYY-mm-dd";
 

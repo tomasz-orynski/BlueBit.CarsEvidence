@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using BlueBit.CarsEvidence.BL.Alghoritms;
+using System.Text;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels
 {
@@ -9,7 +10,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels
     [Attributes.EntityType(typeof(BL.Entities.Period))]
     [Attributes.ConverterType(typeof(PeriodConverter))]
     public class Period :
-        ViewObjectBase
+        ViewPanelObjectBase,
+        IObjectWithGetCode
     {
         private int _Year;
         public int Year { get { return _Year; } set { Set(ref _Year, value); } }
@@ -25,10 +27,15 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels
 
         public string Code { get { return string.Format("{0:0000}-{1:00}", _Year, _Month); } }
 
+        public string Description { get { return this.GetDescription(); } }
+        public sealed override string DescriptionForToolTip { get { return this.GetDescriptionForToolTip(); } }
+
         static Period()
         {
             RegisterPropertyDependency<Period>()
-                .Add(x => x.Code, x => x.Year, x => x.Month);
+                .Add(x => x.Code, x => x.Year, x => x.Month)
+                .Add(x => x.Description, x => x.Year, x => x.Month)
+                .Add(x => x.DescriptionForToolTip, x => x.Year, x => x.Month);
         }
     }
 

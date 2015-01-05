@@ -1,33 +1,22 @@
 ﻿using FluentNHibernate.Automapping;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.Contracts;
-using System.Runtime.Serialization;
-using System.Linq;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.Contracts;
+using System.Linq;
+using System.Runtime.Serialization;
 
 namespace BlueBit.CarsEvidence.BL.Entities
 {
-    [DataContract(Namespace = Consts.NamespaceEntities, IsReference = true)]
     public class Period : 
         EntityBase
     {
         [Required]
-        [DataMember]
         public virtual int Year { get; set; }
         [Required]
-        [DataMember]
         public virtual byte Month { get; set; }
         [Required]
-        [DataMember]
         public virtual Car Car { get; set; }
-
-        [NotMapped]
-        [DataMember(Name = "PeriodEntries")]
-        public virtual PeriodEntry[] _PeriodEntries { 
-            get { return PeriodEntries == null ? null : PeriodEntries.ToArray(); } 
-            set { PeriodEntries = new HashSet<PeriodEntry>(value); } 
-        }
 
         public virtual ISet<PeriodEntry> PeriodEntries { get; set; }
 

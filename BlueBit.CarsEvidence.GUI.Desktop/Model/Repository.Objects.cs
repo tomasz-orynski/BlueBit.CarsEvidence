@@ -18,6 +18,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model
         where T : Objects.ObjectBase
     {
         T Get(long id);
+        IEnumerable<T> GetAll();
     }
 
     public interface IViewObjects<T> :
@@ -148,6 +149,11 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model
             {
                 return _convertFromEntity.Value.Create(EntitiesRepository.Get<TEntity>(id));
             }
+            public virtual IEnumerable<T> GetAll()
+            {
+                return EntitiesRepository.GetAll<TEntity>()
+                    .Select(_convertFromEntity.Value.Create);
+            }
         }
 
         private class _ViewObjects<T, TEntity> :
@@ -177,6 +183,10 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model
             public override T Get(long id)
             {
                 return _items.Value.Item2[id];
+            }
+            public override IEnumerable<T> GetAll()
+            {
+                return _items.Value.Item2.Values;
             }
 
             public void Clear()

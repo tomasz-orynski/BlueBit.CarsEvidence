@@ -8,7 +8,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
     [Attributes.EntityType(typeof(BL.Entities.Car))]
     [Attributes.ConverterType(typeof(EditObjectConverter<,>))]
     public class Car : 
-        EditObjectWithCodeBase
+        EditDocumentObjectWithCodeBase
     {
         private string _registerNumber;
         [Required]

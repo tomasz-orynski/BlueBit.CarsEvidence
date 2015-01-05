@@ -19,6 +19,7 @@ using System.Windows.Media;
 using System.ComponentModel;
 using BlueBit.CarsEvidence.BL.Alghoritms;
 using System.Diagnostics;
+using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.General;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel
 {
@@ -174,7 +175,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel
         {
             Contract.Assert(@this != null);
             var frmt = @this.GetTitleFormat();
-            return string.Format(frmt, @this.ItemsCount);
+            return frmt;
         }
 
         public static string GetTitleFormatKey<T>(this IObjectWithItem<T> @this)
@@ -193,12 +194,12 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel
         }
 
         public static string GetTitle<T>(this IObjectWithItem<T> @this)
-            where T : IObjectWithGetID, IObjectForEntityType
+            where T : IObjectForEntityType, IObjectWithDescriptionForTitle
         {
             Contract.Assert(@this != null);
             Contract.Assert(@this.Item != null);
             var frmt = @this.GetTitleFormat();
-            return string.Format(frmt, @this.Item.ID);
+            return string.Format(frmt, @this.Item.DescriptionForTitle);
         }
 
         public static Tuple<string, Version> GetAppNameVersion<T>(this T t)

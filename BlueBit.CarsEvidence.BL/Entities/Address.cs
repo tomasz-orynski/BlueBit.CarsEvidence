@@ -6,38 +6,44 @@ using System.Runtime.Serialization;
 
 namespace BlueBit.CarsEvidence.BL.Entities
 {
-    [DataContract(Namespace = Consts.NamespaceEntities, IsReference = true)]
     public class Address :
         EntityWithCodeBase
     {
         [Required]
         [MaxLength(Configuration.Consts.LengthPostalCode)]
-        [DataMember]
         public virtual string PostalCode { get; set; }
         [Required]
-        [DataMember]
         public virtual string City { get; set; }
         [Required]
-        [DataMember]
         public virtual string Street { get; set; }
         [Required]
         [MaxLength(Configuration.Consts.LengthCode)]
-        [DataMember]
         public virtual string BuildingNo { get; set; }
         [MaxLength(Configuration.Consts.LengthCode)]
-        [DataMember]
         public virtual string LocalNo { get; set; }
 
+        public virtual ISet<Company> Companies { get; set; }
         public virtual ISet<Route> Routes { get; set; }
 
         public override void Init()
         {
+            Companies = Companies ?? new HashSet<Company>();
             Routes = Routes ?? new HashSet<Route>();
         }
     }
 
     public static class AddressExtensions
     {
+        public static Company AddCompany(this Address @this, Company company)
+        {
+            Contract.Assert(@this != null);
+            Contract.Assert(company != null);
+            Contract.Assert(company.Address == null);
+
+            company.Address = @this;
+            @this.Companies.Add(company);
+            return company;
+        }
         public static Route AddRouteFrom(this Address @this, Route route)
         {
             Contract.Assert(@this != null);
@@ -66,6 +72,8 @@ namespace BlueBit.CarsEvidence.BL.Entities
         protected override void ConfigureMapping(AutoMapping<Address> map)
         {
             map.HasMany(_ => _.Routes)
+                .Cascade.All();
+            map.HasMany(_ => _.Companies)
                 .Cascade.All();
         }
     }

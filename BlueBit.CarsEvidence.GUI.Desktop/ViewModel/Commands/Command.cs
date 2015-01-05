@@ -107,7 +107,6 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands
         private readonly Lazy<ObservableCollection<CommandInfo>> _items;
 
         public ObservableCollection<CommandInfo> Items { get { return _items.Value; } }
-        public long ItemsCount { get { return _items.Value.Count; } }
 
         public CommandInfo this[CmdKey key] { get { return _items.Value.Single(_ => _.Key == key); } }
 

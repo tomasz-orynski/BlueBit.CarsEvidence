@@ -71,84 +71,15 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Configuration
                 .Where(Commons.Reflection.TypeExtensions.HasAttribute<_Attributes.EditInDocumentViewAsChildAttribute>)
                 .ToDictionary(t => t.Name);
 
-            foreach (var name in viewTypes.Keys.Intersect(editTypes.Keys))
-            {
-                { //View
-                }
-                { //Edit
-                    {
-                        new Tuple<Type, Type, bool>[] {
-                            Tuple.Create(typeof(IOpenEditDocumentCommandHelper<>), typeof(OpenEditDocumentCommandHelper<>), true),
-                            Tuple.Create(typeof(IEditCommandHandler<>), typeof(EditCommandHandler<>), true),
-                            Tuple.Create(typeof(IDeleteCommandHandler<>), typeof(DeleteCommandHandler<>), true),
-                            Tuple.Create(typeof(IApplyCommandHandler<>), typeof(ApplyCommandHandler<>), false),
-                            Tuple.Create(typeof(ICancelCommandHandler<>), typeof(CancelCommandHandler<>), false),
-                        }
-                        .Each(_ =>
-                        {
-                            var cmdTypeBase = _.Item1;
-                            var cmdTypeImpl = _.Item2;
-                            var cmdTypeBaseGen = cmdTypeBase.MakeGenericType(editTypes[name]);
-                            var cmdTypeImplGen = cmdTypeImpl.MakeGenericType(editTypes[name]);
-                            var r = _.Item3 
-                                ? container.RegisterType(cmdTypeBaseGen, cmdTypeImplGen, singletonLifeTimeMgr())
-                                : container.RegisterType(cmdTypeBaseGen, cmdTypeImplGen);
-                        });
-                    }
-                    {
-                        var cmdType = typeof(IAddCommandHandler);
-                        var cmdTypeBase = typeof(IAddCommandHandler<>);
-                        var cmdTypeImpl = typeof(AddCommandHandler<>);
-                        var cmdTypeBaseGen = cmdTypeBase.MakeGenericType(editTypes[name]);
-                        var cmdTypeImplGen = cmdTypeImpl.MakeGenericType(editTypes[name]);
-                        var regName = string.Format("{0}#{1}", cmdType.Name, editTypes[name].FullName);
-                        container
-                            .RegisterType(cmdTypeBaseGen, cmdTypeImplGen, singletonLifeTimeMgr())
-                            .RegisterType(cmdType, regName, new InjectionFactory(_ => _.Resolve(cmdTypeBaseGen)));
-                    }
-                }
-                {
-                    var panelType = typeof(PanelViewModelBase);
-                    var panelTypeBase = typeof(ListPanelViewModelBase<>);
-                    var panelTypeBaseGen = panelTypeBase.MakeGenericType(viewTypes[name]);
-                    var panelTypeImpl = types.GetDerivedTypes(panelTypeBaseGen).Single();
-                    var creatorTypeBase = typeof(ISingletonCreator<>);
-                    var creatorTypeImpl = typeof(_ListPanelViewModelCreator<,>);
-                    var creatorTypeBaseGen = creatorTypeBase.MakeGenericType(panelTypeBaseGen);
-                    var creatorTypeImplGen = creatorTypeImpl.MakeGenericType(panelTypeBaseGen, viewTypes[name]);
-
-                    var regName = string.Format("{0}${1}", panelType.Name, panelTypeImpl.FullName);
-                    container
-                        .RegisterType(panelType, panelTypeImpl, regName)
-                        .RegisterType(panelTypeBaseGen, panelTypeImpl)
-                        .RegisterType(creatorTypeBaseGen, creatorTypeImplGen);
-                }
-                {
-                    var editDocType = typeof(EditDocumentViewModelBase);
-                    var editDocTypeBase = typeof(EditDocumentViewModelBase<>);
-                    var editDocTypeBaseGen = editDocTypeBase.MakeGenericType(editTypes[name]);
-                    var editDocTypeImpl = types.GetDerivedTypes(editDocTypeBaseGen).Single();
-                    var creatorTypeBase = typeof(ISingletonCreatorForItem<,>);
-                    var creatorTypeImpl = typeof(_EditDocumentViewModelCreator<,>);
-                    var creatorTypeBaseGen = creatorTypeBase.MakeGenericType(editDocTypeBaseGen, editTypes[name]);
-                    var creatorTypeImplGen = creatorTypeImpl.MakeGenericType(editDocTypeBaseGen, editTypes[name]);
-
-                    var regName = string.Format("{0}#{1}", editDocType.Name, editTypes[name].FullName);
-                    container
-                        .RegisterType(editDocType, editDocTypeImpl, regName)
-                        .RegisterType(editDocTypeBaseGen, editDocTypeImpl)
-                        .RegisterType(creatorTypeBaseGen, creatorTypeImplGen);
-                }
-            }
-
             return container
                 .RegisterModelForGeneral(singletonLifeTimeMgr, generalTypes.Values)
-                .RegisterModelForView(singletonLifeTimeMgr, viewTypes.Values)
-                .RegisterModelForEdit(singletonLifeTimeMgr, editTypes.Values)
+                .RegisterModelForView(singletonLifeTimeMgr, viewTypes.Values, types)
+                .RegisterModelForEdit(singletonLifeTimeMgr, editTypes.Values, types)
                 .RegisterModelForEditAsChild(singletonLifeTimeMgr, editAsChildTypes.Values)
                 .RegisterModelForDialog(singletonLifeTimeMgr, types)
                 .RegisterType<IEnumerable<IShowCommandHandler>>(new InjectionFactory(_ => _.ResolveAll<IShowCommandHandler>()))
                 .RegisterType<IEnumerable<IAddCommandHandler>>(new InjectionFactory(_ => _.ResolveAll<IAddCommandHandler>()))
+                .RegisterType<IEnumerable<IEditAllCommandHandler>>(new InjectionFactory(_ => _.ResolveAll<IEditAllCommandHandler>()))
                 .RegisterType<MainWindowViewModel>(singletonLifeTimeMgr())
                 ;
         }
@@ -206,7 +137,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Configuration
             return container;
         }
 
-        public static IUnityContainer RegisterModelForView(this IUnityContainer container, Func<LifetimeManager> singletonLifeTimeMgr, IEnumerable<Type> types)
+        public static IUnityContainer RegisterModelForView(this IUnityContainer container, Func<LifetimeManager> singletonLifeTimeMgr, IEnumerable<Type> types, IEnumerable<Type> allTypes)
         {
             foreach (var type in types)
             {
@@ -237,6 +168,22 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Configuration
                     ;
 
                 {
+                    var panelType = typeof(PanelViewModelBase);
+                    var panelTypeBase = typeof(ListPanelViewModelBase<>);
+                    var panelTypeBaseGen = panelTypeBase.MakeGenericType(type);
+                    var panelTypeImpl = allTypes.GetDerivedTypes(panelTypeBaseGen).Single();
+                    var creatorTypeBase = typeof(ISingletonCreator<>);
+                    var creatorTypeImpl = typeof(_ListPanelViewModelCreator<,>);
+                    var creatorTypeBaseGen = creatorTypeBase.MakeGenericType(panelTypeBaseGen);
+                    var creatorTypeImplGen = creatorTypeImpl.MakeGenericType(panelTypeBaseGen, type);
+
+                    var regName = string.Format("{0}${1}", panelType.Name, panelTypeImpl.FullName);
+                    container
+                        .RegisterType(panelType, panelTypeImpl, regName)
+                        .RegisterType(panelTypeBaseGen, panelTypeImpl)
+                        .RegisterType(creatorTypeBaseGen, creatorTypeImplGen);
+                }
+                {
                     var cmdType = typeof(IShowCommandHandler);
                     var cmdTypeBase = typeof(IShowCommandHandler<>);
                     var cmdTypeBaseGen = cmdTypeBase.MakeGenericType(type);
@@ -251,7 +198,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Configuration
             return container;
         }
 
-        public static IUnityContainer RegisterModelForEdit(this IUnityContainer container, Func<LifetimeManager> singletonLifeTimeMgr, IEnumerable<Type> types)
+        public static IUnityContainer RegisterModelForEdit(this IUnityContainer container, Func<LifetimeManager> singletonLifeTimeMgr, IEnumerable<Type> types, IEnumerable<Type> allTypes)
         {
             foreach (var type in types)
             {
@@ -283,6 +230,65 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Configuration
                     .RegisterType(converterFromTypeBaseGen, CreateConverterFactory(converterTypeInst))
                     .RegisterType(converterToTypeBaseGen, CreateConverterFactory(converterTypeInst))
                     ;
+
+                {
+                    var editDocType = typeof(EditDocumentViewModelBase);
+                    var editDocTypeBase = typeof(EditDocumentViewModelBase<>);
+                    var editDocTypeBaseGen = editDocTypeBase.MakeGenericType(type);
+                    var editDocTypeImpl = allTypes.GetDerivedTypes(editDocTypeBaseGen).Single();
+                    var creatorTypeBase = typeof(ISingletonCreatorForItem<,>);
+                    var creatorTypeImpl = typeof(_EditDocumentViewModelCreator<,>);
+                    var creatorTypeBaseGen = creatorTypeBase.MakeGenericType(editDocTypeBaseGen, type);
+                    var creatorTypeImplGen = creatorTypeImpl.MakeGenericType(editDocTypeBaseGen, type);
+
+                    var regName = string.Format("{0}#{1}", editDocType.Name, type.FullName);
+                    container
+                        .RegisterType(editDocType, editDocTypeImpl, regName)
+                        .RegisterType(editDocTypeBaseGen, editDocTypeImpl)
+                        .RegisterType(creatorTypeBaseGen, creatorTypeImplGen);
+                }
+
+                var singleEntity = type.HasAttribute<_Attributes.CanEditAllInDocumentViewAttribute>();
+                {
+                    new Tuple<Type, Type, Type, bool, bool>[] {
+                        Tuple.Create(typeof(IAddCommandHandler), typeof(IAddCommandHandler<>), typeof(AddCommandHandler<>), true, !singleEntity),
+                        Tuple.Create(typeof(IEditAllCommandHandler), typeof(IEditAllCommandHandler<>), typeof(EditAllCommandHandler<>), true, singleEntity),
+                    }
+                    .Where(_ => _.Item5)
+                    .Each(_ =>
+                    {
+                        var cmdType = _.Item1;
+                        var cmdTypeBase = _.Item2;
+                        var cmdTypeImpl = _.Item3;
+                        var cmdTypeBaseGen = cmdTypeBase.MakeGenericType(type);
+                        var cmdTypeImplGen = cmdTypeImpl.MakeGenericType(type);
+                        var regName = string.Format("{0}#{1}", cmdType.Name, type.FullName);
+                        var r = (_.Item4
+                            ? container.RegisterType(cmdTypeBaseGen, cmdTypeImplGen, singletonLifeTimeMgr())
+                            : container.RegisterType(cmdTypeBaseGen, cmdTypeImplGen))
+                            .RegisterType(cmdType, regName, new InjectionFactory(c => c.Resolve(cmdTypeBaseGen)));
+                    });
+                }
+                {
+                    new Tuple<Type, Type, bool, bool>[] {
+                            Tuple.Create(typeof(IOpenEditDocumentCommandHelper<>), typeof(OpenEditDocumentCommandHelper<>), true, true),
+                            Tuple.Create(typeof(IEditCommandHandler<>), typeof(EditCommandHandler<>), true, true),
+                            Tuple.Create(typeof(IDeleteCommandHandler<>), typeof(DeleteCommandHandler<>), true, !singleEntity),
+                            Tuple.Create(typeof(IApplyCommandHandler<>), typeof(ApplyCommandHandler<>), false, true),
+                            Tuple.Create(typeof(ICancelCommandHandler<>), typeof(CancelCommandHandler<>), false, true),
+                        }
+                    .Where(_ => _.Item4)
+                    .Each(_ =>
+                    {
+                        var cmdTypeBase = _.Item1;
+                        var cmdTypeImpl = _.Item2;
+                        var cmdTypeBaseGen = cmdTypeBase.MakeGenericType(type);
+                        var cmdTypeImplGen = cmdTypeImpl.MakeGenericType(type);
+                        var r = _.Item3
+                            ? container.RegisterType(cmdTypeBaseGen, cmdTypeImplGen, singletonLifeTimeMgr())
+                            : container.RegisterType(cmdTypeBaseGen, cmdTypeImplGen);
+                    });
+                }
             }
             return container;
         }

@@ -1,6 +1,7 @@
 ﻿using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands.Handlers;
+using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands.Handlers;
 using dotNetExt;
 using System;
@@ -38,14 +39,18 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel
 
         private static CommandsGroupsViewModel CreateRepositoryCommandsGroups(
             Func<IEnumerable<IShowCommandHandler>> showCommands, 
-            Func<IEnumerable<IAddCommandHandler>> addCommands)
+            Func<IEnumerable<IAddCommandHandler>> addCommands,
+            Func<IEnumerable<IEditAllCommandHandler>> editAllCommands)
         {
             var showCmds = showCommands()
                 .ToDictionary(_ => _.ForType, _ => CreateCommand(CmdKey.ShowList, _));
             var addCmds = addCommands()
                 .ToDictionary(_ => _.ForType, _ => CreateCommand(CmdKey.Add, _));
+            var editAllCmds = editAllCommands()
+                .Where(_ => !showCmds.ContainsKey(_.ForType))
+                .ToDictionary(_ => _.ForType, _ => CreateCommand(CmdKey.Edit, _));
             Contract.Assert(showCmds.Count == addCmds.Count);
-            var cmds = showCmds.Union(addCmds)
+            var cmds = showCmds.Union(addCmds).Union(editAllCmds)
                 .GroupBy(_ => _.Key, _ => _.Value)
                 .OrderBy(_ => App.VisibleTypesOrder[_.Key])
                 .Select(_ => new CommandsGroupInfo

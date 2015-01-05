@@ -8,7 +8,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels
     [Attributes.EntityType(typeof(BL.Entities.Route))]
     [Attributes.ConverterType(typeof(RouteConverter))]
     public class Route :
-        ViewObjectWithCodeBase,
+        ViewPanelObjectWithCodeBase,
         IRoute
     {
         private General.Address _AddressFrom;

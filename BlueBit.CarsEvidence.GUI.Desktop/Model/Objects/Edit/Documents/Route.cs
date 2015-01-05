@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BlueBit.CarsEvidence.BL.Repositories;
-using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +10,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
     [Attributes.EntityType(typeof(BL.Entities.Route))]
     [Attributes.ConverterType(typeof(RouteConverter))]
     public class Route :
-        EditObjectWithCodeBase
+        EditDocumentObjectWithCodeBase
     {
         public ObservableCollection<View.General.Address> AllAddresses { get { return _addresses().Items; } }
 

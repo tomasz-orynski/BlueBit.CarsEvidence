@@ -22,8 +22,9 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <ContentControl
             Grid.Row="0" Grid.Column="0"
@@ -40,9 +41,34 @@
                 </ResourceDictionary>
             </ContentControl.Resources>
         </ContentControl>
-        <ContentControl
+        <Border 
             Grid.Row="1" Grid.Column="0"
-            Margin="5,5,0,5" HorizontalAlignment="Right" 
+            BorderThickness="1" 
+            BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" 
+            Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}"
+            Margin="0,1,0,0"
+            >
+            <StackPanel
+                Grid.Row="0" Grid.Column="0"
+                Orientation="Horizontal"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                >
+                <TextBlock>
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0}: #{1}/{2}">
+                            <Binding Source="{StaticResource strSelectionInfo}" />
+                            <Binding Path="ItemsSelected.SelectedCount" />
+                            <Binding Path="Items.Count" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </StackPanel>
+        </Border>
+        <ContentControl
+            Grid.Row="2" Grid.Column="0"
+            Margin="5,5,0,5"
+            HorizontalAlignment="Right" 
             Content="{Binding Commands}"
             ContentTemplate="{DynamicResource dtCommandsButons}" />
     </Grid>

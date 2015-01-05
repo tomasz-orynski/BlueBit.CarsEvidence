@@ -9,6 +9,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop
     {
         public static readonly IReadOnlyDictionary<EntityType, int> VisibleTypesOrder = new EntityType[]
             {
+                EntityType.Company,
                 EntityType.Person,
                 EntityType.Car,
                 EntityType.Address,

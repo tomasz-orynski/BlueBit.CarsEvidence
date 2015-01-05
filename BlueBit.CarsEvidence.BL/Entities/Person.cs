@@ -5,15 +5,12 @@ using System.Runtime.Serialization;
 
 namespace BlueBit.CarsEvidence.BL.Entities
 {
-    [DataContract(Namespace = Consts.NamespaceEntities, IsReference = true)]
     public class Person :
         EntityWithCodeBase
     {
         [Required]
-        [DataMember]
         public virtual string FirstName { get; set; }
         [Required]
-        [DataMember]
         public virtual string LastName { get; set; }
 
         public virtual ISet<PeriodEntry> PeriodEntries { get; set; }

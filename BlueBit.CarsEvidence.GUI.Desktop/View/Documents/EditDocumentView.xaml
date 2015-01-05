@@ -26,6 +26,7 @@
                                 <ResourceDictionary.MergedDictionaries>
                                     <ResourceDictionary Source="EditDocumentView.Dictionary.Address.xaml" />
                                     <ResourceDictionary Source="EditDocumentView.Dictionary.Car.xaml" />
+                                    <ResourceDictionary Source="EditDocumentView.Dictionary.Company.xaml" />
                                     <ResourceDictionary Source="EditDocumentView.Dictionary.Period.xaml" />
                                     <ResourceDictionary Source="EditDocumentView.Dictionary.Person.xaml" />
                                     <ResourceDictionary Source="EditDocumentView.Dictionary.Route.xaml" />

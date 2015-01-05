@@ -12,13 +12,12 @@ namespace BlueBit.CarsEvidence.BL.Entities
     }
 
     public interface IEntityWithCode :
-        IEntity
+        IEntity,
+        Alghoritms.IObjectWithGetCode
     {
-        string Code { get; }
     }
 
     [DebuggerDisplay("ID={ID}")]
-    [DataContract(Namespace = Consts.NamespaceEntities, IsReference = true)]
     public abstract class EntityBase :
         Repositories.ObjectInRepositoryBase,
         IEntity
@@ -26,14 +25,12 @@ namespace BlueBit.CarsEvidence.BL.Entities
     }
 
     [DebuggerDisplay("ID={ID},Code={Code}")]
-    [DataContract(Namespace = Consts.NamespaceEntities, IsReference = true)]
     public abstract class EntityWithCodeBase :
         EntityBase,
         IEntityWithCode
     {
         [Required]
         [MaxLength(Configuration.Consts.LengthCode)]
-        [DataMember]
         public virtual string Code { get; set; }
     }
 

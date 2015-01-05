@@ -5,8 +5,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels
     [Attributes.ShowInPanelView]
     [Attributes.EntityType(typeof(BL.Entities.Address))]
     [Attributes.ConverterType(typeof(ViewObjectConverter<,>))]
-    public class Address : 
-        ViewObjectWithCodeBase
+    public class Address :
+        ViewPanelObjectWithCodeBase
     {
         private string _PostalCode;
         public string PostalCode { get { return _PostalCode; } set { Set(ref _PostalCode, value); } }

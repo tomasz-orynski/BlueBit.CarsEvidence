@@ -3,6 +3,7 @@ using BlueBit.CarsEvidence.Commons.Templates;
 using BlueBit.CarsEvidence.GUI.Desktop.Model;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit;
+using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents;
 using dotNetExt;
@@ -16,14 +17,14 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands
 {
     public interface IDeleteCommandHandler<T> :
         ICommandHandlerForSelected<ObjectBase>
-        where T : EditObjectBase
+        where T : EditDocumentObjectBase
     {
     }
 
     public class DeleteCommandHandler<T> :
         CommandHandlerForSelectedBase<ObjectBase>,
         IDeleteCommandHandler<T>
-        where T : EditObjectBase
+        where T : EditDocumentObjectBase
     {
 #if DEBUG
         private readonly object _dbgSc = new SingletonChecker<DeleteCommandHandler<T>>();

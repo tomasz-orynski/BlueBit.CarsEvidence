@@ -19,22 +19,14 @@ namespace BlueBit.CarsEvidence.BL.Repositories
     public interface IObjectInRepository :
         IObjectWithGetID //TODO-to może być za duże wymaganie
     {
+        void Init();
     }
 
     [DebuggerDisplay("ID={ID}")]
-    [DataContract(Namespace = Consts.NamespaceEntities, IsReference = true)]
     public abstract class ObjectInRepositoryBase :
         IObjectInRepository,
         Alghoritms.IObjectWithSetID
     {
-        [NotMapped]
-        [DataMember(Name = "ID")]
-        public virtual long _ID
-        {
-            get { return ID; }
-            set { }
-        }
-
         [Required]
         public virtual long ID { get; set; }
 
@@ -49,19 +41,10 @@ namespace BlueBit.CarsEvidence.BL.Repositories
     }
 
     [DebuggerDisplay("ID={ID}")]
-    [DataContract(Namespace = Consts.NamespaceEntities, IsReference = false)]
     public abstract class ObjectChildInRepositoryBase :
         IObjectInRepository,
         Alghoritms.IObjectWithSetID
     {
-        [NotMapped]
-        [DataMember(Name = "ID")]
-        public virtual long _ID
-        {
-            get { return ID; }
-            set { }
-        }
-
         [Required]
         public virtual long ID { get; set; }
 
@@ -78,7 +61,6 @@ namespace BlueBit.CarsEvidence.BL.Repositories
 
     public interface IDbRepository
     {
-
         IList<T> GetAll<T>() where T : class, IObjectInRepository;
         T Get<T>(long id) where T : class, IObjectInRepository;
         T Load<T>(long id) where T : class, IObjectInRepository;
@@ -237,6 +219,8 @@ namespace BlueBit.CarsEvidence.BL.Repositories
 
         bool IDbRepository<Address>.CanDelete(long id)
         {
+            if (CheckExists<Company>(_ => _.Address.ID == id))
+                return false;
             if (CheckExists<Route>(_ => _.AddressFrom.ID == id || _.AddressTo.ID == id))
                 return false;
             return true;

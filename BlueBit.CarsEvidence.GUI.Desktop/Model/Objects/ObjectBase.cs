@@ -11,6 +11,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
 {
@@ -55,13 +56,60 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
     {
     }
 
+    public interface IObjectWithDescription
+    {
+        string Description { get; }
+    }
+    public interface IObjectWithDescriptionForToolTip
+    {
+        string DescriptionForToolTip { get; }
+    }
+    public interface IObjectWithDescriptionForTitle
+    {
+        //Na razie ma się nie aktualizować podczas edycji!
+        string DescriptionForTitle { get; }
+    }
+
+    public static class ObjectWithDescriptionsExtensions
+    {
+        public static string GetDescription<T>(this T @this)
+            where T: IObjectWithGetID, IObjectWithGetCode
+        {
+            Contract.Assert(@this != null);
+
+            var sb = new StringBuilder();
+            sb.Append("»");
+#if DEBUG
+            sb.AppendFormat("#{0},{1}", @this.ID, @this.Code);
+#else
+            sb.Append(Code);
+#endif
+            sb.Append("«");
+            return sb.ToString();
+        }
+        public static string GetDescriptionForToolTip<T>(this T @this)
+            where T : IObjectWithGetID, IObjectWithGetCode
+        {
+            return @this.GetDescription();
+        }
+        public static string GetDescriptionForTitle<T>(this T @this)
+            where T : IObjectWithGetID, IObjectWithGetCode
+        {
+            return @this.GetDescription();
+        }
+    }
+
+    public interface IObject
+    {
+    }
 
     [DebuggerDisplay("ID={ID}")]
     public abstract class ObjectBase :
         ObservableObject,
+        IObject,
+        IObjectForEntityType,
         IObjectWithGetID,
         IObjectWithSetID,
-        IObjectForEntityType,
         IEquatable<ObjectBase>
     {
         /// <summary>

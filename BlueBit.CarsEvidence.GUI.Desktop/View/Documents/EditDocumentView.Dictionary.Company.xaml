@@ -6,15 +6,13 @@
     xmlns:localModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents"
     xmlns:localViewModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents"
 >
-    <DataTemplate DataType="{x:Type localViewModel:RouteEditDocumentViewModel}">
+    <DataTemplate DataType="{x:Type localViewModel:CompanyEditDocumentViewModel}">
         <Grid DataContext="{Binding Item}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
@@ -30,31 +28,42 @@
                 Grid.Row="1" Grid.Column="1" 
                 Text="{Binding Code, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                 MaxLength="{StaticResource lenObjectProp_Code}"
-                Width="{StaticResource widthObjectProp_Code}"
-                />
+                Width="{StaticResource widthObjectProp_Code}"/>
+
             <Label 
                 Grid.Row="2" Grid.Column="0" 
-                Content="{StaticResource strObjectProp_AddressFrom}"/>
-            <ComboBox 
+                Content="{StaticResource strObjectProp_Name}"/>
+            <TextBox 
                 Grid.Row="2" Grid.Column="1" 
-                ItemsSource="{Binding AllAddresses}"
-                SelectedItem="{Binding AddressFrom, ValidatesOnNotifyDataErrors=True}"
-                Width="{StaticResource widthObjectProp_Description}"
-                >
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Description}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+                Text="{Binding Name, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                MaxLength="{StaticResource lenObjectPropType_Text}"
+                Width="{StaticResource widthObjectPropType_Text}"/>
 
             <Label 
                 Grid.Row="3" Grid.Column="0" 
-                Content="{StaticResource strObjectProp_AddressTo}"/>
-            <ComboBox 
+                Content="{StaticResource strObjectProp_IdentifierNIP}"/>
+            <TextBox 
                 Grid.Row="3" Grid.Column="1" 
+                Text="{Binding IdentifierNIP, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                MaxLength="{StaticResource lenObjectProp_IdentifierNIP}"
+                Width="{StaticResource widthObjectProp_IdentifierNIP}"/>
+
+            <Label 
+                Grid.Row="4" Grid.Column="0" 
+                Content="{StaticResource strObjectProp_IdentifierREGON}"/>
+            <TextBox 
+                Grid.Row="4" Grid.Column="1" 
+                Text="{Binding IdentifierREGON, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                MaxLength="{StaticResource lenObjectProp_IdentifierREGON}"
+                Width="{StaticResource widthObjectProp_IdentifierREGON}"/>
+
+            <Label 
+                Grid.Row="5" Grid.Column="0" 
+                Content="{StaticResource strObjectProp_Address}"/>
+            <ComboBox 
+                Grid.Row="5" Grid.Column="1" 
                 ItemsSource="{Binding AllAddresses}"
-                SelectedItem="{Binding AddressTo, ValidatesOnNotifyDataErrors=True}"
+                SelectedItem="{Binding Address, ValidatesOnNotifyDataErrors=True}"
                 Width="{StaticResource widthObjectProp_Description}"
                 >
                 <ComboBox.ItemTemplate>
@@ -63,23 +72,6 @@
                     </DataTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
-
-            <Label 
-                Grid.Row="4" Grid.Column="0"
-                Content="{StaticResource strObjectProp_Distance}"/>
-            <TextBox 
-                Grid.Row="4" Grid.Column="1" 
-                Text="{Binding Distance, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
-                MaxLength="{StaticResource lenObjectPropType_Number}"
-                Width="{StaticResource widthObjectPropType_Number}"/>
-
-            <Label 
-                Grid.Row="5" Grid.Column="0"
-                Content="{StaticResource strObjectProp_DistanceIsInBothDirections}"/>
-            <CheckBox 
-                Grid.Row="5" Grid.Column="1" 
-                IsChecked="{Binding DistanceIsInBothDirections, ValidatesOnNotifyDataErrors=True}" 
-                />
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

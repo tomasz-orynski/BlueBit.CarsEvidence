@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Ribbon;
+using Xceed.Wpf.AvalonDock.Layout;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.View
 {
@@ -54,6 +55,35 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.View
                 ?? base.SelectStyle(item, container);
         }
     }
+
+    public class MainWindowViewLayoutUpdateStrategy : 
+        ILayoutUpdateStrategy
+    {
+        public bool BeforeInsertAnchorable(LayoutRoot layout, LayoutAnchorable anchorableToShow, ILayoutContainer destinationContainer)
+        {
+            var panel = anchorableToShow.Content as IPanelViewModel;
+            if (panel == null) return false;
+            var name = panel.Identifier.ToString();
+            var pane = layout.Descendents().OfType<LayoutAnchorablePane>().FirstOrDefault(d => d.Name == name);
+            if (pane == null) return false;
+            pane.Children.Add(anchorableToShow);
+            return true;
+        }
+
+        public void AfterInsertAnchorable(LayoutRoot layout, LayoutAnchorable anchorableShown)
+        {
+        }
+
+        public bool BeforeInsertDocument(LayoutRoot layout, LayoutDocument anchorableToShow, ILayoutContainer destinationContainer)
+        {
+            return false;
+        }
+
+        public void AfterInsertDocument(LayoutRoot layout, LayoutDocument anchorableShown)
+        {
+        }
+    }
+
 
     public partial class MainWindowView : RibbonWindow
     {

@@ -23,6 +23,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model
         IRepositoryViewObjects<Objects.View.Panels.Route>,
         IRepositoryEditObjects<Objects.Edit.Documents.Address>,
         IRepositoryEditObjects<Objects.Edit.Documents.Car>,
+        IRepositoryEditObjects<Objects.Edit.Documents.Company>,
         IRepositoryEditObjects<Objects.Edit.Documents.Period>,
         IRepositoryEditObjects<Objects.Edit.Documents.Person>,
         IRepositoryEditObjects<Objects.Edit.Documents.Route>
@@ -179,6 +180,10 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model
         IEditObjects<Objects.Edit.Documents.Car> IRepositoryEditObjects<Objects.Edit.Documents.Car>.GetEditObjects()
         {
             return GetEditObjectsInternal<Objects.Edit.Documents.Car, BL.Entities.Car>(_entitiesRepository);
+        }
+        IEditObjects<Objects.Edit.Documents.Company> IRepositoryEditObjects<Objects.Edit.Documents.Company>.GetEditObjects()
+        {
+            return GetEditObjectsInternal<Objects.Edit.Documents.Company, BL.Entities.Company>(_entitiesRepository);
         }
         IEditObjects<Objects.Edit.Documents.Person> IRepositoryEditObjects<Objects.Edit.Documents.Person>.GetEditObjects()
         {

@@ -1,4 +1,4 @@
-﻿using BlueBit.CarsEvidence.Commons.Reflection;
+﻿using BlueBit.CarsEvidence.BL.Alghoritms;
 using BlueBit.CarsEvidence.Commons.Templates;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit;
@@ -48,7 +48,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents
     public abstract class EditDocumentViewModelBase<T> : 
         EditDocumentViewModelBase,
         IEditDocumentViewModel<T>
-        where T : EditObjectBase
+        where T : EditDocumentObjectBase
     {
         public override sealed ICommand CmdClose { get { return Commands[CmdKey.Cancel].Command; } }
 
@@ -77,6 +77,15 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents
 
     }
 
+    public class AddressEditDocumentViewModel : EditDocumentViewModelBase<Address>
+    {
+        public AddressEditDocumentViewModel(
+            EditDocumentViewModelBaseParamSet<Address> parameters
+            )
+            : base(parameters)
+        { }
+    }
+
     public class CarEditDocumentViewModel : EditDocumentViewModelBase<Car>
     {
         public CarEditDocumentViewModel(
@@ -86,10 +95,10 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents
         { }
     }
 
-    public class AddressEditDocumentViewModel : EditDocumentViewModelBase<Address>
+    public class CompanyEditDocumentViewModel : EditDocumentViewModelBase<Company>
     {
-        public AddressEditDocumentViewModel(
-            EditDocumentViewModelBaseParamSet<Address> parameters
+        public CompanyEditDocumentViewModel(
+            EditDocumentViewModelBaseParamSet<Company> parameters
             )
             : base(parameters)
         { }

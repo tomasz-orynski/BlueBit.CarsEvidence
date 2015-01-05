@@ -17,6 +17,11 @@ namespace BlueBit.CarsEvidence.BL.Alghoritms
         long ID { set; }
     }
 
+    public interface IObjectWithGetCode
+    {
+        string Code { get; }
+    }
+
     public static class IDExtensions
     {
         private static IEnumerable<long> Range()

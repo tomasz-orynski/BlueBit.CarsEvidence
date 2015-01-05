@@ -5,8 +5,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels
     [Attributes.ShowInPanelView]
     [Attributes.EntityType(typeof(BL.Entities.Car))]
     [Attributes.ConverterType(typeof(ViewObjectConverter<,>))]
-    public class Car : 
-        ViewObjectWithCodeBase
+    public class Car :
+        ViewPanelObjectWithCodeBase
     {
         private string _registerNumber;
         public string RegisterNumber { get { return _registerNumber; } set { Set(ref _registerNumber, value); } }

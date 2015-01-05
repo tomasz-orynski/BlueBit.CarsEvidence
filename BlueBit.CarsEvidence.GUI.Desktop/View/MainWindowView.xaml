@@ -12,9 +12,14 @@
     xmlns:_ccBevaviors="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Behaviors"
     xmlns:_ccCommands="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands"
     DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
-    Title="{Binding Title}"
     Icon="{StaticResource imgApp}"
     >
+    <RibbonWindow.Title>
+        <MultiBinding StringFormat="{}{0} - {1}">
+            <Binding Path="Title" />
+            <Binding Path="Item.DescriptionForTitle" />
+        </MultiBinding>
+    </RibbonWindow.Title>
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
@@ -95,6 +100,10 @@
                 <ad:DockingManager.Resources>
                     <ad:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
                 </ad:DockingManager.Resources>
+                <ad:DockingManager.Theme>
+                    <ad:GenericTheme/>
+                </ad:DockingManager.Theme>
+
                 <ad:DockingManager.LayoutItemTemplateSelector>
                     <_ccView:MainWindowViewPanelDataTemplateSelector>
                         <_ccView:MainWindowViewPanelDataTemplateSelector.ListPanel>
@@ -125,13 +134,19 @@
                         </_ccView:MainWindowViewPanelStyleSelector.EditDocument>
                     </_ccView:MainWindowViewPanelStyleSelector>
                 </ad:DockingManager.LayoutItemContainerStyleSelector>
+                <ad:DockingManager.LayoutUpdateStrategy>
+                    <_ccView:MainWindowViewLayoutUpdateStrategy/>
+                </ad:DockingManager.LayoutUpdateStrategy>
 
                 <ad:LayoutRoot>
                     <ad:LayoutPanel Orientation="Horizontal">
-                        <ad:LayoutDocumentPane>
-                        </ad:LayoutDocumentPane>
-                        <ad:LayoutAnchorablePane DockWidth="400">
-                        </ad:LayoutAnchorablePane>
+                        <ad:LayoutDocumentPaneGroup>
+                            <ad:LayoutDocumentPane />
+                        </ad:LayoutDocumentPaneGroup>
+                        <ad:LayoutAnchorablePaneGroup DockWidth="400" Orientation="Vertical">
+                            <ad:LayoutAnchorablePane Name="Panel1" />
+                            <ad:LayoutAnchorablePane Name="Panel2" />
+                        </ad:LayoutAnchorablePaneGroup>
                     </ad:LayoutPanel>
                 </ad:LayoutRoot>
             </ad:DockingManager>

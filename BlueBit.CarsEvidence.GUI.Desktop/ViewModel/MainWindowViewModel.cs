@@ -3,6 +3,7 @@ using BlueBit.CarsEvidence.GUI.Desktop.Model;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.General;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands.Handlers;
+using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands.Handlers;
 using System;
 using System.Collections.Generic;
@@ -33,9 +34,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel
 
         public override sealed string Title { 
             get {
-                var title = this.GetTitle();
                 var appNameVer = this.GetAppNameVersion();
-                return string.Format("{0} {1} - {2}", appNameVer.Item1, appNameVer.Item2, title);
+                return string.Format("{0} {1}", appNameVer.Item1, appNameVer.Item2);
             } 
         }
 
@@ -46,12 +46,13 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel
             IViewObjects<Company> objectSet,
             Func<IEnumerable<IShowCommandHandler>> showCommands,
             Func<IEnumerable<IAddCommandHandler>> addCommands,
+            Func<IEnumerable<IEditAllCommandHandler>> editAllCommands,
             Func<IEnumerable<IDataCommandHandler>> dataCommands,
             Func<ISettingsCommandHandler> settingsCommand
             )
         {
-            _item = objectSet.Items.First();
-            _repositoryCommandsGroups = new Lazy<CommandsGroupsViewModel>(() => CreateRepositoryCommandsGroups(showCommands, addCommands));
+            _item = objectSet.Items[0];
+            _repositoryCommandsGroups = new Lazy<CommandsGroupsViewModel>(() => CreateRepositoryCommandsGroups(showCommands, addCommands, editAllCommands));
             _repositoryExtraCommandsGroups = new Lazy<CommandsGroupsViewModel>(() => CreateRepositoryExtraCommandsGroups(dataCommands));
 
             //TODO - przerobiæ na opóŸnione tworzenie...

@@ -3,7 +3,9 @@ using BlueBit.CarsEvidence.Commons.Templates;
 using BlueBit.CarsEvidence.GUI.Desktop.Model;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit;
+using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View;
+using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands.Handlers;
@@ -30,19 +32,21 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels
         //TODO - przerobić na opóźnione tworzenie...
         private readonly CommandsViewModel _commands = new CommandsViewModel();
         public CommandsViewModel Commands { get { return _commands; } }
+
+        public abstract ISelectionInfo ItemsSelected { get; }
     }
 
     public interface IListPanelViewModel<T> :
         IObjectWithItems<ObservableCollection<T>>,
         IObjectForEntityType
-        where T : ViewObjectBase
+        where T : ViewPanelObjectBase
     {
     }
 
     public abstract class ListPanelViewModelBase<T> : 
         ListPanelViewModelBase,
         IListPanelViewModel<T>
-        where T: ViewObjectBase
+        where T: ViewPanelObjectBase
     {
         protected readonly IViewObjects<T> _viewObjects;
         private readonly Lazy<ISelectionCommand<T>> _cmdSelected = CreateCommandForSelectionLazy<T>();
@@ -50,7 +54,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels
         public override ICommand EventCmdSelectectionChanged { get { return _cmdSelected.Value; } }
 
         public ObservableCollection<T> Items { get { return _viewObjects.Items; } }
-        public long ItemsCount { get { return _viewObjects.Items.Count; } }
+        public override ISelectionInfo ItemsSelected { get { return _cmdSelected.Value; } }
 
         public EntityType ForType { get { return EntityTypeDict.GetValueForObjectType<T>(); } }
 
@@ -73,8 +77,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels
     }
 
     public class ListPanelViewModelBaseParamSet<TView, TEdit>
-        where TView : ViewObjectBase
-        where TEdit : EditObjectBase
+        where TView : ViewPanelObjectBase
+        where TEdit : EditDocumentObjectBase
     {
         public IViewObjects<TView> ObjectSet { get; private set; }
         public IAddCommandHandler<TEdit> CmdAdd { get; private set; }
@@ -99,8 +103,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels
 
     public abstract class ListPanelViewModelBase<TView, TEdit> : 
         ListPanelViewModelBase<TView>
-        where TView: ViewObjectBase
-        where TEdit : EditObjectBase
+        where TView: ViewPanelObjectBase
+        where TEdit : EditDocumentObjectBase
     {
         public ListPanelViewModelBase(
             ListPanelViewModelBaseParamSet<TView, TEdit> parameters
@@ -122,6 +126,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels
 
     public class CarsListPanelViewModel : ListPanelViewModelBase<ObjectsViewPanels.Car, ObjectsEditDocuments.Car>
     {
+        public override PanelIdentifier Identifier { get { return PanelIdentifier.Panel1; } }
+
         public CarsListPanelViewModel(
             ListPanelViewModelBaseParamSet<ObjectsViewPanels.Car, ObjectsEditDocuments.Car> parameters
             ) : base(parameters) { }
@@ -129,6 +135,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels
 
     public class AddressesListPanelViewModel : ListPanelViewModelBase<ObjectsViewPanels.Address, ObjectsEditDocuments.Address>
     {
+        public override PanelIdentifier Identifier { get { return PanelIdentifier.Panel1; } }
+
         public AddressesListPanelViewModel(
             ListPanelViewModelBaseParamSet<ObjectsViewPanels.Address, ObjectsEditDocuments.Address> parameters
             ) : base(parameters) { }
@@ -136,6 +144,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels
 
     public class PersonsListPanelViewModel : ListPanelViewModelBase<ObjectsViewPanels.Person, ObjectsEditDocuments.Person>
     {
+        public override PanelIdentifier Identifier { get { return PanelIdentifier.Panel1; } }
+
         public PersonsListPanelViewModel(
             ListPanelViewModelBaseParamSet<ObjectsViewPanels.Person, ObjectsEditDocuments.Person> parameters
             ) : base(parameters) { }
@@ -143,6 +153,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels
 
     public class PeriodsListPanelViewModel : ListPanelViewModelBase<ObjectsViewPanels.Period, ObjectsEditDocuments.Period>
     {
+        public override PanelIdentifier Identifier { get { return PanelIdentifier.Panel2; } }
+
         public PeriodsListPanelViewModel(
             ListPanelViewModelBaseParamSet<ObjectsViewPanels.Period, ObjectsEditDocuments.Period> parameters
             ) : base(parameters) { }
@@ -150,6 +162,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels
 
     public class RoutesListPanelViewModel : ListPanelViewModelBase<ObjectsViewPanels.Route, ObjectsEditDocuments.Route>
     {
+        public override PanelIdentifier Identifier { get { return PanelIdentifier.Panel1; } }
+
         public RoutesListPanelViewModel(
             ListPanelViewModelBaseParamSet<ObjectsViewPanels.Route, ObjectsEditDocuments.Route> parameters
             ) : base(parameters) { }

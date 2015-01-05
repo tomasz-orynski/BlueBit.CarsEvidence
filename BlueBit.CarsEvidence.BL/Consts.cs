@@ -4,6 +4,6 @@ namespace BlueBit.CarsEvidence.BL
 {
     public static class Consts
     {
-        public const string NamespaceEntities = "carsevidence.bluebit.pl/entities";
+        public const string Namespace_DTO_XML = "carsevidence.bluebit.pl/dto/xml";
     }
 }

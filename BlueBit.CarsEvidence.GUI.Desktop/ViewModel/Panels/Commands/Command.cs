@@ -1,10 +1,9 @@
 ﻿using BlueBit.CarsEvidence.Commons.Templates;
 using BlueBit.CarsEvidence.GUI.Desktop.Model;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects;
-using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit;
+using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents;
 using dotNetExt;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -12,7 +11,7 @@ using System.Linq;
 namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands
 {
     public interface IOpenEditDocumentCommandHelper<T>
-        where T : EditObjectBase
+        where T : EditDocumentObjectBase
     {
         bool CanEditDocument(IEnumerable<ObjectBase> objects);
         void OpenEditDocument(IEnumerable<ObjectBase> objects);
@@ -21,7 +20,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands
 
     public class OpenEditDocumentCommandHelper<T> :
         IOpenEditDocumentCommandHelper<T>
-        where T : EditObjectBase
+        where T : EditDocumentObjectBase
     {
         private readonly IEditObjects<T> _editObjects;
         private readonly ISingletonCreatorForItem<EditDocumentViewModelBase<T>, T> _editDocumentViewModelCreator;

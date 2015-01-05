@@ -11,6 +11,7 @@
             <Setter.Value>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="ToolTip" Value="{Binding DescriptionForToolTip}" />
                 </Style>
             </Setter.Value>
         </Setter>
@@ -21,5 +22,5 @@
                     ItemContainerStyle="{DynamicResource sCommandMenuItem}" />
             </Setter.Value>
         </Setter>
-   </Style>
+    </Style>
 </ResourceDictionary>

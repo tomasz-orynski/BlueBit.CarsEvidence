@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
-using BlueBit.CarsEvidence.BL.Repositories;
-using BlueBit.CarsEvidence.GUI.Desktop.Model.Attributes.Validation;
-using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View;
-using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.General.Helpers;
 using BlueBit.CarsEvidence.BL.Alghoritms;
+using BlueBit.CarsEvidence.BL.Repositories;
+using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.General.Helpers;
+using BlueBit.CarsEvidence.GUI.Desktop.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using BlueBit.CarsEvidence.GUI.Desktop.Services;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
 {
@@ -16,7 +14,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
     [Attributes.EntityType(typeof(BL.Entities.Period))]
     [Attributes.ConverterType(typeof(PeriodConverter))]
     public class Period :
-        EditObjectBase
+        EditDocumentObjectBase,
+        IObjectWithGetCode
     {
         public ObservableCollection<Month> AllMonths { get { return MonthExtensions.Items; } }
         public ObservableCollection<View.General.Car> AllCars { get { return _cars().Items; } }
@@ -37,6 +36,9 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
         private ObservableCollection<PeriodEntry> _Entries;
         [IgnoreMap]
         public ObservableCollection<PeriodEntry> Entries { get { return _Entries; } set { Set(ref _Entries, value, OnChange); } }
+
+        public string Code { get { return string.Format("{0:0000}-{1:00}", _Year, _Month.Number); } }
+        public override sealed string DescriptionForTitle { get { return this.GetDescriptionForTitle(); } }
 
         public ObservableCollection<Day> YearMonthDays 
         { 
@@ -108,8 +110,6 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
                 DistanceTotal = distanceCurr;
             }
         }
-
-
     }
 
     public class PeriodConverter :

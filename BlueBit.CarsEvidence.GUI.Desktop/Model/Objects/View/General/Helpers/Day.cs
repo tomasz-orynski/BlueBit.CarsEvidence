@@ -14,8 +14,10 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.General.Helpers
 
         public Tuple<int,byte> YearMonth { get; set; }
         public byte Number { get; set; }
+
         public string Name { get { return CultureInfo.CurrentUICulture.DateTimeFormat.DayNames[(int)_dayOfWeak]; } }
         public string Description { get { return string.Format("{0}. {1}", Number, Name); } }
+        public string DescriptionForTitle { get { return string.Format("{0}. {1}", Number, Name); } }
 
         public bool IsWeekend { get { return _dayOfWeak == DayOfWeek.Sunday || _dayOfWeak == DayOfWeek.Saturday; } }
 

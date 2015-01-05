@@ -6,22 +6,17 @@ using System.Runtime.Serialization;
 
 namespace BlueBit.CarsEvidence.BL.Entities
 {
-    [DataContract(Namespace = Consts.NamespaceEntities, IsReference = true)]
     public class Route :
         EntityWithCodeBase,
         IRoute
     {
         [Required]
-        [DataMember]
         public virtual Address AddressFrom { get; set; }
         [Required]
-        [DataMember]
         public virtual Address AddressTo { get; set; }
         [Required]
-        [DataMember]
         public virtual long Distance { get; set; }
         [Required]
-        [DataMember]
         public virtual bool DistanceIsInBothDirections { get; set; }
 
         public virtual ISet<PeriodEntry> PeriodEntries { get; set; }

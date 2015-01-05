@@ -11,7 +11,6 @@ namespace BlueBit.CarsEvidence.BL.Entities
     }
 
     [DebuggerDisplay("ID={ID}")]
-    [DataContract(Namespace = Consts.NamespaceEntities, IsReference = false)]
     public abstract class EntityChildBase :
         Repositories.ObjectChildInRepositoryBase,
         IEntityChild

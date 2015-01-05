@@ -16,9 +16,9 @@ namespace BlueBit.CarsEvidence.Console
             using (var sessionFactory = BL.Configuration.Settings.CreateSessionFactory(connectionStringKey))
             using (var session = sessionFactory.OpenSession())
             {
-                var companies = CreateData_Companies().ToList();
                 var persons = CreateData_Persons().ToList();
                 var address = CreateData_Addresses().ToList();
+                var companies = CreateData_Companies(address).ToList();
                 var routes = CreateData_Routes(address).ToList();
                 var cars = CreateData_Cars().ToList();
                 var periods = CreateData_Periods(cars, persons, routes).ToList();
@@ -52,11 +52,6 @@ namespace BlueBit.CarsEvidence.Console
             initializtor(entity);
             addToFuncs.Each(f => f(entity));
             return entity;
-        }
-
-        static IEnumerable<Company> CreateData_Companies()
-        {
-            yield return new Company() { Code = "BLUE_BIT" };
         }
 
         static IEnumerable<Person> CreateData_Persons()
@@ -128,6 +123,19 @@ namespace BlueBit.CarsEvidence.Console
                 },
                 address.AddRouteFrom, addresses[i].AddRouteTo);
             }
+        }
+
+        static IEnumerable<Company> CreateData_Companies(List<Address> addresses)
+        {
+            var address = addresses[0];
+            yield return CreateEntity<Company>(_ =>
+            {
+                _.Code = "BLUE_BIT";
+                _.Name = "BLUE BIT Tomasz Oryński";
+                _.IdentifierNIP = "773-201-66-36";
+                _.IdentifierREGON = "12345678901234";
+            },
+            address.AddCompany);
         }
 
         static IEnumerable<Period> CreateData_Periods(

@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using System.ComponentModel;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands
 {
@@ -58,11 +59,17 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands
         protected abstract void OnExecute(IEnumerable<T> objects);
     }
 
-
-    public interface ISelectionCommand<T> :
-        ICommand
+    public interface ISelectionInfo :
+        INotifyPropertyChanged
     {
         bool? SelectedState { get; set; }
+        long SelectedCount { get; }
+    }
+
+    public interface ISelectionCommand<T> :
+        ICommand,
+        ISelectionInfo
+    {
         IEnumerable<T> SelectedSet { get; }
     }
 
@@ -77,6 +84,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands
             void Clear();
             void Select();
             IEnumerable<T> GetSelected();
+            long GetCount();
             bool? GetState();
         };
 
@@ -99,6 +107,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands
                     .Each(_ => _source.SelectedItems.Add(_)); 
             }
             public IEnumerable<T> GetSelected() { return _source.SelectedItems.Cast<T>(); }
+            public long GetCount() { return _source.SelectedItems.Count; }
             public bool? GetState()
             {
                 var selCnt = _source.SelectedItems.Count;
@@ -130,6 +139,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands
                     .Each(_ => _source.SelectedItems.Add(_)); 
             }
             public IEnumerable<T> GetSelected() { return _source.SelectedItems.Cast<T>(); }
+            public long GetCount() { return _source.SelectedItems.Count; }
             public bool? GetState()
             {
                 var selCnt = _source.SelectedItems.Count;
@@ -146,6 +156,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands
         private _IItemsControl _control;
 
         public IEnumerable<T> SelectedSet { get { return _control == null ? Enumerable.Empty<T>() : _control.GetSelected(); } }
+        public long SelectedCount { get { return _control == null ? 0 : _control.GetCount(); } }
 
         public bool? SelectedState { 
             get
@@ -164,8 +175,14 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands
                         _control.Clear();
                         break;
                 }
-                RaisePropertyChanged(() => SelectedState);
+                SetSelected();
             }
+        }
+
+        public virtual bool CanExecute(object parameter)
+        {
+            RaisePropertyChanged(() => SelectedCount);
+            return true;
         }
 
         public override void Execute(object parameter)
@@ -192,12 +209,13 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands
             Contract.Assert(_control != null);
             Contract.Assert(routedEventArgs.Source == _control.Source);
             Contract.Assert(routedEventArgs is SelectionChangedEventArgs);
-            SetSelected((SelectionChangedEventArgs)routedEventArgs);
+            SetSelected();
         }
 
-        private void SetSelected(SelectionChangedEventArgs args)
+        private void SetSelected()
         {
             RaisePropertyChanged(() => SelectedState);
+            RaisePropertyChanged(() => SelectedCount);
         }
     }
 }

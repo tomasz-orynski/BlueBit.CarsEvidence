@@ -9,6 +9,5 @@ namespace BlueBit.CarsEvidence.Commons.Templates
     public interface IObjectWithItems<TItems>
     {
         TItems Items { get; }
-        long ItemsCount { get; }
     }
 }

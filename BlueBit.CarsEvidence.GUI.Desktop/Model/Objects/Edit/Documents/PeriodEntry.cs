@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using BlueBit.CarsEvidence.BL.Repositories;
-using BlueBit.CarsEvidence.GUI.Desktop.Model.Attributes.Validation;
-using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.General.Helpers;
 using System;
 using System.Collections.ObjectModel;
@@ -15,7 +13,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
     [Attributes.EntityType(typeof(BL.Entities.PeriodEntry))]
     [Attributes.ConverterType(typeof(PeriodEntryConverter))]
     public class PeriodEntry :
-        EditObjectBase
+        EditDocumentObjectChildBase
     {
         public ObservableCollection<View.General.Helpers.Day> AllDays { get { return _Period.YearMonthDays; } }
         public ObservableCollection<View.General.Route> AllRoutes { get { return _routes().Items; } }

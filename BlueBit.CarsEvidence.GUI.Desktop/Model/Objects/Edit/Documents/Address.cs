@@ -1,12 +1,12 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+
 namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
 {
     [Attributes.EditInDocumentView]
     [Attributes.EntityType(typeof(BL.Entities.Address))]
     [Attributes.ConverterType(typeof(EditObjectConverter<,>))]
     public class Address : 
-        EditObjectWithCodeBase
+        EditDocumentObjectWithCodeBase
     {
         private string _PostalCode;
         [Required]

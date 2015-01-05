@@ -1,6 +1,8 @@
 ﻿using BlueBit.CarsEvidence.Commons.Linq;
 using BlueBit.CarsEvidence.Commons.Reflection;
 using BlueBit.CarsEvidence.Commons.Templates;
+using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents;
+using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels;
@@ -17,7 +19,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Configuration
         private class _ListPanelViewModelCreator<T, TItem> :
             ISingletonCreator<T>
             where T : ListPanelViewModelBase<TItem>
-            where TItem : _Objects.View.ViewObjectBase
+            where TItem : ViewPanelObjectBase
         {
             private readonly Func<MainWindowViewModel> _model;
             private readonly Func<T> _creator;
@@ -46,7 +48,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Configuration
         private class _EditDocumentViewModelCreator<T, TItem> :
             ISingletonCreatorForItem<T, TItem>
             where T : EditDocumentViewModelBase<TItem>
-            where TItem : _Objects.Edit.EditObjectBase
+            where TItem : EditDocumentObjectBase
         {
             private readonly Func<MainWindowViewModel> _model;
             private readonly Func<T> _creator;
@@ -89,7 +91,6 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Configuration
         {
             return GetConverterType(typeof(T), entityType);
         }
-
 
         private static InjectionMember CreateConverterFactory(Type type)
         {

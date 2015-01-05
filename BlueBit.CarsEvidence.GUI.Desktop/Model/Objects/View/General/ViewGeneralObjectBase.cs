@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using BlueBit.CarsEvidence.BL.Alghoritms;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.General
 {
-    public interface IViewGeneralObject
+    public interface IViewGeneralObject :
+        IViewObject,
+        IObjectWithDescription
     {
-        string Description { get; }
     }
 
     public abstract class ViewGeneralObjectBase :
@@ -19,27 +17,13 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.General
     }
 
     public abstract class ViewGeneralObjectWithCodeBase :
-        ViewGeneralObjectBase
+        ViewGeneralObjectBase,
+        IObjectWithGetCode
     {
         private string _code;
         public string Code { get { return _code; } set { Set(ref _code, value); } }
 
-        public override sealed string Description
-        {
-            get
-            {
-                var sb = new StringBuilder();
-                sb.Append("»");
-
-                if (string.IsNullOrEmpty(Code))
-                    sb.AppendFormat("ID={0}", ID);
-                else
-                    sb.Append(Code);
-
-                sb.Append("«");
-                return sb.ToString();
-            }
-        }
+        public override sealed string Description { get { return this.GetDescription(); } }
 
         static ViewGeneralObjectWithCodeBase()
         {

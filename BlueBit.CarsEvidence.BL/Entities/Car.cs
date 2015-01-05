@@ -7,29 +7,22 @@ using System.Runtime.Serialization;
 
 namespace BlueBit.CarsEvidence.BL.Entities
 {
-    [DataContract(Namespace = Consts.NamespaceEntities, IsReference = true)]
     public class Car :
         EntityWithCodeBase
     {
         [Required]
         [MaxLength(Configuration.Consts.LengthRegisterNumber)]
-        [DataMember]
         public virtual string RegisterNumber { get; set; }
 
         [MaxLength(Configuration.Consts.LengthText)]
-        [DataMember]
         public virtual string BrandInfo { get; set; }
 
-        [DataMember]
         public virtual DateTime EvidenceDateBegin { get; set; }
 
-        [DataMember]
         public virtual DateTime? EvidenceDateEnd { get; set; }
 
-        [DataMember]
         public virtual long EvidenceCounterBegin { get; set; }
 
-        [DataMember]
         public virtual long? EvidenceCounterEnd { get; set; }
 
         public virtual ISet<Period> Periods { get; set; }

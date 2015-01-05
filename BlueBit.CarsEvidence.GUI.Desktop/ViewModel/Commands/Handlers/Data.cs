@@ -1,4 +1,5 @@
 ﻿using BlueBit.CarsEvidence.BL;
+using BlueBit.CarsEvidence.BL.DTO.XML;
 using BlueBit.CarsEvidence.BL.Entities;
 using BlueBit.CarsEvidence.GUI.Desktop.Configuration.Attributes;
 using System;
@@ -17,32 +18,6 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands.Handlers
     public abstract class DataCommandHandlerBase :
         IDataCommandHandler
     {
-        [DataContract(Namespace = Consts.NamespaceEntities, IsReference = true)]
-        public class DataHeader
-        {
-            [DataMember(Order=0)]
-            public string AppName { get; set; }
-            [DataMember(Order = 1)]
-            public string AppVersion { get; set; }
-            [DataMember(Order = 2, Name="CreateTime")]
-            public DateTime DateTime { get; set; }
-        }
-
-        [DataContract(Namespace = Consts.NamespaceEntities, IsReference = true)]
-        public abstract class DataBase
-        {
-        }
-        
-        [DataContract(Namespace = Consts.NamespaceEntities, IsReference = false, Name = "Root")]
-        public class DataRoot<TData>
-            where TData : DataBase
-        {
-            [DataMember(Order=0, Name="Header")]
-            public DataHeader Header { get; set; }
-
-            [DataMember(Order=1, Name="Data")]
-            public TData Data { get; set; }
-        }
 
 
         public abstract CmdKey Key { get; }
@@ -95,11 +70,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands.Handlers
                 {
                 }))
             {
-                var knownTypes = new Type[] { 
-                    typeof(Company)
-                };
-
-                var serializer = new DataContractSerializer(typeof(DataRoot<T>), knownTypes);
+                var serializer = new DataContractSerializer(typeof(DataRoot<T>));
                 while (reader.Read())
                 {
                     switch (reader.NodeType)

@@ -1,26 +1,26 @@
 ﻿using AutoMapper;
+using BlueBit.CarsEvidence.BL.Alghoritms;
 using BlueBit.CarsEvidence.BL.Repositories;
 using BlueBit.CarsEvidence.Commons.Diagnostics;
-using GalaSoft.MvvmLight;
-using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity;
 using System;
 using System.Collections;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit
 {
+    public interface IEditObject :
+        IObject,
+        INotifyDataErrorInfo
+    {
+    }
+
     public abstract class EditObjectBase :
         ObjectBase,
-        INotifyDataErrorInfo
-        //IValidatableObject
+        IEditObject
     {
         private readonly Dictionary<string, List<string>> _validationErrors = new Dictionary<string, List<string>>();
 
@@ -82,22 +82,11 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit
             return validationResults;
         }
 
-
         private void RaiseErrorsChanged(string propertyName)
         {
             if (ErrorsChanged != null)
                 ErrorsChanged(this, new DataErrorsChangedEventArgs(propertyName));
         }
-    }
-
-    public abstract class EditObjectWithCodeBase :
-        EditObjectBase
-    {
-        private string _code;
-        [Required]
-        [MaxLength(BL.Configuration.Consts.LengthCode)]
-        [Key]
-        public string Code { get { return _code; } set { Set(ref _code, value); } }
     }
 
     public class EditObjectConverter<TObject, TEntity> :

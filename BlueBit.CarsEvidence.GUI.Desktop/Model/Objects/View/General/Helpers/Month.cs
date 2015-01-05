@@ -12,6 +12,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.General.Helpers
         public string Name { get { return CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName(Number); } }
 
         public string Description { get { return string.Format("{0}. {1}", Number, Name); } }
+        public string DescriptionForTitle { get { return string.Format("{0}. {1}", Number, Name); } }
     }
 
     public static class MonthExtensions

@@ -1,23 +1,19 @@
 ﻿using AutoMapper;
 using BlueBit.CarsEvidence.Commons.Diagnostics;
-using Microsoft.Practices.ServiceLocation;
-using Microsoft.Practices.Unity;
-using System;
 using System.Diagnostics;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View
 {
-    [DebuggerDisplay("ID={ID}")]
-    public abstract class ViewObjectBase :
-        ObjectBase
+    public interface IViewObject :
+        IObject
     {
     }
 
-    public abstract class ViewObjectWithCodeBase :
-        ViewObjectBase
+    [DebuggerDisplay("ID={ID}")]
+    public abstract class ViewObjectBase :
+        ObjectBase,
+        IViewObject
     {
-        private string _code;
-        public string Code { get { return _code; } set { Set(ref _code, value); } }
     }
 
     public class ViewObjectConverter<TObject, TEntity> :

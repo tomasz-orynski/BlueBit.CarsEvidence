@@ -3,6 +3,7 @@ using BlueBit.CarsEvidence.Commons.Templates;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View;
+using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels;
 using System;
@@ -17,13 +18,13 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands.Handlers
 
     public interface IShowCommandHandler<T> :
         IShowCommandHandler
-        where T : ViewObjectBase
+        where T : ViewPanelObjectBase
     {
     }
 
     public class ShowCommandHandler<T> :
         IShowCommandHandler<T>
-        where T : ViewObjectBase
+        where T : ViewPanelObjectBase
     {
 #if DEBUG
         private readonly object _dbgSc = new SingletonChecker<ShowCommandHandler<T>>();
