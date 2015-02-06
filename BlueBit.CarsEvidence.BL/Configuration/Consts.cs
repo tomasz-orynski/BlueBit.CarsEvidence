@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlueBit.CarsEvidence.BL.Configuration
 {
@@ -10,6 +6,7 @@ namespace BlueBit.CarsEvidence.BL.Configuration
     {
         public const int LengthCode = 30;
         public const int LengthText = 250;
+        public const int LengthInfo = 4000;
         public const int LengthRegisterNumber = 8;
         public const int LengthPostalCode = 6;
         public const int LengthIdentifierNIP = 13;

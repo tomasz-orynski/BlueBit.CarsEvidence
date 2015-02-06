@@ -9,8 +9,6 @@ namespace BlueBit.CarsEvidence.Console
 {
     partial class Program
     {
-        const string connectionStringKey = "CarsEvidence";
-
         static void Main(string[] args)
         {
             foreach (var arg in args)
@@ -34,7 +32,7 @@ namespace BlueBit.CarsEvidence.Console
         {
             try
             {
-                BL.Configuration.Settings.RecreateSchema(connectionStringKey);
+                BL.Configuration.Settings.RecreateSchema();
             }
             catch (Exception e)
             {
@@ -44,7 +42,7 @@ namespace BlueBit.CarsEvidence.Console
 
         static void SelectData()
         {
-            using (var sessionFactory = BL.Configuration.Settings.CreateSessionFactory(connectionStringKey))
+            using (var sessionFactory = BL.Configuration.Settings.CreateSessionFactory())
             using (var session = sessionFactory.OpenSession())
             {
                 BL.Entities.Period periodAlias = null;

@@ -1,4 +1,5 @@
-﻿using FluentNHibernate.Automapping;
+﻿using BlueBit.CarsEvidence.BL.Entities.Components;
+using FluentNHibernate.Automapping;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,17 +14,12 @@ namespace BlueBit.CarsEvidence.BL.Entities
         [Required]
         [MaxLength(Configuration.Consts.LengthRegisterNumber)]
         public virtual string RegisterNumber { get; set; }
-
         [MaxLength(Configuration.Consts.LengthText)]
         public virtual string BrandInfo { get; set; }
-
-        public virtual DateTime EvidenceDateBegin { get; set; }
-
-        public virtual DateTime? EvidenceDateEnd { get; set; }
-
-        public virtual long EvidenceCounterBegin { get; set; }
-
-        public virtual long? EvidenceCounterEnd { get; set; }
+        public virtual CounterState EvidenceBegin { get; set; }
+        public virtual CounterState EvidenceEnd { get; set; }
+        [MaxLength(Configuration.Consts.LengthInfo)]
+        public virtual string Info { get; set; }
 
         public virtual ISet<Period> Periods { get; set; }
 

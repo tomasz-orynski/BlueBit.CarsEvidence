@@ -1,15 +1,12 @@
 ﻿using BlueBit.CarsEvidence.Commons.Diagnostics;
-using BlueBit.CarsEvidence.Commons.Templates;
 using BlueBit.CarsEvidence.GUI.Desktop.Model;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects;
-using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents;
+using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Interactions;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents;
 using dotNetExt;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Windows;
 
@@ -30,11 +27,11 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands
         private readonly object _dbgSc = new SingletonChecker<DeleteCommandHandler<T>>();
 #endif
         private readonly IEditObjects<T> _editObjects;
-        private readonly ISingletonCreatorForItem<EditDocumentViewModelBase<T>, T> _editDocumentViewModelCreator;
+        private readonly IEditDocumentViewModelCreator<EditDocumentViewModelBase<T>, T> _editDocumentViewModelCreator;
 
         public DeleteCommandHandler(
             IEditObjects<T> editObjects,
-            ISingletonCreatorForItem<EditDocumentViewModelBase<T>, T> editDocumentViewModelCreator)
+            IEditDocumentViewModelCreator<EditDocumentViewModelBase<T>, T> editDocumentViewModelCreator)
         {
             _editObjects = editObjects;
             _editDocumentViewModelCreator = editDocumentViewModelCreator;

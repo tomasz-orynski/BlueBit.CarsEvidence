@@ -29,6 +29,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -44,6 +45,7 @@
       <Link>Properties\BlueBit.CarsEvidence.ProductInfo.cs</Link>
     </Compile>
     <Compile Include="Diagnostics\SingletonChecker.cs" />
+    <Compile Include="Helpers\Value.cs" />
     <Compile Include="Linq\Enumerable.cs" />
     <Compile Include="Reflection\EventHelper.cs" />
     <Compile Include="Reflection\MemberInfoExtensions.cs" />

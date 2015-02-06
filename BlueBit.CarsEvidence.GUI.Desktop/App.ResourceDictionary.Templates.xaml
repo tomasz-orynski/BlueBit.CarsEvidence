@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:_ccCommands="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands"
+    xmlns:_bbceCommands="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands"
 >
-    <DataTemplate x:Key="dtCommandButon" DataType="{x:Type _ccCommands:CommandInfo}">
+    <DataTemplate x:Key="dtCommandButon" DataType="{x:Type _bbceCommands:CommandInfo}">
         <Button Command="{Binding Command}" Style="{StaticResource sButton}">
             <StackPanel Orientation="Horizontal">
                 <ContentControl Margin="0,0,5,0" Content="{Binding Image_16x16}" />
@@ -12,7 +12,7 @@
         </Button>
     </DataTemplate>
 
-    <DataTemplate x:Key="dtCommandsButons" DataType="{x:Type _ccCommands:CommandsViewModel}">
+    <DataTemplate x:Key="dtCommandsButons" DataType="{x:Type _bbceCommands:CommandsViewModel}">
         <ItemsControl ItemsSource="{Binding Items}" ItemTemplate="{DynamicResource dtCommandButon}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>

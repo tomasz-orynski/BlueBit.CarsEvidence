@@ -3,10 +3,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
-    xmlns:localModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents"
-    xmlns:localViewModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents"
+    xmlns:_bbceDocuments="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents"
 >
-    <DataTemplate DataType="{x:Type localViewModel:AddressEditDocumentViewModel}">
+    <DataTemplate DataType="{x:Type _bbceDocuments:AddressEditDocumentViewModel}">
         <Grid DataContext="{Binding Item}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -76,6 +75,20 @@
                 Text="{Binding LocalNo, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                 MaxLength="{StaticResource lenObjectProp_Code}"
                 Width="{StaticResource widthObjectProp_Code}"/>
+
+            <Label 
+                Grid.Row="7" Grid.Column="0" 
+                Content="{StaticResource strObjectProp_Info}"/>
+            <TextBox 
+                Grid.Row="7" Grid.Column="1" 
+                Text="{Binding Info, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                MaxLength="{StaticResource lenObjectProp_Info}"
+                Width="{StaticResource widthObjectProp_Info}"
+                Height="{StaticResource heightObjectProp_Info}"
+                AcceptsReturn="True"
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Auto"
+                />
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

@@ -109,8 +109,11 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit
 
         public void Initialize()
         {
-            OnInitialize(Mapper.CreateMap<TEntity, TObject>().ConstructUsingServiceLocator());
-            OnInitialize(Mapper.CreateMap<TObject, TEntity>());
+            OnInitialize(Mapper
+                .CreateMap<TEntity, TObject>()
+                .ConstructUsingServiceLocator());
+            OnInitialize(Mapper
+                .CreateMap<TObject, TEntity>());
         }
 
         protected virtual void OnInitialize(IMappingExpression<TEntity, TObject> mapingExpr) { }
@@ -120,37 +123,54 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit
         {
             Contract.Assert(src != null);
 
-            var result = Mapper.Map<TEntity, TObject>(OnCreate(src), opt => opt.ConstructServicesUsing(Configuration.Settings.ResolveType));
-            OnCreateUpdate(src, result, Mode.Create);
+            var result = Mapper.Map<TEntity, TObject>(
+                src,
+                opt => { 
+                    opt.ConstructServicesUsing(Configuration.Settings.ResolveType); 
+                    opt.BeforeMap(OnBeforeMap); 
+                });
+            OnAfterMap(src, result, Mode.Create);
             return result;
         }
         public TEntity Create(TObject src)
         {
             Contract.Assert(src != null);
 
-            var result = Mapper.Map<TObject, TEntity>(OnCreate(src));
-            OnCreateUpdate(src, result, Mode.Create);
+            var result = Mapper.Map<TObject, TEntity>(
+                src, 
+                opt => opt.BeforeMap(OnBeforeMap));
+            OnAfterMap(src, result, Mode.Create);
             return result;
         }
 
         public TObject Update(TEntity src, TObject dst)
         {
             var result = Mapper.Map<TEntity, TObject>(src, dst);
-            OnCreateUpdate(src, result, Mode.Update);
+            OnAfterMap(src, result, Mode.Update);
             return result;
         }
         public TEntity Update(TObject src, TEntity dst)
         {
             var result = Mapper.Map<TObject, TEntity>(src, dst);
-            OnCreateUpdate(src, result, Mode.Update);
+            OnAfterMap(src, result, Mode.Update);
             return result;
         }
 
-        protected virtual TEntity OnCreate(TEntity src) { return src; }
-        protected virtual TObject OnCreate(TObject src) { return src; }
+        protected void OnBeforeMap(TEntity src, TObject dst)
+        {
+            OnBeforeMap(dst);
+        }
+        protected void OnBeforeMap(TObject src, TEntity dst) 
+        { 
+            dst.Init();
+            OnBeforeMap(dst);
+        }
 
-        protected virtual void OnCreateUpdate(TEntity src, TObject dst, Mode mode) { }
-        protected virtual void OnCreateUpdate(TObject src, TEntity dst, Mode mode) { }
+        protected virtual void OnBeforeMap(TEntity dst) { }
+        protected virtual void OnBeforeMap(TObject dst) { }
+
+        protected virtual void OnAfterMap(TEntity src, TObject dst, Mode mode) { }
+        protected virtual void OnAfterMap(TObject src, TEntity dst, Mode mode) { }
     }
 
     public class EditObjectConverterWithContext<TContext, TObject, TEntity> :

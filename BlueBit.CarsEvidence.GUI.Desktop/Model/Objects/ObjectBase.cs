@@ -78,13 +78,11 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
             Contract.Assert(@this != null);
 
             var sb = new StringBuilder();
-            sb.Append("»");
 #if DEBUG
-            sb.AppendFormat("#{0},{1}", @this.ID, @this.Code);
+            sb.AppendFormat("»{0}« #{1}", @this.Code, @this.ID);
 #else
-            sb.Append(Code);
+            sb.Append(@this.Code);
 #endif
-            sb.Append("«");
             return sb.ToString();
         }
         public static string GetDescriptionForToolTip<T>(this T @this)

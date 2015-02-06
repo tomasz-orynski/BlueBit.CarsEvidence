@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BlueBit.CarsEvidence.BL.Entities.Components;
+using System;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels
 {
@@ -14,16 +15,10 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels
         private string _brandInfo;
         public string BrandInfo { get { return _brandInfo; } set { Set(ref _brandInfo, value); } }
 
-        private DateTime _evidenceDateBegin;
-        public DateTime EvidenceDateBegin { get { return _evidenceDateBegin; } set { Set(ref _evidenceDateBegin, value); } }
+        private CounterState _evidenceBegin;
+        public CounterState EvidenceBegin { get { return _evidenceBegin; } set { Set(ref _evidenceBegin, value); } }
 
-        private DateTime? _evidenceDateEnd;
-        public DateTime? EvidenceDateEnd { get { return _evidenceDateEnd; } set { Set(ref _evidenceDateEnd, value); } }
-
-        private long _evidenceCounterBegin;
-        public long EvidenceCounterBegin { get { return _evidenceCounterBegin; } set { Set(ref _evidenceCounterBegin, value); } }
-
-        private long? _evidenceCounterEnd;
-        public long? EvidenceCounterEnd { get { return _evidenceCounterEnd; } set { Set(ref _evidenceCounterEnd, value); } }
+        private CounterState _evidenceEnd;
+        public CounterState EvidenceEnd { get { return _evidenceEnd; } set { Set(ref _evidenceEnd, value); } }
     }
 }

@@ -2,12 +2,14 @@
 using BlueBit.CarsEvidence.BL.Alghoritms;
 using System.Linq;
 using System.Diagnostics.Contracts;
+using NHibernate.Criterion;
+using BlueBit.CarsEvidence.Commons.Helpers;
 
 namespace BlueBit.CarsEvidence.BL.Repositories
 {
     public static class DbRepositoryExt
     {
-        public static long GetTotalDistanceForPrevMonths(
+        public static long GetDistanceTotalForPrevMonths(
             this IDbRepositories @this, 
             long carID,
             int year,
@@ -19,15 +21,12 @@ namespace BlueBit.CarsEvidence.BL.Repositories
                 .Where(_ => _.ID == carID)
                 .SingleOrDefault();
 
-            BL.Entities.Period periodAlias = null;
-            var prevEntries = @this.CreateQuery<BL.Entities.PeriodEntry>()
-                .JoinAlias(_ => _.Period, () => periodAlias)
-                .Where(_ => periodAlias.Car.ID == carID)
-                .Where(_ => periodAlias.Year < year || (periodAlias.Year == year && periodAlias.Month < month))
-                .Fetch(_ => _.Route).Eager
-                .List();
-            var prevDistance = prevEntries.Select(_ => _.Route).GetDistanceTotal();
-            return prevDistance + car.EvidenceCounterBegin;
+            var prevEntriesSum = @this.CreateQuery<Entities.Period>()
+                .Where(_ => _.Car.ID == carID)
+                .Where(_ => _.Year < year || (_.Year == year && _.Month < month))
+                .Select(Projections.Sum<Entities.Period>(_ => _.DistanceTotal))
+                .SingleOrDefault<long>();
+            return prevEntriesSum + car.EvidenceBegin.GetSafeValue(_ => _.Counter);
         }
 
     }

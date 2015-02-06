@@ -1,4 +1,7 @@
-﻿using FluentNHibernate;
+﻿using BlueBit.CarsEvidence.BL.Entities.Components;
+using BlueBit.CarsEvidence.BL.Entities.UserTypes;
+using BlueBit.CarsEvidence.Commons.Reflection;
+using FluentNHibernate;
 using FluentNHibernate.Automapping;
 using FluentNHibernate.Conventions;
 using FluentNHibernate.Conventions.AcceptanceCriteria;
@@ -7,10 +10,6 @@ using FluentNHibernate.Conventions.Instances;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlueBit.CarsEvidence.BL.Configuration.Automapping
 {
@@ -22,8 +21,23 @@ namespace BlueBit.CarsEvidence.BL.Configuration.Automapping
         {
             public override bool ShouldMap(Type type)
             {
-                return type.IsSubclassOf(typeof(Repositories.ObjectInRepositoryBase))
-                    || type.IsSubclassOf(typeof(Repositories.ObjectChildInRepositoryBase));
+                return type.IsDerivedFrom<Repositories.ObjectInRepositoryBase>()
+                    || type.IsDerivedFrom<Repositories.ObjectChildInRepositoryBase>()
+                    || type.IsDerivedFrom<Repositories.ComponentBase>();
+            }
+
+            public override bool IsComponent(Type type)
+            {
+                if (type.IsDerivedFrom<Repositories.ComponentBase>())
+                    return true;
+
+                return base.IsComponent(type);
+            }
+
+            public override string GetComponentColumnPrefix(Member member)
+            {
+                var prefix = base.GetComponentColumnPrefix(member);
+                return prefix + "_";
             }
         }
 
@@ -33,27 +47,45 @@ namespace BlueBit.CarsEvidence.BL.Configuration.Automapping
             IPropertyConvention, 
             IPropertyConventionAcceptance
         {
-            public void Apply(FluentNHibernate.Conventions.Instances.IClassInstance instance)
+            public void Apply(IClassInstance instance)
             {
+                System.Diagnostics.Debug.WriteLine("NHClassIns:[{0}]",
+                    instance.EntityType);
+
                 var tableName = Inflector.Inflector.Pluralize(instance.EntityType.Name);
                 instance.Table(string.Format(tableNameFormat, tableName));
             }
 
-            public void Apply(FluentNHibernate.Conventions.Instances.IIdentityInstance instance)
+            public void Apply(IIdentityInstance instance)
             {
+                System.Diagnostics.Debug.WriteLine("NHIdIns:[{0}].[{1}]",
+                    instance.EntityType,
+                    instance.Property.MemberInfo.Name);
+
                 var tableColumnNameWithID = Commons.Reflection.PropertyHelper<Repositories.IObjectInRepository>.GetPropertyName(obj => obj.ID);
                 instance.Column(tableColumnNameWithID);
                 instance.GeneratedBy.Native();
             }
 
-            public void Apply(IPropertyInstance instance)
-            {
-                instance.Not.Nullable();
-            }
-
             public void Accept(IAcceptanceCriteria<IPropertyInspector> criteria)
             {
-                criteria.Expect(c => c.Property.MemberInfo.IsDefined(typeof(RequiredAttribute), false));
+                criteria.Expect(c => {
+                    var memberInfo = c.Property.MemberInfo;
+                    return memberInfo.HasAttribute<RequiredAttribute>()
+                        || memberInfo.HasAttribute<MaxLengthAttribute>()
+                        || memberInfo.IsPropertyType<string>();
+                });
+            }
+            public void Apply(IPropertyInstance instance)
+            {
+                System.Diagnostics.Debug.WriteLine("NHPropIns:[{0}].[{1}]",
+                    instance.EntityType,
+                    instance.Property.MemberInfo.Name);
+
+                var memberInfo = instance.Property.MemberInfo
+                    .OnAttribute<RequiredAttribute>((_, attr) => instance.Not.Nullable())
+                    .OnAttribute<MaxLengthAttribute>((_, attr) => instance.Length(attr.Length))
+                    .OnPropertyType<string>((_) => instance.CustomType<Text>());
             }
         }
 

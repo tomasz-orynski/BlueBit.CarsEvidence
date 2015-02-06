@@ -59,11 +59,6 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels
                     cfg => cfg.MapFrom(
                         r => _cars.ConvertByGet(r.Car)
                         ))
-                .ForMember(
-                    r => r.DistanceTotal,
-                    cfg => cfg.MapFrom(
-                        r => r.PeriodEntries.Sum(_ => _.Distance)
-                        ))
             ;
         }
     }

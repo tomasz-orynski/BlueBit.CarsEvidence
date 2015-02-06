@@ -6,8 +6,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.General
     [Attributes.EntityType(typeof(BL.Entities.Route))]
     [Attributes.ConverterType(typeof(ViewObjectConverter<,>))]
     public class Route :
-        ViewGeneralObjectWithCodeBase,
-        IRoute
+        ViewGeneralObjectWithCodeBase
     {
         private long _Distance;
         public long Distance { get { return _Distance; } set { Set(ref _Distance, value); } }

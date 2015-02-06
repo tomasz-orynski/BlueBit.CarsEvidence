@@ -5,22 +5,14 @@
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
     xmlns:ad="http://schemas.xceed.com/wpf/xaml/avalondock"
-    xmlns:_ccDesktop="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop"
-    xmlns:_ccView="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.View"
-    xmlns:_ccPanels="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.View.Panels"
-    xmlns:_ccDocuments="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.View.Documents"
-    xmlns:_ccBevaviors="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Behaviors"
-    xmlns:_ccCommands="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands"
+    xmlns:_bbceDesktop="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop"
+    xmlns:_bbceView="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.View"
+    xmlns:_bbcePanels="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.View.Panels"
+    xmlns:_bbceDocuments="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.View.Documents"
+    xmlns:_bbceBevaviors="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Interactions.Behaviors"
+    xmlns:_bbceCommands="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands"
     DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
-    Icon="{StaticResource imgApp}"
     >
-    <RibbonWindow.Title>
-        <MultiBinding StringFormat="{}{0} - {1}">
-            <Binding Path="Title" />
-            <Binding Path="Item.DescriptionForTitle" />
-        </MultiBinding>
-    </RibbonWindow.Title>
-
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <mvvm:EventToCommand Command="{Binding Path=EventCmdClosing}" PassEventArgsToCommand="True" />
@@ -30,9 +22,17 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <i:Interaction.Behaviors>
-        <_ccBevaviors:WindowCloseBehavior ViewModel="{Binding}" />
+        <_bbceBevaviors:WindowCloseBehavior ViewModel="{Binding}" />
+        <_bbceBevaviors:IconBehavior />
     </i:Interaction.Behaviors>
-    
+
+    <RibbonWindow.Title>
+        <MultiBinding StringFormat="{}{0} - {1}">
+            <Binding Path="Title" />
+            <Binding Path="Item.DescriptionForTitle" />
+        </MultiBinding>
+    </RibbonWindow.Title>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -41,7 +41,7 @@
         
         <Ribbon Grid.Row="0">
             <Ribbon.Resources>
-                <DataTemplate x:Key="ribbonButton" DataType="{x:Type _ccCommands:CommandsGroupInfo}">
+                <DataTemplate x:Key="ribbonButton" DataType="{x:Type _bbceCommands:CommandsGroupInfo}">
                     <RibbonMenuButton
                         Label="{Binding Name}" 
                         LargeImageSource="{Binding ImageSource}" 
@@ -96,46 +96,44 @@
             <ad:DockingManager
                 DocumentsSource="{Binding DocumentViewModels}"
                 AnchorablesSource="{Binding PanelViewModels}"
+                ActiveContent="{Binding ActiveViewModel, Mode=TwoWay}"
                 >
-                <ad:DockingManager.Resources>
-                    <ad:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-                </ad:DockingManager.Resources>
                 <ad:DockingManager.Theme>
                     <ad:GenericTheme/>
                 </ad:DockingManager.Theme>
 
                 <ad:DockingManager.LayoutItemTemplateSelector>
-                    <_ccView:MainWindowViewPanelDataTemplateSelector>
-                        <_ccView:MainWindowViewPanelDataTemplateSelector.ListPanel>
+                    <_bbceView:MainWindowViewPanelDataTemplateSelector>
+                        <_bbceView:MainWindowViewPanelDataTemplateSelector.ListPanel>
                             <DataTemplate>
-                                <_ccPanels:ListPanelView/>
+                                <_bbcePanels:ListPanelView/>
                             </DataTemplate>
-                        </_ccView:MainWindowViewPanelDataTemplateSelector.ListPanel>
-                        <_ccView:MainWindowViewPanelDataTemplateSelector.EditDocument>
+                        </_bbceView:MainWindowViewPanelDataTemplateSelector.ListPanel>
+                        <_bbceView:MainWindowViewPanelDataTemplateSelector.EditDocument>
                             <DataTemplate>
-                                <_ccDocuments:EditDocumentView/>
+                                <_bbceDocuments:EditDocumentView/>
                             </DataTemplate>
-                        </_ccView:MainWindowViewPanelDataTemplateSelector.EditDocument>
-                    </_ccView:MainWindowViewPanelDataTemplateSelector>
+                        </_bbceView:MainWindowViewPanelDataTemplateSelector.EditDocument>
+                    </_bbceView:MainWindowViewPanelDataTemplateSelector>
                 </ad:DockingManager.LayoutItemTemplateSelector>
                 <ad:DockingManager.LayoutItemContainerStyleSelector>
-                    <_ccView:MainWindowViewPanelStyleSelector>
-                        <_ccView:MainWindowViewPanelStyleSelector.ListPanel>
+                    <_bbceView:MainWindowViewPanelStyleSelector>
+                        <_bbceView:MainWindowViewPanelStyleSelector.ListPanel>
                             <Style TargetType="{x:Type ad:LayoutAnchorableItem}">
                                 <Setter Property="Title" Value="{Binding Model.Title}"/>
                                 <Setter Property="Visibility" Value="{Binding Model.IsVisible, Mode=TwoWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"/>
                             </Style>
-                        </_ccView:MainWindowViewPanelStyleSelector.ListPanel>
-                        <_ccView:MainWindowViewPanelStyleSelector.EditDocument>
+                        </_bbceView:MainWindowViewPanelStyleSelector.ListPanel>
+                        <_bbceView:MainWindowViewPanelStyleSelector.EditDocument>
                             <Style TargetType="{x:Type ad:LayoutItem}">
                                 <Setter Property="Title" Value="{Binding Model.Title}"/>
                                 <Setter Property="CloseCommand" Value="{Binding Model.CmdClose}"/>
                             </Style>
-                        </_ccView:MainWindowViewPanelStyleSelector.EditDocument>
-                    </_ccView:MainWindowViewPanelStyleSelector>
+                        </_bbceView:MainWindowViewPanelStyleSelector.EditDocument>
+                    </_bbceView:MainWindowViewPanelStyleSelector>
                 </ad:DockingManager.LayoutItemContainerStyleSelector>
                 <ad:DockingManager.LayoutUpdateStrategy>
-                    <_ccView:MainWindowViewLayoutUpdateStrategy/>
+                    <_bbceView:MainWindowViewLayoutUpdateStrategy/>
                 </ad:DockingManager.LayoutUpdateStrategy>
 
                 <ad:LayoutRoot>
@@ -144,8 +142,8 @@
                             <ad:LayoutDocumentPane />
                         </ad:LayoutDocumentPaneGroup>
                         <ad:LayoutAnchorablePaneGroup DockWidth="400" Orientation="Vertical">
-                            <ad:LayoutAnchorablePane Name="Panel1" />
-                            <ad:LayoutAnchorablePane Name="Panel2" />
+                            <ad:LayoutAnchorablePane Name="Panel1" DockHeight="1*" />
+                            <ad:LayoutAnchorablePane Name="Panel2" DockHeight="2*" />
                         </ad:LayoutAnchorablePaneGroup>
                     </ad:LayoutPanel>
                 </ad:LayoutRoot>

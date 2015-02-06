@@ -4,6 +4,7 @@ using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels;
+using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Interactions;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels;
 using System;
@@ -30,12 +31,12 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands.Handlers
         private readonly object _dbgSc = new SingletonChecker<ShowCommandHandler<T>>();
 #endif
 
-        private readonly ISingletonCreator<ListPanelViewModelBase<T>> _listPanelViewModelCreator;
+        private readonly IListPanelViewModelCreator<ListPanelViewModelBase<T>> _listPanelViewModelCreator;
 
         public EntityType ForType { get { return EntityTypeDict.GetValueForObjectType<T>(); } }
 
         public ShowCommandHandler(
-            ISingletonCreator<ListPanelViewModelBase<T>> listPanelViewModelCreator
+            IListPanelViewModelCreator<ListPanelViewModelBase<T>> listPanelViewModelCreator
             )
         {
             _listPanelViewModelCreator = listPanelViewModelCreator;

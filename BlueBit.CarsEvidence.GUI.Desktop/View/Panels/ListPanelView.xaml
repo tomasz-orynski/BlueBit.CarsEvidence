@@ -8,11 +8,11 @@
     xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:syscol="clr-namespace:System.Collections;assembly=mscorlib"
-    xmlns:localModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.Model.Objects"
-    xmlns:localViewModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels"
     mc:Ignorable="d"
-    d:DesignHeight="300" d:DesignWidth="400">
-    
+    d:DesignHeight="300" d:DesignWidth="400"
+    Focusable="True"
+    KeyboardNavigation.IsTabStop="True"
+    >
     <UserControl.Resources>
         <ResourceDictionary Source="ListPanelView.Dictionary.xaml" />
     </UserControl.Resources>

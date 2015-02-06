@@ -46,6 +46,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper">
@@ -91,7 +92,7 @@
       <Link>Properties\BlueBit.CarsEvidence.ProductInfo.cs</Link>
     </Compile>
     <Compile Include="Alghoritms\ID.cs" />
-    <Compile Include="Alghoritms\Route.cs" />
+    <Compile Include="Alghoritms\Distance.cs" />
     <Compile Include="Alghoritms\Validation\DateValidation.cs" />
     <Compile Include="Configuration\Automapping\Configuration.cs" />
     <Compile Include="Configuration\Consts.cs" />
@@ -101,7 +102,9 @@
     <Compile Include="Entities\Address.cs" />
     <Compile Include="Entities\Car.cs" />
     <Compile Include="Entities\Company.cs" />
+    <Compile Include="Entities\Components\CounterState.cs" />
     <Compile Include="Entities\EntityChild.cs" />
+    <Compile Include="Entities\UserTypes\Text.cs" />
     <Compile Include="Repositories\DbRepository.cs" />
     <Compile Include="Entities\Route.cs" />
     <Compile Include="Entities\Entity.cs" />

@@ -2,6 +2,7 @@
 using BlueBit.CarsEvidence.Commons.Templates;
 using BlueBit.CarsEvidence.GUI.Desktop.Model;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel;
+using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Interactions;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Dialogs;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents.Commands.Handlers;
@@ -172,8 +173,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Configuration
                     var panelTypeBase = typeof(ListPanelViewModelBase<>);
                     var panelTypeBaseGen = panelTypeBase.MakeGenericType(type);
                     var panelTypeImpl = allTypes.GetDerivedTypes(panelTypeBaseGen).Single();
-                    var creatorTypeBase = typeof(ISingletonCreator<>);
-                    var creatorTypeImpl = typeof(_ListPanelViewModelCreator<,>);
+                    var creatorTypeBase = typeof(IListPanelViewModelCreator<>);
+                    var creatorTypeImpl = typeof(ListPanelViewModelCreator<,>);
                     var creatorTypeBaseGen = creatorTypeBase.MakeGenericType(panelTypeBaseGen);
                     var creatorTypeImplGen = creatorTypeImpl.MakeGenericType(panelTypeBaseGen, type);
 
@@ -236,8 +237,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Configuration
                     var editDocTypeBase = typeof(EditDocumentViewModelBase<>);
                     var editDocTypeBaseGen = editDocTypeBase.MakeGenericType(type);
                     var editDocTypeImpl = allTypes.GetDerivedTypes(editDocTypeBaseGen).Single();
-                    var creatorTypeBase = typeof(ISingletonCreatorForItem<,>);
-                    var creatorTypeImpl = typeof(_EditDocumentViewModelCreator<,>);
+                    var creatorTypeBase = typeof(IEditDocumentViewModelCreator<,>);
+                    var creatorTypeImpl = typeof(EditDocumentViewModelCreator<,>);
                     var creatorTypeBaseGen = creatorTypeBase.MakeGenericType(editDocTypeBaseGen, type);
                     var creatorTypeImplGen = creatorTypeImpl.MakeGenericType(editDocTypeBaseGen, type);
 

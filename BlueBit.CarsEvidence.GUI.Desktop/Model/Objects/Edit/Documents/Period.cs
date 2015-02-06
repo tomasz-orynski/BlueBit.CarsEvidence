@@ -3,6 +3,8 @@ using BlueBit.CarsEvidence.BL.Alghoritms;
 using BlueBit.CarsEvidence.BL.Repositories;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.General.Helpers;
 using BlueBit.CarsEvidence.GUI.Desktop.Services;
+using BlueBit.CarsEvidence.Commons.Helpers;
+using BlueBit.CarsEvidence.Commons.Linq;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -93,12 +95,12 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
                     {
                         if (entry.Day != null)
                             entry.Day = yearMonthDays.SingleOrDefault(_ => _.Number == entry.Day.Number);
-                        distanceCurr += entry.Distance;
+                        distanceCurr += entry.Distance ?? entry.Route.GetSafeValue(_ => _.Distance);
                     });
 
                 if (_Car != null && _Month != null)
                 {
-                    var distancePrev = _repository().GetTotalDistanceForPrevMonths(_Car.ID, _Year, _Month.Number);
+                    var distancePrev = _repository().GetDistanceTotalForPrevMonths(_Car.ID, _Year, _Month.Number);
                     CounterBegin = distancePrev;
                     CounterEnd = distancePrev + distanceCurr;
                 }
@@ -181,23 +183,23 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
                 ;
         }
 
-        protected override BL.Entities.Period OnCreate(BL.Entities.Period src)
+        protected override void OnAfterMap(BL.Entities.Period src, Period dst, Mode mode)
         {
-            var env = _enviromentService();
-            src.Year = env.GetCurrentYear();
-            src.Month = env.GetCurrentMonth();
-            return src;
-        }
+            if (!dst.IsFromDb())
+            {
+                var env = _enviromentService();
+                dst.Year = env.GetCurrentYear();
+                dst.Month = dst.AllMonths.Single(_ => _.Number == env.GetCurrentMonth());
+                dst.Car = dst.AllCars.OnlyOneOrDefault();
+            }
 
-        protected override void OnCreateUpdate(BL.Entities.Period src, Period dst, Mode mode)
-        {
             dst.Entries = _converterFromEntity().Convert(
                 dst, src,
                 src.PeriodEntries
                 );
         }
 
-        protected override void OnCreateUpdate(Period src, BL.Entities.Period dst, Mode mode)
+        protected override void OnAfterMap(Period src, BL.Entities.Period dst, Mode mode)
         {
             dst.PeriodEntries = _converterToEntity().Convert(
                 src, dst,

@@ -1,6 +1,4 @@
-﻿using BlueBit.CarsEvidence.BL;
-using BlueBit.CarsEvidence.BL.DTO.XML;
-using BlueBit.CarsEvidence.BL.Entities;
+﻿using BlueBit.CarsEvidence.BL.DTO.XML;
 using BlueBit.CarsEvidence.GUI.Desktop.Configuration.Attributes;
 using System;
 using System.Runtime.Serialization;
@@ -18,8 +16,6 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands.Handlers
     public abstract class DataCommandHandlerBase :
         IDataCommandHandler
     {
-
-
         public abstract CmdKey Key { get; }
 
         public bool CanExecute()

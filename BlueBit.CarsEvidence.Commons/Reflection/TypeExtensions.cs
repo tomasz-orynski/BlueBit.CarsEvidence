@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlueBit.CarsEvidence.Commons.Reflection
 {
@@ -30,6 +28,12 @@ namespace BlueBit.CarsEvidence.Commons.Reflection
         public static IEnumerable<Type> GetDerivedTypes<T>(this IEnumerable<Type> types)
         {
             return types.GetDerivedTypes(typeof(T));
+        }
+
+        public static bool IsDerivedFrom<T>(this Type @this)
+        {
+            Contract.Assert(@this != null);
+            return @this.IsSubclassOf(typeof(T));
         }
 
         public static bool HasAttribute<TAttr>(this Type @this)

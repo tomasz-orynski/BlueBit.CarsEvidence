@@ -3,12 +3,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
-    xmlns:localModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.Model.Objects"
-    xmlns:localViewModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels"
-    xmlns:cmd="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands"
+    xmlns:_bbcePanels="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels"
+    xmlns:_bbceInteractions="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Interactions"
+    xmlns:_bbceBevaviors="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Interactions.Behaviors"
 >
-    <DataTemplate DataType="{x:Type localViewModel:PersonsListPanelViewModel}">
-        <ListView ItemsSource="{Binding Items}" cmd:SortCommand.AutoSort="true">
+    <DataTemplate DataType="{x:Type _bbcePanels:PersonsListPanelViewModel}">
+        <ListView ItemsSource="{Binding Items}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Loaded">
                     <mvvm:EventToCommand Command="{Binding Path=EventCmdSelectectionChanged}" PassEventArgsToCommand="True" />
@@ -20,6 +20,10 @@
                     <mvvm:EventToCommand Command="{Binding Path=EventCmdMouseDoubleClick}" PassEventArgsToCommand="True" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
+            <i:Interaction.Behaviors>
+                <_bbceBevaviors:SortDefaultBehavior PropertyNames="Code" />
+                <_bbceBevaviors:SortColumnsBehavior />
+            </i:Interaction.Behaviors>
             <ListView.InputBindings>
                 <KeyBinding Key="Insert" Command="{Binding Path=EventCmdKeyInsertPressed}" />
                 <KeyBinding Key="Delete" Command="{Binding Path=EventCmdKeyDeletePressed}" />
@@ -42,19 +46,28 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn DisplayMemberBinding="{Binding Code}" cmd:SortCommand.PropertyName="Code">
+                    <GridViewColumn DisplayMemberBinding="{Binding Code}">
+                        <i:Interaction.Behaviors>
+                            <_bbceBevaviors:SortColumnBehavior PropertyName="Code" />
+                        </i:Interaction.Behaviors>
                         <GridViewColumn.Header>
                             <TextBlock Text="{StaticResource strObjectProp_Code}" ToolTip="{StaticResource strObjectProp_Code}" />
                         </GridViewColumn.Header>
                     </GridViewColumn>
 
-                    <GridViewColumn DisplayMemberBinding="{Binding FirstName}" cmd:SortCommand.PropertyName="FirstName">
+                    <GridViewColumn DisplayMemberBinding="{Binding FirstName}">
+                        <i:Interaction.Behaviors>
+                            <_bbceBevaviors:SortColumnBehavior PropertyName="FirstName" />
+                        </i:Interaction.Behaviors>
                         <GridViewColumn.Header>
                             <TextBlock Text="{StaticResource strObjectProp_FirstName_}" ToolTip="{StaticResource strObjectProp_FirstName}" />
                         </GridViewColumn.Header>
                     </GridViewColumn>
 
-                    <GridViewColumn DisplayMemberBinding="{Binding LastName}" cmd:SortCommand.PropertyName="LastName">
+                    <GridViewColumn DisplayMemberBinding="{Binding LastName}">
+                        <i:Interaction.Behaviors>
+                            <_bbceBevaviors:SortColumnBehavior PropertyName="LastName" />
+                        </i:Interaction.Behaviors>
                         <GridViewColumn.Header>
                             <TextBlock Text="{StaticResource strObjectProp_LastName}" ToolTip="{StaticResource strObjectProp_LastName}" />
                         </GridViewColumn.Header>

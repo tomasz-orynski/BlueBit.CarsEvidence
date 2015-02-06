@@ -5,13 +5,13 @@
     xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
     xmlns:localViewModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels"
 >
-
-    <Style TargetType="ListView">
+    <Style TargetType="{x:Type ListView}">
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     <Setter Property="ToolTip" Value="{Binding DescriptionForToolTip}" />
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
                 </Style>
             </Setter.Value>
         </Setter>
@@ -20,6 +20,36 @@
                 <ContextMenu 
                     ItemsSource="{Binding Commands.Items}"
                     ItemContainerStyle="{DynamicResource sCommandMenuItem}" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type GroupItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Expander IsExpanded="True">
+                        <Expander.Header>
+                            <StackPanel
+                                Orientation="Horizontal"
+                                >
+                                <Separator Width="30" />
+                                <TextBlock
+                                    FontWeight="Bold"
+                                    Margin="5,0,5,0"
+                                    >
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0}: #{1}">
+                                            <Binding Path="Name" />
+                                            <Binding Path="ItemCount" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </StackPanel>
+                        </Expander.Header>
+                        <ItemsPresenter />
+                    </Expander>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>

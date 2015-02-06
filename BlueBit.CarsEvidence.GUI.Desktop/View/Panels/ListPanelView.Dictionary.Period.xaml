@@ -3,74 +3,91 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
-    xmlns:localModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.Model.Objects"
-    xmlns:localViewModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels"
-    xmlns:cmd="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands"
+    xmlns:_bbcePanels="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels"
+    xmlns:_bbceInteractions="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Interactions"
+    xmlns:_bbceBevaviors="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Interactions.Behaviors"
 >
-    <DataTemplate DataType="{x:Type localViewModel:PeriodsListPanelViewModel}">
-        <ListView ItemsSource="{Binding Items}" cmd:SortCommand.AutoSort="True">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="Loaded">
-                    <mvvm:EventToCommand Command="{Binding Path=EventCmdSelectectionChanged}" PassEventArgsToCommand="True" />
-                </i:EventTrigger>
-                <i:EventTrigger EventName="SelectionChanged">
-                    <mvvm:EventToCommand Command="{Binding Path=EventCmdSelectectionChanged}" PassEventArgsToCommand="True" />
-                </i:EventTrigger>
-                <i:EventTrigger EventName="MouseDoubleClick">
-                    <mvvm:EventToCommand Command="{Binding Path=EventCmdMouseDoubleClick}" PassEventArgsToCommand="True" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            <ListView.InputBindings>
-                <KeyBinding Key="Insert" Command="{Binding Path=EventCmdKeyInsertPressed}" />
-                <KeyBinding Key="Delete" Command="{Binding Path=EventCmdKeyDeletePressed}" />
-                <KeyBinding Key="Enter" Command="{Binding Path=EventCmdKeyEnterPressed}" />
-                <MouseBinding Gesture="LeftDoubleClick" Command="{Binding Path=EventCmdMouseDoubleClick}" />
-            </ListView.InputBindings>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn>
-                        <GridViewColumn.Header>
-                            <CheckBox IsChecked="{Binding Path=EventCmdSelectectionChanged.SelectedState}" />
-                        </GridViewColumn.Header>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox 
+    <DataTemplate DataType="{x:Type _bbcePanels:PeriodsListPanelViewModel}">
+        <ContentControl>
+            <ListView ItemsSource="{Binding Items}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="Loaded">
+                        <mvvm:EventToCommand Command="{Binding Path=EventCmdSelectectionChanged}" PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <mvvm:EventToCommand Command="{Binding Path=EventCmdSelectectionChanged}" PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <mvvm:EventToCommand Command="{Binding Path=EventCmdMouseDoubleClick}" PassEventArgsToCommand="True" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <i:Interaction.Behaviors>
+                    <_bbceBevaviors:GroupDefaultBehavior PropertyNames="Car.Description,Year" />
+                    <_bbceBevaviors:SortDefaultBehavior PropertyNames="Car.Description,Year,Month" />
+                    <_bbceBevaviors:SortColumnsBehavior />
+                </i:Interaction.Behaviors>
+                <ListView.InputBindings>
+                    <KeyBinding Key="Insert" Command="{Binding Path=EventCmdKeyInsertPressed}" />
+                    <KeyBinding Key="Delete" Command="{Binding Path=EventCmdKeyDeletePressed}" />
+                    <KeyBinding Key="Enter" Command="{Binding Path=EventCmdKeyEnterPressed}" />
+                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding Path=EventCmdMouseDoubleClick}" />
+                </ListView.InputBindings>
+                <ListView.GroupStyle>
+                    <GroupStyle/>
+                </ListView.GroupStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn>
+                            <GridViewColumn.Header>
+                                <CheckBox IsChecked="{Binding Path=EventCmdSelectectionChanged.SelectedState}" />
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox 
                                     Tag="{Binding ID}" 
                                     IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}, Path=IsSelected}" 
                                     HorizontalAlignment="Center"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn>
+                            <i:Interaction.Behaviors>
+                                <_bbceBevaviors:SortColumnBehavior PropertyName="Code" />
+                            </i:Interaction.Behaviors>
+                            <GridViewColumn.Header>
+                                <TextBlock Text="{StaticResource strObjectProp_Code}" ToolTip="{StaticResource strObjectProp_Code}" />
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Code}" ToolTip="{Binding Code}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Car.Description}">
+                            <i:Interaction.Behaviors>
+                                <_bbceBevaviors:SortColumnBehavior PropertyName="Car.Description" />
+                            </i:Interaction.Behaviors>
+                            <GridViewColumn.Header>
+                                <TextBlock Text="{StaticResource strObjectProp_Car_}" ToolTip="{StaticResource strObjectProp_Car}" />
+                            </GridViewColumn.Header>
+                        </GridViewColumn>
 
-                    <GridViewColumn cmd:SortCommand.PropertyName="Code">
-                        <GridViewColumn.Header>
-                            <TextBlock Text="{StaticResource strObjectProp_Code}" ToolTip="{StaticResource strObjectProp_Code}" />
-                        </GridViewColumn.Header>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Code}" ToolTip="{Binding Code}" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-
-                    <GridViewColumn DisplayMemberBinding="{Binding Car.Description}" cmd:SortCommand.PropertyName="Car.Description">
-                        <GridViewColumn.Header>
-                            <TextBlock Text="{StaticResource strObjectProp_Car_}" ToolTip="{StaticResource strObjectProp_Car}" />
-                        </GridViewColumn.Header>
-                    </GridViewColumn>
-
-                    <GridViewColumn>
-                        <GridViewColumn.Header>
-                            <TextBlock Text="{StaticResource strObjectProp_DistanceTotal_}" ToolTip="{StaticResource strObjectProp_DistanceTotal}" />
-                        </GridViewColumn.Header>
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding DistanceTotal}" ToolTip="{Binding DistanceTotal}" HorizontalAlignment="Right" />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+                        <GridViewColumn>
+                            <i:Interaction.Behaviors>
+                                <_bbceBevaviors:SortColumnBehavior PropertyName="DistanceTotal" />
+                            </i:Interaction.Behaviors>
+                            <GridViewColumn.Header>
+                                <TextBlock Text="{StaticResource strObjectProp_DistanceTotal_}" ToolTip="{StaticResource strObjectProp_DistanceTotal}" />
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DistanceTotal}" ToolTip="{Binding DistanceTotal}" HorizontalAlignment="Right" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </ContentControl>
     </DataTemplate>
 </ResourceDictionary>

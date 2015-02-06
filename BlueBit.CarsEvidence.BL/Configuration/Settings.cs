@@ -16,6 +16,13 @@ namespace BlueBit.CarsEvidence.BL.Configuration
 {
     public static class Settings
     {
+#if DEBUG
+        public const string ConnectionStringKey = "CarsEvidence-DBG";
+#else
+        public const string ConnectionStringKey = "CarsEvidence-REL";
+#endif
+
+
         private static AutoPersistenceModel OverrideAllTypes(this AutoPersistenceModel model)
         {
             var cfgTypeGen = typeof(Entities.IEntityCfg);
@@ -31,7 +38,7 @@ namespace BlueBit.CarsEvidence.BL.Configuration
             return model;
         }
 
-        private static FluentConfiguration CreateConfiguration(string connectionStringKey)
+        private static FluentConfiguration CreateConfiguration(string connectionStringKey = ConnectionStringKey)
         {
             return Fluently
                 .Configure()
@@ -45,7 +52,7 @@ namespace BlueBit.CarsEvidence.BL.Configuration
                     );
         }
 
-        public static void RecreateSchema(string connectionStringKey)
+        public static void RecreateSchema(string connectionStringKey = ConnectionStringKey)
         {
             var config = CreateConfiguration(connectionStringKey)
                 .ExposeConfiguration(cfg =>
@@ -62,7 +69,7 @@ namespace BlueBit.CarsEvidence.BL.Configuration
             }
         }
 
-        public static ISessionFactory CreateSessionFactory(string connectionStringKey)
+        public static ISessionFactory CreateSessionFactory(string connectionStringKey = ConnectionStringKey)
         {
             return CreateConfiguration(connectionStringKey)
                 .BuildSessionFactory();

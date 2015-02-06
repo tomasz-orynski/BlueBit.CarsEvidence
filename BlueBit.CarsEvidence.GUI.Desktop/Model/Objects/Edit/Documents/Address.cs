@@ -9,7 +9,6 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
         EditDocumentObjectWithCodeBase
     {
         private string _PostalCode;
-        [Required]
         [MaxLength(BL.Configuration.Consts.LengthPostalCode)]
         [RegularExpression(BL.Configuration.Consts.MaskPostalCode)]
         public string PostalCode { get { return _PostalCode; } set { Set(ref _PostalCode, value); } }
@@ -32,5 +31,9 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
         private string _LocalNo;
         [MaxLength(BL.Configuration.Consts.LengthCode)]
         public string LocalNo { get { return _LocalNo; } set { Set(ref _LocalNo, value); } }
+
+        private string _Info;
+        [MaxLength(BL.Configuration.Consts.LengthInfo)]
+        public string Info { get { return _Info; } set { Set(ref _Info, value); } }
     }
 }

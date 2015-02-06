@@ -1,84 +1,16 @@
-﻿using BlueBit.CarsEvidence.Commons.Linq;
-using BlueBit.CarsEvidence.Commons.Reflection;
-using BlueBit.CarsEvidence.Commons.Templates;
-using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents;
-using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels;
-using BlueBit.CarsEvidence.GUI.Desktop.ViewModel;
-using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents;
-using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels;
+﻿using BlueBit.CarsEvidence.Commons.Reflection;
+using BlueBit.CarsEvidence.GUI.Desktop.Model.Attributes;
+using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects;
 using Microsoft.Practices.Unity;
 using System;
-using System.Linq;
-using _Attributes = BlueBit.CarsEvidence.GUI.Desktop.Model.Attributes;
-using _Objects = BlueBit.CarsEvidence.GUI.Desktop.Model.Objects;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.Configuration
 {
     partial class UnityContainerExtensions
     {
-        private class _ListPanelViewModelCreator<T, TItem> :
-            ISingletonCreator<T>
-            where T : ListPanelViewModelBase<TItem>
-            where TItem : ViewPanelObjectBase
-        {
-            private readonly Func<MainWindowViewModel> _model;
-            private readonly Func<T> _creator;
-
-            public _ListPanelViewModelCreator(
-                Func<MainWindowViewModel> model,
-                Func<T> creator)
-            {
-                _model = model;
-                _creator = creator;
-            }
-
-            public T Create()
-            {
-                var panel = _creator();
-                _model().AddPanelViewModel(panel);
-                return panel;
-            }
-
-            public T GetInstance()
-            {
-                return _model().PanelViewModels.Castable<T>().FirstOrDefault();
-            }
-        }
-
-        private class _EditDocumentViewModelCreator<T, TItem> :
-            ISingletonCreatorForItem<T, TItem>
-            where T : EditDocumentViewModelBase<TItem>
-            where TItem : EditDocumentObjectBase
-        {
-            private readonly Func<MainWindowViewModel> _model;
-            private readonly Func<T> _creator;
-
-            public _EditDocumentViewModelCreator(
-                Func<MainWindowViewModel> model,
-                Func<T> creator)
-            {
-                _model = model;
-                _creator = creator;
-            }
-
-            public T Create(TItem item)
-            {
-                var document = _creator();
-                document.Item = item;
-                _model().AddDocumentViewModel(document);
-                item.Validate();
-                return document;
-            }
-
-            public T GetInstance(TItem item)
-            {
-                return _model().DocumentViewModels.Castable<T>().FirstOrDefault(d => d.Item.Equals(item));
-            }
-        }
-
         private static Type GetConverterType(Type type, Type entityType)
         {
-            var converterType = type.GetAttribute<_Attributes.ConverterTypeAttribute>().ConverterType;
+            var converterType = type.GetAttribute<ConverterTypeAttribute>().ConverterType;
             if (converterType.IsGenericTypeDefinition)
             {
                 converterType = converterType.MakeGenericType(type, entityType);
@@ -87,7 +19,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Configuration
         }
 
         private static Type GetConverterType<T>(Type entityType)
-            where T : _Objects.ObjectBase
+            where T : ObjectBase
         {
             return GetConverterType(typeof(T), entityType);
         }
@@ -96,7 +28,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Configuration
         {
             return new InjectionFactory(c =>
             {
-                var instance = (_Objects.IConverterInstance)c.Resolve(type);
+                var instance = (IConverterInstance)c.Resolve(type);
                 return instance.Instance;
             });
         }

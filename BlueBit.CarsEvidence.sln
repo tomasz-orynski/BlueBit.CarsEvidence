@@ -18,6 +18,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{E74907
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0965CC58-62C9-4BF7-B2B0-7C4F1D00A6C9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BlueBit.CarsEvidence.DB", "BlueBit.CarsEvidence.DB", "{EF275AC9-8EAE-4ACD-9A82-2748B83BD45F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Empty", "Empty", "{57F106E0-E39E-4565-B238-9067B73EB596}"
+	ProjectSection(SolutionItems) = preProject
+		BlueBit.CarsEvidence.DB\Empty\BlueBit.CarsEvidence.Data.mdf = BlueBit.CarsEvidence.DB\Empty\BlueBit.CarsEvidence.Data.mdf
+		BlueBit.CarsEvidence.DB\Empty\BlueBit.CarsEvidence.Logs.ldf = BlueBit.CarsEvidence.DB\Empty\BlueBit.CarsEvidence.Logs.ldf
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Initialized", "Initialized", "{5D1AF42F-BCDF-4E93-86C7-487EFDFD22A6}"
+	ProjectSection(SolutionItems) = preProject
+		BlueBit.CarsEvidence.DB\Initialized\BlueBit.CarsEvidence.Data.mdf = BlueBit.CarsEvidence.DB\Initialized\BlueBit.CarsEvidence.Data.mdf
+		BlueBit.CarsEvidence.DB\Initialized\BlueBit.CarsEvidence.Logs.ldf = BlueBit.CarsEvidence.DB\Initialized\BlueBit.CarsEvidence.Logs.ldf
+	EndProjectSection
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "BlueBit.CarsEvidence.Setup.x64", "BlueBit.CarsEvidence.Setup.x64\BlueBit.CarsEvidence.Setup.x64.vdproj", "{81C79433-B625-4DB7-8540-E067920174F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,8 +58,15 @@ Global
 		{77827CAC-6645-4B19-AF2A-1DDF0FF16D2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77827CAC-6645-4B19-AF2A-1DDF0FF16D2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77827CAC-6645-4B19-AF2A-1DDF0FF16D2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81C79433-B625-4DB7-8540-E067920174F8}.Debug|Any CPU.ActiveCfg = Debug
+		{81C79433-B625-4DB7-8540-E067920174F8}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EF275AC9-8EAE-4ACD-9A82-2748B83BD45F} = {0965CC58-62C9-4BF7-B2B0-7C4F1D00A6C9}
+		{57F106E0-E39E-4565-B238-9067B73EB596} = {EF275AC9-8EAE-4ACD-9A82-2748B83BD45F}
+		{5D1AF42F-BCDF-4E93-86C7-487EFDFD22A6} = {EF275AC9-8EAE-4ACD-9A82-2748B83BD45F}
 	EndGlobalSection
 EndGlobal

@@ -3,12 +3,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
-    xmlns:localModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.Model.Objects"
-    xmlns:localViewModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels"
-    xmlns:cmd="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands"
+    xmlns:_bbcePanels="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels"
+    xmlns:_bbceInteractions="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Interactions"
+    xmlns:_bbceBevaviors="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Interactions.Behaviors"
 >
-    <DataTemplate DataType="{x:Type localViewModel:CarsListPanelViewModel}">
-        <ListView ItemsSource="{Binding Items}" cmd:SortCommand.AutoSort="true">
+    <DataTemplate DataType="{x:Type _bbcePanels:CarsListPanelViewModel}">
+        <ListView ItemsSource="{Binding Items}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Loaded">
                     <mvvm:EventToCommand Command="{Binding Path=EventCmdSelectectionChanged}" PassEventArgsToCommand="True" />
@@ -20,6 +20,10 @@
                     <mvvm:EventToCommand Command="{Binding Path=EventCmdMouseDoubleClick}" PassEventArgsToCommand="True" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
+            <i:Interaction.Behaviors>
+                <_bbceBevaviors:SortDefaultBehavior PropertyNames="Code" />
+                <_bbceBevaviors:SortColumnsBehavior />
+            </i:Interaction.Behaviors>
             <ListView.InputBindings>
                 <KeyBinding Key="Insert" Command="{Binding Path=EventCmdKeyInsertPressed}" />
                 <KeyBinding Key="Delete" Command="{Binding Path=EventCmdKeyDeletePressed}" />
@@ -42,58 +46,79 @@
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
 
-                    <GridViewColumn DisplayMemberBinding="{Binding Code}" cmd:SortCommand.PropertyName="Code">
+                    <GridViewColumn DisplayMemberBinding="{Binding Code}">
+                        <i:Interaction.Behaviors>
+                            <_bbceBevaviors:SortColumnBehavior PropertyName="Code" />
+                        </i:Interaction.Behaviors>
                         <GridViewColumn.Header>
                             <TextBlock Text="{StaticResource strObjectProp_Code}" ToolTip="{StaticResource strObjectProp_Code}" />
                         </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding RegisterNumber}" cmd:SortCommand.PropertyName="RegisterNumber">
+                    <GridViewColumn DisplayMemberBinding="{Binding RegisterNumber}">
+                        <i:Interaction.Behaviors>
+                            <_bbceBevaviors:SortColumnBehavior PropertyName="RegisterNumber" />
+                        </i:Interaction.Behaviors>
                         <GridViewColumn.Header>
                             <TextBlock Text="{StaticResource strObjectProp_RegisterNumber_}" ToolTip="{StaticResource strObjectProp_RegisterNumber}" />
                         </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding BrandInfo}" cmd:SortCommand.PropertyName="BrandInfo">
+                    <GridViewColumn DisplayMemberBinding="{Binding BrandInfo}">
+                        <i:Interaction.Behaviors>
+                            <_bbceBevaviors:SortColumnBehavior PropertyName="BrandInfo" />
+                        </i:Interaction.Behaviors>
                         <GridViewColumn.Header>
                             <TextBlock Text="{StaticResource strObjectProp_RegisterNumber_}" ToolTip="{StaticResource strObjectProp_RegisterNumber}" />
                         </GridViewColumn.Header>
                     </GridViewColumn>
-                    <GridViewColumn cmd:SortCommand.PropertyName="EvidenceDateBegin">
+                    <GridViewColumn>
+                        <i:Interaction.Behaviors>
+                            <_bbceBevaviors:SortColumnBehavior PropertyName="EvidenceBegin.Date" />
+                        </i:Interaction.Behaviors>
                         <GridViewColumn.Header>
                             <TextBlock Text="{StaticResource strObjectProp_EvidenceDateBegin_}" ToolTip="{StaticResource strObjectProp_EvidenceDateBegin}" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding EvidenceDateBegin, StringFormat={}{0:yyyy-MM-dd}}" HorizontalAlignment="Center" />
+                                <TextBlock Text="{Binding EvidenceBegin.Date, StringFormat={}{0:yyyy-MM-dd}}" HorizontalAlignment="Center" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn cmd:SortCommand.PropertyName="EvidenceDateEnd">
+                    <GridViewColumn>
+                        <i:Interaction.Behaviors>
+                            <_bbceBevaviors:SortColumnBehavior PropertyName="EvidenceEnd.Date" />
+                        </i:Interaction.Behaviors>
                         <GridViewColumn.Header>
                             <TextBlock Text="{StaticResource strObjectProp_EvidenceDateEnd_}" ToolTip="{StaticResource strObjectProp_EvidenceDateEnd}" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding EvidenceDateEnd, StringFormat={}{0:yyyy-MM-dd}}" HorizontalAlignment="Center" />
+                                <TextBlock Text="{Binding EvidenceEnd.Date, StringFormat={}{0:yyyy-MM-dd}}" HorizontalAlignment="Center" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn>
+                        <i:Interaction.Behaviors>
+                            <_bbceBevaviors:SortColumnBehavior PropertyName="EvidenceBegin.Counter" />
+                        </i:Interaction.Behaviors>
                         <GridViewColumn.Header>
                             <TextBlock Text="{StaticResource strObjectProp_EvidenceCounterBegin_}" ToolTip="{StaticResource strObjectProp_EvidenceCounterBegin}" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding EvidenceCounterBegin}" HorizontalAlignment="Right" />
+                                <TextBlock Text="{Binding EvidenceBegin.Counter}" HorizontalAlignment="Right" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn>
+                        <i:Interaction.Behaviors>
+                            <_bbceBevaviors:SortColumnBehavior PropertyName="EvidenceEnd.Counter" />
+                        </i:Interaction.Behaviors>
                         <GridViewColumn.Header>
                             <TextBlock Text="{StaticResource strObjectProp_EvidenceCounterEnd_}" ToolTip="{StaticResource strObjectProp_EvidenceCounterEnd}" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding EvidenceCounterEnd}" HorizontalAlignment="Right" />
+                                <TextBlock Text="{Binding EvidenceEnd.Counter}" HorizontalAlignment="Right" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

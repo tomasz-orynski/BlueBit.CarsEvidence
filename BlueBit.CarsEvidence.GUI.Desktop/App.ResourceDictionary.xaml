@@ -3,15 +3,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:syscol="clr-namespace:System.Collections;assembly=mscorlib"
+    xmlns:ad="http://schemas.xceed.com/wpf/xaml/avalondock"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:_ccViewModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel"
+    xmlns:_bbceViewModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel"
     d1p1:Ignorable="d"
     >
-    <_ccViewModel:ViewModelLocator x:Key="Locator" d:IsDataSource="True"/>
+    <_bbceViewModel:ViewModelLocator x:Key="Locator" d:IsDataSource="True"/>
+    <ad:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 
     <sys:String x:Key="strApp">CarsEvidence</sys:String>
-    <BitmapImage x:Key="imgApp" UriSource="Resources/Icons/globe-24.png" />
+    <BitmapImage x:Key="imgApp" UriSource="Resources/Icons/globe.png" />
     
     <sys:String x:Key="strApp_RibbonMenu_Key">P</sys:String>
     <sys:String x:Key="strApp_RibbonTab_Repository">Kartoteki</sys:String>
@@ -113,16 +115,21 @@
     <sys:Double x:Key="widthObjectPropType_Number_">60</sys:Double>
     <sys:Int32 x:Key="lenObjectPropType_Text">250</sys:Int32>
     <sys:Double x:Key="widthObjectPropType_Text">400</sys:Double>
-    <sys:Double x:Key="widthObjectPropType_Date">100</sys:Double>
+    <sys:Double x:Key="widthObjectPropType_Date">110</sys:Double>
 
     <sys:String x:Key="strObjectProp_ID">ID</sys:String>
     <sys:String x:Key="strObjectProp_Code">Kod</sys:String>
     <sys:Int32 x:Key="lenObjectProp_Code">30</sys:Int32>
     <sys:Double x:Key="widthObjectProp_Code">150</sys:Double>
+    <sys:Int32 x:Key="lenObjectProp_Info">4000</sys:Int32>
+    <sys:Double x:Key="widthObjectProp_Info">400</sys:Double>
+    <sys:Double x:Key="heightObjectProp_Info">50</sys:Double>
     <sys:Double x:Key="widthObjectProp_Description">150</sys:Double>
     <sys:Double x:Key="widthObjectProp_Description_">120</sys:Double>
     <sys:Int32 x:Key="lenObjectProp_Year">4</sys:Int32>
-    <sys:Double x:Key="widthObjectProp_Year">40</sys:Double>
+    <sys:Double x:Key="widthObjectProp_Year">50</sys:Double>
+    <sys:Double x:Key="widthObjectProp_Month">65</sys:Double>
+    <sys:Double x:Key="widthObjectProp_Day">65</sys:Double>
     <sys:Int32 x:Key="lenObjectProp_PostalCode">6</sys:Int32>
     <sys:Double x:Key="widthObjectProp_PostalCode">50</sys:Double>
     <sys:Int32 x:Key="lenObjectProp_IdentifierNIP">13</sys:Int32>
@@ -138,21 +145,26 @@
     <sys:String x:Key="strObjectProp_BrandInfo">Informacje o marce</sys:String>
     <sys:String x:Key="strObjectProp_BrandInfo_">Marka</sys:String>
 
+    <sys:String x:Key="strObjectProp_CounterBegEnd">Stany licznika</sys:String>
+
+    <sys:String x:Key="strObjectProp_EvidenceBegin">Rozpoczęcie ewidencji</sys:String>
     <sys:String x:Key="strObjectProp_EvidenceDateBegin">Data rozpoczęcia ewidencji</sys:String>
     <sys:String x:Key="strObjectProp_EvidenceDateBegin_">Data rozp.</sys:String>
-    
+    <sys:String x:Key="strObjectProp_EvidenceCounterBegin">Stan początkowy licznika</sys:String>
+    <sys:String x:Key="strObjectProp_EvidenceCounterBegin_">L. pocz.</sys:String>
+
+    <sys:String x:Key="strObjectProp_EvidenceEnd">Zakończenie ewidencji</sys:String>
     <sys:String x:Key="strObjectProp_EvidenceDateEnd">Data zakończenia ewidencji</sys:String>
     <sys:String x:Key="strObjectProp_EvidenceDateEnd_">Data zak.</sys:String>
-    
-    <sys:String x:Key="strObjectProp_EvidenceCounterBegin">Stan początkowy licznika</sys:String>
-    <sys:String x:Key="strObjectProp_EvidenceCounterBegin_">Licznik rozp.</sys:String>
-    
-    <sys:String x:Key="strObjectProp_EvidenceCounterEnd">Stan końcowy licznika </sys:String>
-    <sys:String x:Key="strObjectProp_EvidenceCounterEnd_">Licznik zak.</sys:String>
+    <sys:String x:Key="strObjectProp_EvidenceCounterEnd">Stan końcowy licznika</sys:String>
+    <sys:String x:Key="strObjectProp_EvidenceCounterEnd_">L. koń.</sys:String>
 
     <sys:String x:Key="strObjectProp_PostalCode">Kod pocztowy</sys:String>
     <sys:String x:Key="strObjectProp_PostalCode_">Kod</sys:String>
-    
+
+    <sys:String x:Key="strObjectProp_Info">Informacje</sys:String>
+
+
     <sys:String x:Key="strObjectProp_City">Miasto</sys:String>
     
     <sys:String x:Key="strObjectProp_StreetWithNo">Ulica/numer</sys:String>
@@ -188,7 +200,7 @@
     <sys:String x:Key="strObjectProp_DistanceTotal_">Odl.cał.</sys:String>
 
     <sys:String x:Key="strObjectProp_DistanceIsInBothDirections">Czy w obie strony</sys:String>
-    <sys:String x:Key="strObjectProp_DistanceIsInBothDirections_">TP</sys:String>
+    <sys:String x:Key="strObjectProp_DistanceIsInBothDirections_">OS</sys:String>
 
     <sys:String x:Key="strObjectProp_Period">Okres</sys:String>
     <sys:String x:Key="strObjectProp_Period_">Okres</sys:String>

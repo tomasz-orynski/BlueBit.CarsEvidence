@@ -30,6 +30,10 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
         [Required]
         public bool DistanceIsInBothDirections { get { return _DistanceIsInBothDirections; } set { Set(ref _DistanceIsInBothDirections, value); } }
 
+        private string _Info;
+        [MaxLength(BL.Configuration.Consts.LengthInfo)]
+        public string Info { get { return _Info; } set { Set(ref _Info, value); } }
+
         private readonly Func<IViewObjects<View.General.Address>> _addresses;
 
         public Route(

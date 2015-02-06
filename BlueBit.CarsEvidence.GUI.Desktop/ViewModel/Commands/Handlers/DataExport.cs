@@ -1,9 +1,5 @@
-﻿using BlueBit.CarsEvidence.BL.Entities;
-using BlueBit.CarsEvidence.BL.Repositories;
+﻿using BlueBit.CarsEvidence.BL.Repositories;
 using System.Windows;
-using System.Linq;
-using System.Runtime.Serialization;
-using BlueBit.CarsEvidence.BL;
 using Microsoft.Win32;
 using BlueBit.CarsEvidence.BL.DTO.XML;
 
@@ -12,8 +8,6 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands.Handlers
     public class DataExportCommandHandler :
         DataCommandHandlerBase
     {
-
-
         private readonly IDbRepositories _entitiesRepository;
 
         public override CmdKey Key { get { return CmdKey.Export; } }

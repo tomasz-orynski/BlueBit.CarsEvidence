@@ -9,18 +9,21 @@ namespace BlueBit.CarsEvidence.BL.Entities
     public class Address :
         EntityWithCodeBase
     {
-        [Required]
         [MaxLength(Configuration.Consts.LengthPostalCode)]
         public virtual string PostalCode { get; set; }
         [Required]
+        [MaxLength(Configuration.Consts.LengthText)]
         public virtual string City { get; set; }
         [Required]
+        [MaxLength(Configuration.Consts.LengthText)]
         public virtual string Street { get; set; }
         [Required]
         [MaxLength(Configuration.Consts.LengthCode)]
         public virtual string BuildingNo { get; set; }
         [MaxLength(Configuration.Consts.LengthCode)]
         public virtual string LocalNo { get; set; }
+        [MaxLength(Configuration.Consts.LengthInfo)]
+        public virtual string Info { get; set; }
 
         public virtual ISet<Company> Companies { get; set; }
         public virtual ISet<Route> Routes { get; set; }

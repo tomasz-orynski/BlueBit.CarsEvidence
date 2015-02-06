@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
 using System.Runtime.Serialization;
+using System.Linq;
 
 namespace BlueBit.CarsEvidence.BL.Entities
 {
     public class Route :
-        EntityWithCodeBase,
-        IRoute
+        EntityWithCodeBase
     {
         [Required]
         public virtual Address AddressFrom { get; set; }
@@ -18,12 +18,19 @@ namespace BlueBit.CarsEvidence.BL.Entities
         public virtual long Distance { get; set; }
         [Required]
         public virtual bool DistanceIsInBothDirections { get; set; }
+        [MaxLength(Configuration.Consts.LengthInfo)]
+        public virtual string Info { get; set; }
 
         public virtual ISet<PeriodEntry> PeriodEntries { get; set; }
 
         public override void Init()
         {
             PeriodEntries = PeriodEntries ?? new HashSet<PeriodEntry>();
+        }
+
+        public override IEnumerable<IEntity> GetDependentEntities()
+        {
+            return PeriodEntries.Select(_ => _.Period);
         }
     }
 
@@ -37,8 +44,6 @@ namespace BlueBit.CarsEvidence.BL.Entities
 
             entry.Route = @this;
             @this.PeriodEntries.Add(entry);
-            if (entry.Distance == default(long))
-                entry.Distance = @this.Distance;
             return entry;
         }
     }

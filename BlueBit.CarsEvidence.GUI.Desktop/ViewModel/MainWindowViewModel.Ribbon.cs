@@ -63,7 +63,6 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel
             showCmds
                 .OrderBy(_ => App.VisibleTypesOrder[_.Key])
                 .Each(_ => _.Value.Command.Execute(null));
-
             return new CommandsGroupsViewModel(cmds);
         }
         private static CommandsGroupsViewModel CreateRepositoryExtraCommandsGroups(

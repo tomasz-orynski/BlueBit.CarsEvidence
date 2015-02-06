@@ -9,9 +9,14 @@ namespace BlueBit.CarsEvidence.BL.Entities
         EntityWithCodeBase
     {
         [Required]
+        [MaxLength(Configuration.Consts.LengthText)]
         public virtual string FirstName { get; set; }
         [Required]
+        [MaxLength(Configuration.Consts.LengthText)]
         public virtual string LastName { get; set; }
+
+        [MaxLength(Configuration.Consts.LengthInfo)]
+        public virtual string Info { get; set; }
 
         public virtual ISet<PeriodEntry> PeriodEntries { get; set; }
 

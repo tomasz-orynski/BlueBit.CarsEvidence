@@ -32,6 +32,9 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel
         private readonly ObservableCollection<Documents.DocumentViewModelBase> _documentViewModels = new ObservableCollection<Documents.DocumentViewModelBase>();
         public ObservableCollection<Documents.DocumentViewModelBase> DocumentViewModels { get { return _documentViewModels; } }
 
+        private ViewModelBase _activeViewModel;
+        public ViewModelBase ActiveViewModel { get { return _activeViewModel; } set { Set(ref _activeViewModel, value); } }
+
         public override sealed string Title { 
             get {
                 var appNameVer = this.GetAppNameVersion();
@@ -51,7 +54,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel
             Func<ISettingsCommandHandler> settingsCommand
             )
         {
-            _item = objectSet.Items[0];
+            _item = objectSet.Items.FirstOrDefault();
             _repositoryCommandsGroups = new Lazy<CommandsGroupsViewModel>(() => CreateRepositoryCommandsGroups(showCommands, addCommands, editAllCommands));
             _repositoryExtraCommandsGroups = new Lazy<CommandsGroupsViewModel>(() => CreateRepositoryExtraCommandsGroups(dataCommands));
 

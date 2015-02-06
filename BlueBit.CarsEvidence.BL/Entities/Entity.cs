@@ -1,6 +1,8 @@
 ﻿using FluentNHibernate.Automapping;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace BlueBit.CarsEvidence.BL.Entities
@@ -9,6 +11,7 @@ namespace BlueBit.CarsEvidence.BL.Entities
         Repositories.IObjectInRepository,
         Alghoritms.IObjectWithGetID
     {
+        IEnumerable<IEntity> GetDependentEntities();
     }
 
     public interface IEntityWithCode :
@@ -22,6 +25,10 @@ namespace BlueBit.CarsEvidence.BL.Entities
         Repositories.ObjectInRepositoryBase,
         IEntity
     {
+        public virtual IEnumerable<IEntity> GetDependentEntities()
+        {
+            return Enumerable.Empty<IEntity>();
+        }
     }
 
     [DebuggerDisplay("ID={ID},Code={Code}")]

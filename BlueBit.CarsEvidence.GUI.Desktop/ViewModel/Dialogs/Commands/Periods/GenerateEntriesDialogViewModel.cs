@@ -10,6 +10,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlueBit.CarsEvidence.Commons.Linq;
 using BlueBit.CarsEvidence.GUI.Desktop.Model;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Dialogs.Commands.Periods
@@ -52,6 +53,11 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Dialogs.Commands.Periods
         {
             _persons = persons;
             _routes = routes;
+
+            _OnlyWorkDays = true;
+            _Person = AllPersons.OnlyOneOrDefault();
+            _Route = AllRoutes.OnlyOneOrDefault();
+
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BlueBit.CarsEvidence.BL.Repositories;
+using BlueBit.CarsEvidence.Commons.Linq;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.General.Helpers;
 using System;
 using System.Collections.ObjectModel;
@@ -35,9 +36,26 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
         [Required]
         public View.General.Route Route { get { return _Route; } set { Set(ref _Route, value, OnChangeRoute); } }
 
-        private long _Distance;
-        [Required]
-        public long Distance { get { return _Distance; } set { Set(ref _Distance, value); } }
+        private long? _Distance;
+        public long? Distance { get { return _Distance; } set { Set(ref _Distance, value); } }
+
+        public bool DistanceState { 
+            get { return _Distance.HasValue; } 
+            set { 
+                if (value)
+                {
+                    Distance = _Route != null ? _Route.Distance : 0;
+                }
+                else
+                {
+                    Distance = null;
+                }
+            }
+        }
+        public long DistanceValue { 
+            get { return _Distance ?? 0; } 
+            set { Distance = value; } 
+        }
 
         public Brush Colour
         {
@@ -59,7 +77,9 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
         static PeriodEntry()
         {
             RegisterPropertyDependency<PeriodEntry>()
-                .Add(x => x.Colour, x => x.Day);
+                .Add(x => x.Colour, x => x.Day)
+                .Add(x => x.DistanceState, x => x.Distance)
+                .Add(x => x.DistanceValue, x => x.Distance);
         }
 
         public PeriodEntry(
@@ -112,6 +132,14 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
                 .ForMember(
                     r => r.Day,
                     cfg => cfg.Ignore()
+                )
+                .ForMember(
+                    r => r.DistanceState,
+                    cfg => cfg.Ignore()
+                )
+                .ForMember(
+                    r => r.DistanceValue,
+                    cfg => cfg.Ignore()
                 );
         }
 
@@ -146,6 +174,11 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
         {
             dst.Period = ctx.Item1;
             dst.Day = ctx.Item1.YearMonthDays.SingleOrDefault(_ => _.Number == src.Day);
+            if (!dst.IsFromDb())
+            {
+                dst.Person = dst.AllPersons.OnlyOneOrDefault();
+                dst.Route = dst.AllRoutes.OnlyOneOrDefault();
+            }
         }
 
         protected override void OnCreateUpdate(Tuple<Period, BL.Entities.Period> ctx, PeriodEntry src, BL.Entities.PeriodEntry dst)

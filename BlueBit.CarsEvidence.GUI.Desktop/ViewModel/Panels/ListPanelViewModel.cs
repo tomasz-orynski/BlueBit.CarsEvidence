@@ -1,13 +1,10 @@
-﻿using BlueBit.CarsEvidence.Commons.Reflection;
-using BlueBit.CarsEvidence.Commons.Templates;
+﻿using BlueBit.CarsEvidence.Commons.Templates;
 using BlueBit.CarsEvidence.GUI.Desktop.Model;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects;
-using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents;
-using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels;
-using BlueBit.CarsEvidence.GUI.Desktop.ViewModel;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands;
+using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands.Handlers;
 using System;
 using System.Collections.Generic;
@@ -82,14 +79,14 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels
     {
         public IViewObjects<TView> ObjectSet { get; private set; }
         public IAddCommandHandler<TEdit> CmdAdd { get; private set; }
-        public Commands.IEditCommandHandler<TEdit> CmdEdit { get; private set; }
-        public Commands.IDeleteCommandHandler<TEdit> CmdDelete { get; private set; }
+        public IEditCommandHandler<TEdit> CmdEdit { get; private set; }
+        public IDeleteCommandHandler<TEdit> CmdDelete { get; private set; }
 
         public ListPanelViewModelBaseParamSet(
             IViewObjects<TView> objectSet,
             IAddCommandHandler<TEdit> cmdAdd,
-            Commands.IEditCommandHandler<TEdit> cmdEdit,
-            Commands.IDeleteCommandHandler<TEdit> cmdDelete
+            IEditCommandHandler<TEdit> cmdEdit,
+            IDeleteCommandHandler<TEdit> cmdDelete
             )
         {
             Contract.Assert(EntityTypeDict.GetValueForObjectType<TView>() == EntityTypeDict.GetValueForObjectType<TEdit>());
@@ -111,10 +108,9 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels
             )
             : base(parameters.ObjectSet)
         {
-            //TODO - przerobić na opóźnione tworzenie...
-            Commands.Add(_CreateCommand(
+            Commands.Add(CreateCommand(
                 CmdKey.Add,
-                parameters.CmdAdd.Execute, parameters.CmdAdd.CanExecute));
+                parameters.CmdAdd));
             Commands.Add(CreateCommandForSelected(
                 CmdKey.Edit,
                 parameters.CmdEdit));

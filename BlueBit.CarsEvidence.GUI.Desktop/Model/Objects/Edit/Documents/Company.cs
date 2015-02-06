@@ -32,6 +32,10 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
         private View.General.Address _Address;
         public View.General.Address Address { get { return _Address; } set { Set(ref _Address, value); } }
 
+        private string _Info;
+        [MaxLength(BL.Configuration.Consts.LengthInfo)]
+        public string Info { get { return _Info; } set { Set(ref _Info, value); } }
+
         private readonly Func<IViewObjects<View.General.Address>> _addresses;
 
         public Company(

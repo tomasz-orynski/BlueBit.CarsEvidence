@@ -2,20 +2,17 @@
 using System.Windows;
 using System.Windows.Interactivity;
 
-namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Behaviors
+namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Interactions.Behaviors
 {
-    public class WindowCloseBehavior : Behavior<Window>
+    public class WindowCloseBehavior : 
+        Behavior<Window>
     {
-        public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register(
-            PropertyHelper<WindowCloseBehavior>.GetPropertyName(_ => _.ViewModel),
-            typeof(IViewModelWithClose),
-            typeof(WindowCloseBehavior),
-            new FrameworkPropertyMetadata(null, OnViewModelChanged));
+        public static readonly DependencyProperty ViewModelProperty = BehaviorBase
+            .ForType<WindowCloseBehavior>.RegisterProperty(_ => _.ViewModel, new FrameworkPropertyMetadata(null, OnViewModelChanged));
 
-        public object ViewModel
+        public IViewModelWithClose ViewModel
         {
-            get { return GetValue(ViewModelProperty); }
+            get { return (IViewModelWithClose)GetValue(ViewModelProperty); }
             set { SetValue(ViewModelProperty, value); }
         }
 

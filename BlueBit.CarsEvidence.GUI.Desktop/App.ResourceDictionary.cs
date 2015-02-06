@@ -1,5 +1,6 @@
 ﻿using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 
@@ -42,9 +43,18 @@ namespace BlueBit.CarsEvidence.GUI.Desktop
 
             public static T GetResource<T>(string key)
             {
-                return (T)App.Current.FindResource(key);
+                try
+                {
+                    var resource = App.Current.FindResource(key);
+                    Debug.Assert(resource != null);
+                    return (T)resource;
+                }
+                catch
+                {
+                    Debug.Assert(false);
+                    throw;
+                }
             }
-
         }
     }
 }

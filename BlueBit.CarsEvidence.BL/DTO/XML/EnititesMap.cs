@@ -11,6 +11,15 @@ using System.Diagnostics.Contracts;
 namespace BlueBit.CarsEvidence.BL.DTO.XML
 {
     [DataContract(Namespace = Consts.Namespace_DTO_XML)]
+    public class CounterState
+    {
+        [DataMember]
+        public DateTime Date { get; set; }
+        [DataMember]
+        public long Counter { get; set; }
+    }
+
+    [DataContract(Namespace = Consts.Namespace_DTO_XML)]
     public abstract class DTOBase 
     {
         [DataMember(Order = 0)]
@@ -30,6 +39,8 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
         DTOWithCodeBase
     {
         [DataMember]
+        public string Info { get; set; }
+        [DataMember]
         public string PostalCode { get; set; }
         [DataMember]
         public string City { get; set; }
@@ -46,6 +57,8 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
         DTOWithCodeBase
     {
         [DataMember]
+        public string Info { get; set; }
+        [DataMember]
         public string Name { get; set; }
         [DataMember]
         public string IdentifierNIP { get; set; }
@@ -60,23 +73,23 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
         DTOWithCodeBase
     {
         [DataMember]
+        public string Info { get; set; }
+        [DataMember]
         public string RegisterNumber { get; set; }
         [DataMember]
         public string BrandInfo { get; set; }
         [DataMember]
-        public DateTime EvidenceDateBegin { get; set; }
+        public CounterState EvidenceBegin { get; set; }
         [DataMember]
-        public DateTime? EvidenceDateEnd { get; set; }
-        [DataMember]
-        public long EvidenceCounterBegin { get; set; }
-        [DataMember]
-        public long? EvidenceCounterEnd { get; set; }
+        public CounterState EvidenceEnd { get; set; }
     }
 
     [DataContract(Namespace = Consts.Namespace_DTO_XML)]
     public class Person :
         DTOWithCodeBase
     {
+        [DataMember]
+        public string Info { get; set; }
         [DataMember]
         public string FirstName { get; set; }
         [DataMember]
@@ -108,13 +121,15 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
         [DataMember]
         public long RouteID { get; set; }
         [DataMember]
-        public long Distance { get; set; }
+        public long? Distance { get; set; }
     }
 
     [DataContract(Namespace = Consts.Namespace_DTO_XML)]
     public class Route :
         DTOWithCodeBase
     {
+        [DataMember]
+        public string Info { get; set; }
         [DataMember]
         public long AddressFromID { get; set; }
         [DataMember]
@@ -160,6 +175,7 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
 
         static DataEXP()
         {
+            Mapper.CreateMap<Entities.Components.CounterState, CounterState>();
             Mapper.CreateMap<Entities.Address, Address>();
             Mapper.CreateMap<Entities.Car, Car>();
             Mapper.CreateMap<Entities.Company, Company>();
@@ -177,11 +193,20 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
         }
 
         private IEnumerable<TDTO> GetAll<TEntity, TDTO>()
-             where TEntity : class, IObjectInRepository
+            where TEntity : class, IObjectInRepository
         {
             return _entitiesRepository
                 .GetAll<TEntity>()
                 .Select(Mapper.Map<TEntity, TDTO>);
+        }
+
+        private TDTO[] GetAllInArray<TEntity, TDTO>()
+            where TEntity : class, IObjectInRepository
+            where TDTO: DTOWithCodeBase
+        {
+            return GetAll<TEntity, TDTO>()
+                .OrderBy(_ => _.Code)
+                .ToArray();
         }
 
         [DataMember(Order = 0)]
@@ -195,15 +220,15 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
         }
 
         [DataMember(Order = 1)]
-        public Person[] Persons { get { return GetAll<Entities.Person, Person>().ToArray(); } }
+        public Person[] Persons { get { return GetAllInArray<Entities.Person, Person>(); } }
         [DataMember(Order = 2)]
-        public Car[] Cars { get { return GetAll<Entities.Car, Car>().ToArray(); } }
+        public Car[] Cars { get { return GetAllInArray<Entities.Car, Car>(); } }
         [DataMember(Order = 3)]
-        public Address[] Addresses { get { return GetAll<Entities.Address, Address>().ToArray(); } }
+        public Address[] Addresses { get { return GetAllInArray<Entities.Address, Address>(); } }
         [DataMember(Order = 4)]
-        public Route[] Routes { get { return GetAll<Entities.Route, Route>().ToArray(); } }
+        public Route[] Routes { get { return GetAllInArray<Entities.Route, Route>(); } }
         [DataMember(Order = 5)]
-        public Period[] Periods { get { return GetAll<Entities.Period, Period>().ToArray(); } }
+        public Period[] Periods { get { return GetAll<Entities.Period, Period>().OrderBy(_ => Tuple.Create(_.Year, _.Month)).ToArray(); } }
     }
 
     [DataContract(Namespace = Consts.Namespace_DTO_XML)]
@@ -219,6 +244,7 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
 
         static DataIMP()
         {
+            Mapper.CreateMap<CounterState, Entities.Components.CounterState>();
             PrepareMap<Address, Entities.Address>();
             PrepareMap<Car, Entities.Car>();
             PrepareMap<Company, Entities.Company>();
@@ -373,10 +399,10 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
             }
 
             return _company.MakeEnumerable<Entities.EntityBase>()
-                .Union(_addresses.Values)
-                .Union(_persons.Values)
-                .Union(_cars.Values)
-                .Union(_routes.Values)
+                .Union(_addresses.Values.OrderBy(_ => _.Code))
+                .Union(_persons.Values.OrderBy(_ => _.Code))
+                .Union(_cars.Values.OrderBy(_ => _.Code))
+                .Union(_routes.Values.OrderBy(_ => _.Code))
                 .Union(_periods.Values)
                 ;
         }

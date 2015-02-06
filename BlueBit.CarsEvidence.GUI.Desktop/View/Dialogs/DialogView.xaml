@@ -3,15 +3,15 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    xmlns:_ccBevaviors="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Behaviors"
+    xmlns:_bbceBevaviors="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Interactions.Behaviors"
     SizeToContent="WidthAndHeight" 
     WindowStartupLocation="CenterOwner" 
     ResizeMode="NoResize"
     Title="{Binding Title}"
-    Icon="{StaticResource imgApp}"
     >
     <i:Interaction.Behaviors>
-        <_ccBevaviors:WindowCloseBehavior ViewModel="{Binding}" />
+        <_bbceBevaviors:WindowCloseBehavior ViewModel="{Binding}" />
+        <_bbceBevaviors:IconBehavior />
     </i:Interaction.Behaviors>
 
     <Window.Resources>

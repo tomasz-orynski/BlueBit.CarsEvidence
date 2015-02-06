@@ -19,10 +19,8 @@ using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Dialogs;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.Configuration
 {
-
     internal static class Settings
     {
-        public const string ConnectionStringKey = "CarsEvidence";
         private static readonly IUnityContainer container = RegisterTypes();
 
         private static IUnityContainer RegisterTypes()
@@ -34,7 +32,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Configuration
 
             Func<LifetimeManager> getLifeTimeMgr = () => new ContainerControlledLifetimeManager();
             return new UnityContainer()
-                .RegisterType<ISessionFactory>(new InjectionFactory((c) => BL.Configuration.Settings.CreateSessionFactory(ConnectionStringKey)))
+                .RegisterType<ISessionFactory>(new InjectionFactory((c) => BL.Configuration.Settings.CreateSessionFactory()))
                 .RegisterType<ISession>(new InjectionFactory((c) => c.Resolve<ISessionFactory>().OpenSession()))
                 .RegisterType<IDbRepositories, DbRepositories>(getLifeTimeMgr())
                 .RegisterType<Repositories, Repositories>(getLifeTimeMgr())

@@ -15,8 +15,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.General.Helpers
         public Tuple<int,byte> YearMonth { get; set; }
         public byte Number { get; set; }
 
-        public string Name { get { return CultureInfo.CurrentUICulture.DateTimeFormat.DayNames[(int)_dayOfWeak]; } }
-        public string Description { get { return string.Format("{0}. {1}", Number, Name); } }
+        public string Name { get { return CultureInfo.CurrentUICulture.DateTimeFormat.AbbreviatedDayNames[(int)_dayOfWeak]; } }
+        public string Description { get { return string.Format("{0:D2}. {1}", Number, Name); } }
         public string DescriptionForTitle { get { return string.Format("{0}. {1}", Number, Name); } }
 
         public bool IsWeekend { get { return _dayOfWeak == DayOfWeek.Sunday || _dayOfWeak == DayOfWeek.Saturday; } }
@@ -28,6 +28,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.General.Helpers
             var dt = new DateTime(yearMonth.Item1, yearMonth.Item2, number);
             _dayOfWeak = dt.DayOfWeek;
         }
+
+        public int CompareTo(object obj) { return this.CompareDescriptionTo(obj); }
     }
 
     public static class DayExtensions

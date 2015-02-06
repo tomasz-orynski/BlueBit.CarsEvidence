@@ -1,10 +1,12 @@
 ﻿using BlueBit.CarsEvidence.GUI.Desktop.ViewModel;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Ribbon;
+using System.Windows.Media.Imaging;
 using Xceed.Wpf.AvalonDock.Layout;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.View

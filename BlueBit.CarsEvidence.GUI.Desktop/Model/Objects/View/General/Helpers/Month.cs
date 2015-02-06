@@ -9,10 +9,12 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.General.Helpers
         IViewGeneralObject
     {
         public byte Number { get; set; }
-        public string Name { get { return CultureInfo.CurrentUICulture.DateTimeFormat.GetMonthName(Number); } }
+        public string Name { get { return CultureInfo.CurrentUICulture.DateTimeFormat.AbbreviatedMonthNames[Number-1]; } }
 
-        public string Description { get { return string.Format("{0}. {1}", Number, Name); } }
+        public string Description { get { return string.Format("{0:D2}. {1}", Number, Name); } }
         public string DescriptionForTitle { get { return string.Format("{0}. {1}", Number, Name); } }
+
+        public int CompareTo(object obj) { return this.CompareDescriptionTo(obj); }
     }
 
     public static class MonthExtensions

@@ -1,12 +1,8 @@
-﻿using BlueBit.CarsEvidence.BL;
-using BlueBit.CarsEvidence.BL.Entities;
+﻿using BlueBit.CarsEvidence.BL.DTO.XML;
 using BlueBit.CarsEvidence.GUI.Desktop.Model;
 using Microsoft.Win32;
 using System.Linq;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Windows;
-using BlueBit.CarsEvidence.BL.DTO.XML;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands.Handlers
 {

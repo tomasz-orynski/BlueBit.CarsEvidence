@@ -36,7 +36,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands
 
         private T GetResource<T>(string frmt)
         {
-            return (T)App.Current.FindResource(string.Format(frmt, Key));
+            return App.ResourceDictionary.GetResource<T>(string.Format(frmt, Key));
         }
 
         public string Name { get { return GetResource<string>(App.ResourceDictionary.StrCmd); } }
@@ -59,9 +59,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands
         public ICmdGrpKey Key { get; set; }
         public IEnumerable<CommandInfo> Commands { get; set; }
 
-        private T GetResource<T>(string resKey) { return (T)App.Current.FindResource(resKey); }
-
-        public string Name { get { return GetResource<string>(Key.NameKey); } }
-        public ImageSource ImageSource { get { return GetResource<BitmapImage>(Key.ImageSourceKey); } }
+        public string Name { get { return App.ResourceDictionary.GetResource<string>(Key.NameKey); } }
+        public ImageSource ImageSource { get { return App.ResourceDictionary.GetResource<BitmapImage>(Key.ImageSourceKey); } }
     }
 }

@@ -113,7 +113,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands
                 var selCnt = _source.SelectedItems.Count;
                 if (selCnt == 0) return false;
 
-                var src = (ObservableCollection<T>)_source.ItemsSource;
+                dynamic src = _source.ItemsSource; 
                 var srcCnt = src.Count;
                 if (srcCnt == selCnt) return true;
 
@@ -179,7 +179,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands
             }
         }
 
-        public virtual bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
             RaisePropertyChanged(() => SelectedCount);
             return true;

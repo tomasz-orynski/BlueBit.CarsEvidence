@@ -14,8 +14,8 @@ namespace BlueBit.CarsEvidence.BL.Entities
         public virtual Person Person { get; set; }
         [Required]
         public virtual Route Route { get; set; }
-        [Required]
-        public virtual long Distance { get; set; }
+
+        public virtual long? Distance { get; set; }
 
         public override void Init()
         {

@@ -1,10 +1,10 @@
-﻿using FluentNHibernate.Automapping;
+﻿using BlueBit.CarsEvidence.BL.Alghoritms;
+using BlueBit.CarsEvidence.Commons.Linq;
+using FluentNHibernate.Automapping;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace BlueBit.CarsEvidence.BL.Entities
 {
@@ -17,6 +17,11 @@ namespace BlueBit.CarsEvidence.BL.Entities
         public virtual byte Month { get; set; }
         [Required]
         public virtual Car Car { get; set; }
+        [Required]
+        public virtual long DistanceTotal {
+            get { return PeriodEntries.GetDistanceTotal(); }
+            set { }
+        }
 
         public virtual ISet<PeriodEntry> PeriodEntries { get; set; }
 

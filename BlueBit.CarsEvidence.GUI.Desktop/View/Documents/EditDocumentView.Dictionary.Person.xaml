@@ -3,16 +3,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
-    xmlns:localModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents"
-    xmlns:localViewModel="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents"
+    xmlns:_bbceDocuments="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents"
 >
-    <DataTemplate DataType="{x:Type localViewModel:PersonEditDocumentViewModel}">
+    <DataTemplate DataType="{x:Type _bbceDocuments:PersonEditDocumentViewModel}">
         <Grid DataContext="{Binding Item}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
                 <RowDefinition></RowDefinition>
@@ -45,6 +45,20 @@
                 Text="{Binding LastName, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                 MaxLength="{StaticResource lenObjectPropType_Text}"
                 Width="{StaticResource widthObjectPropType_Text}"/>
+
+            <Label 
+                Grid.Row="4" Grid.Column="0" 
+                Content="{StaticResource strObjectProp_Info}"/>
+            <TextBox 
+                Grid.Row="4" Grid.Column="1" 
+                Text="{Binding Info, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                MaxLength="{StaticResource lenObjectProp_Info}"
+                Width="{StaticResource widthObjectProp_Info}"
+                Height="{StaticResource heightObjectProp_Info}"
+                AcceptsReturn="True"
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Auto"
+                />
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

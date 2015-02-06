@@ -40,5 +40,18 @@ namespace BlueBit.CarsEvidence.Commons.Linq
         {
             yield return @this;
         }
+
+        public static T OnlyOneOrDefault<T>(this IEnumerable<T> @this)
+        {
+            var i = 0;
+            var t = default(T);
+            foreach (var item in @this)
+            {
+                if (++i > 1)
+                    return default(T);
+                t = item;
+            }
+            return t;
+        }
     }
 }

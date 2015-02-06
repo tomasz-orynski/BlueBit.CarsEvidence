@@ -58,6 +58,9 @@ namespace BlueBit.CarsEvidence.BL.Repositories
         }
     }
 
+    public abstract class ComponentBase
+    {
+    }
 
     public interface IDbRepository
     {
@@ -165,10 +168,10 @@ namespace BlueBit.CarsEvidence.BL.Repositories
                 DeleteAll_<PeriodEntry>();
                 DeleteAll_<Period>();
                 DeleteAll_<Route>();
-                DeleteAll_<Address>();
                 DeleteAll_<Car>();
                 DeleteAll_<Person>();
                 DeleteAll_<Company>();
+                DeleteAll_<Address>();
             });
         }
 
