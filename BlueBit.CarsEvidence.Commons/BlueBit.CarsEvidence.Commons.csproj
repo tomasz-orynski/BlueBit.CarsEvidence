@@ -54,6 +54,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\PropertyHelper.cs" />
     <Compile Include="Templates\ObjectForType.cs" />
+    <Compile Include="Templates\ObjectsWith.cs" />
+    <Compile Include="Templates\ObjectWith.cs" />
     <Compile Include="Templates\ObjectWithItem.cs" />
     <Compile Include="Templates\ObjectWithItems.cs" />
   </ItemGroup>

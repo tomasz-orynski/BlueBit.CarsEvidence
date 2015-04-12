@@ -7,18 +7,18 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels
     [Attributes.EntityType(typeof(BL.Entities.Car))]
     [Attributes.ConverterType(typeof(ViewObjectConverter<,>))]
     public class Car :
-        ViewPanelObjectWithCodeBase
+        ViewPanelObjectWithCodeInfoBase
     {
         private string _registerNumber;
-        public string RegisterNumber { get { return _registerNumber; } set { Set(ref _registerNumber, value); } }
+        public string RegisterNumber { get { return _registerNumber; } set { _Set(ref _registerNumber, value); } }
 
         private string _brandInfo;
-        public string BrandInfo { get { return _brandInfo; } set { Set(ref _brandInfo, value); } }
+        public string BrandInfo { get { return _brandInfo; } set { _Set(ref _brandInfo, value); } }
 
-        private CounterState _evidenceBegin;
-        public CounterState EvidenceBegin { get { return _evidenceBegin; } set { Set(ref _evidenceBegin, value); } }
+        private ValueState<long> _evidenceBegin;
+        public ValueState<long> EvidenceBegin { get { return _evidenceBegin; } set { _Set(ref _evidenceBegin, value); } }
 
-        private CounterState _evidenceEnd;
-        public CounterState EvidenceEnd { get { return _evidenceEnd; } set { Set(ref _evidenceEnd, value); } }
+        private ValueState<long> _evidenceEnd;
+        public ValueState<long> EvidenceEnd { get { return _evidenceEnd; } set { _Set(ref _evidenceEnd, value); } }
     }
 }

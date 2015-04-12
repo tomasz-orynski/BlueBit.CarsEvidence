@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
+using BlueBit.CarsEvidence.BL.Entities.Components;
+using BlueBit.CarsEvidence.Commons.Templates;
 using System;
-using System.Linq;
-using BlueBit.CarsEvidence.BL.Alghoritms;
-using System.Text;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels
 {
@@ -14,21 +13,24 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels
         IObjectWithGetCode
     {
         private int _Year;
-        public int Year { get { return _Year; } set { Set(ref _Year, value); } }
+        public int Year { get { return _Year; } set { _Set(ref _Year, value); } }
 
         private int _Month;
-        public int Month { get { return _Month; } set { Set(ref _Month, value); } }
+        public int Month { get { return _Month; } set { _Set(ref _Month, value); } }
 
         private General.Car _Car;
-        public General.Car Car { get { return _Car; } set { Set(ref _Car, value); } }
+        public General.Car Car { get { return _Car; } set { _Set(ref _Car, value); } }
 
-        private long _DistanceTotal;
-        public long DistanceTotal { get { return _DistanceTotal; } set { Set(ref _DistanceTotal, value); } }
+        private IValueStatsBase<long> _RouteStats;
+        public virtual IValueStatsBase<long> RouteStats { get { return _RouteStats; } set { _Set(ref _RouteStats, value); } }
+
+        private IPurchaseStatsBase _FuelStats;
+        public virtual IPurchaseStatsBase FuelStats { get { return _FuelStats; } set { _Set(ref _FuelStats, value); } }
 
         public string Code { get { return string.Format("{0:0000}-{1:00}", _Year, _Month); } }
 
         public string Description { get { return this.GetDescription(); } }
-        public sealed override string DescriptionForToolTip { get { return this.GetDescriptionForToolTip(); } }
+        public sealed override string DescriptionForToolTip { get { return this.GetDescription(); } }
 
         static Period()
         {

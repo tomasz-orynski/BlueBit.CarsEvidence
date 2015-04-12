@@ -7,17 +7,17 @@ using System.Windows;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents.Commands.Handlers.Periods
 {
-    public interface IDeleteEntriesCommandHandler :
-        ICommandHandlerForSelected<PeriodEntry>
+    public interface IDeleteEntriesCommandHandler<TEntry> :
+        ICommandHandlerForSelected<TEntry>
     {
     }
 
-    [Register(typeof(IDeleteEntriesCommandHandler))]
-    public class DeleteEntriesCommandHandler :
-        CommandHandlerForSelectedBase<PeriodEntry>,
-        IDeleteEntriesCommandHandler
+    [Register(typeof(IDeleteEntriesCommandHandler<PeriodRouteEntry>))]
+    public class DeleteRouteEntriesCommandHandler :
+        CommandHandlerForSelectedBase<PeriodRouteEntry>,
+        IDeleteEntriesCommandHandler<PeriodRouteEntry>
     {
-        protected override void OnExecute(IEnumerable<PeriodEntry> objects)
+        protected override void OnExecute(IEnumerable<PeriodRouteEntry> objects)
         {
             if (MessageBox.Show("Czy chcesz usunąć?", "TODO", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
@@ -25,7 +25,26 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents.Commands.Handlers
             }
         }
 
-        protected override bool OnCanExecute(IEnumerable<PeriodEntry> objects)
+        protected override bool OnCanExecute(IEnumerable<PeriodRouteEntry> objects)
+        {
+            return true;
+        }
+    }
+
+    [Register(typeof(IDeleteEntriesCommandHandler<PeriodFuelEntry>))]
+    public class DeleteFuelEntriesCommandHandler :
+        CommandHandlerForSelectedBase<PeriodFuelEntry>,
+        IDeleteEntriesCommandHandler<PeriodFuelEntry>
+    {
+        protected override void OnExecute(IEnumerable<PeriodFuelEntry> objects)
+        {
+            if (MessageBox.Show("Czy chcesz usunąć?", "TODO", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                objects.ToList().ForEach(_ => _.Period.RemoveFromEntries(_));
+            }
+        }
+
+        protected override bool OnCanExecute(IEnumerable<PeriodFuelEntry> objects)
         {
             return true;
         }

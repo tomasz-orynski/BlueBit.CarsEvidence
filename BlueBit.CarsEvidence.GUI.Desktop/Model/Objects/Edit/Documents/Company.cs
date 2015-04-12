@@ -12,29 +12,25 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
     [Attributes.EntityType(typeof(BL.Entities.Company))]
     [Attributes.ConverterType(typeof(CompanyConverter))]
     public class Company :
-        EditDocumentObjectWithCodeBase
+        EditDocumentObjectWithCodeInfoBase
     {
         public ObservableCollection<View.General.Address> AllAddresses { get { return _addresses().Items; } }
 
         private string _Name;
         [Required]
         [MaxLength(Consts.LengthText)]
-        public virtual string Name { get { return _Name; } set { Set(ref _Name, value); } }
+        public virtual string Name { get { return _Name; } set { _Set(ref _Name, value); } }
 
         private string _IdentifierNIP;
         [MaxLength(Consts.LengthIdentifierNIP)]
-        public virtual string IdentifierNIP { get { return _IdentifierNIP; } set { Set(ref _IdentifierNIP, value); } }
+        public virtual string IdentifierNIP { get { return _IdentifierNIP; } set { _Set(ref _IdentifierNIP, value); } }
 
         private string _IdentifierREGON;
         [MaxLength(Consts.LengthIdentifierREGON)]
-        public virtual string IdentifierREGON { get { return _IdentifierREGON; } set { Set(ref _IdentifierREGON, value); } }
+        public virtual string IdentifierREGON { get { return _IdentifierREGON; } set { _Set(ref _IdentifierREGON, value); } }
 
         private View.General.Address _Address;
-        public View.General.Address Address { get { return _Address; } set { Set(ref _Address, value); } }
-
-        private string _Info;
-        [MaxLength(BL.Configuration.Consts.LengthInfo)]
-        public string Info { get { return _Info; } set { Set(ref _Info, value); } }
+        public View.General.Address Address { get { return _Address; } set { _Set(ref _Address, value); } }
 
         private readonly Func<IViewObjects<View.General.Address>> _addresses;
 

@@ -1,12 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BlueBit.CarsEvidence.Commons.Templates;
 using System.Diagnostics;
-using System.Runtime.Serialization;
 
 namespace BlueBit.CarsEvidence.BL.Entities
 {
     public interface IEntityChild :
         Repositories.IObjectInRepository,
-        Alghoritms.IObjectWithGetID
+        IObjectWithGetID
     {
     }
 

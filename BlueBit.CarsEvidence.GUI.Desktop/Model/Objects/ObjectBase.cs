@@ -6,6 +6,7 @@ using dotNetExt;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -64,16 +65,10 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
     {
         string DescriptionForToolTip { get; }
     }
-    public interface IObjectWithDescriptionForTitle
-    {
-        //Na razie ma się nie aktualizować podczas edycji!
-        string DescriptionForTitle { get; }
-    }
-
     public static class ObjectWithDescriptionsExtensions
     {
         public static string GetDescription<T>(this T @this)
-            where T: IObjectWithGetID, IObjectWithGetCode
+            where T : IObjectWithGetID, IObjectWithGetCode
         {
             Contract.Assert(@this != null);
 
@@ -86,14 +81,24 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
             return sb.ToString();
         }
         public static string GetDescriptionForToolTip<T>(this T @this)
-            where T : IObjectWithGetID, IObjectWithGetCode
+            where T : IObjectWithGetID, IObjectWithGetCode, IObjectWithGetInfo
         {
-            return @this.GetDescription();
-        }
-        public static string GetDescriptionForTitle<T>(this T @this)
-            where T : IObjectWithGetID, IObjectWithGetCode
-        {
-            return @this.GetDescription();
+            Contract.Assert(@this != null);
+
+            var sb = new StringBuilder();
+#if DEBUG
+            sb.AppendFormat("»{0}« #{1}", @this.Code, @this.ID);
+#else
+            sb.Append(@this.Code);
+#endif
+            var info = @this.Info;
+            if (!string.IsNullOrWhiteSpace(info))
+            {
+                sb.AppendLine();
+                sb.Append(info);
+            }
+
+            return sb.ToString();
         }
     }
 
@@ -134,7 +139,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
         public override bool Equals(object obj) { return Equals(obj as ObjectBase); }
         public override int GetHashCode() { return ID.GetHashCode(); }
 
-        protected void Set<T>(
+        protected void _Set<T>(
             ref T value, T newValue, 
             Action onChange = null,
             [CallerMemberName] string propertyName = null
@@ -144,6 +149,25 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
             if (Set<T>(propertyName, ref value, newValue))
             {
                 if (onChange != null) onChange();
+                OnSet(propertyName);
+                GetPropertyDependency(propertyName).Each(RaisePropertyChanged);
+            }
+        }
+        protected void _SetColl<T>(
+            ref ObservableCollection<T> value, ObservableCollection<T> newValue,
+            Action onChange = null,
+            [CallerMemberName] string propertyName = null
+            )
+        {
+            Contract.Assert(!string.IsNullOrWhiteSpace(propertyName));
+            if (Set<ObservableCollection<T>>(propertyName, ref value, newValue))
+            {
+                if (onChange != null)
+                {
+                    //TODO: odwiązać poprzednią kolekcję (zdarzenia).
+                    value.CollectionChanged += (_, __) => onChange();
+                    onChange();
+                }
                 OnSet(propertyName);
                 GetPropertyDependency(propertyName).Each(RaisePropertyChanged);
             }

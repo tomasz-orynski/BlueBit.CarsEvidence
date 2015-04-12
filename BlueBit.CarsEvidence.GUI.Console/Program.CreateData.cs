@@ -1,5 +1,7 @@
-﻿using BlueBit.CarsEvidence.BL.Entities;
+﻿using BlueBit.CarsEvidence.BL.Alghoritms;
+using BlueBit.CarsEvidence.BL.Entities;
 using BlueBit.CarsEvidence.BL.Entities.Components;
+using BlueBit.CarsEvidence.BL.Entities.Enums;
 using BlueBit.CarsEvidence.BL.Repositories;
 using dotNetExt;
 using System;
@@ -11,6 +13,14 @@ namespace BlueBit.CarsEvidence.Console
 {
     partial class Program
     {
+        static T GetEnumValue<T>(int i)
+            where T: struct, IConvertible
+        {
+            var vs = Enum.GetValues(typeof(T));
+            var pos = i % vs.Length;
+            return (T)vs.GetValue(pos);
+        }
+
         static void CreateData()
         {
             using (var sessionFactory = BL.Configuration.Settings.CreateSessionFactory())
@@ -97,19 +107,20 @@ namespace BlueBit.CarsEvidence.Console
             {
                 yield return CreateEntity<Car>(_ =>
                 {
-                    CounterState beg = null;
-                    CounterState end = null;
+                    ValueState<long> beg = null;
+                    ValueState<long> end = null;
                     {
                         var t = i % 3;
-                        if (t > 0) beg = new CounterState() { Counter = 1000 * i, Date = new DateTime(2014, i, 1) };
-                        if (t > 1) end = new CounterState() { Counter = 100000, Date = new DateTime(2050, 12, 31) };
+                        if (t > 0) beg = new ValueState<long>() { Value = 1000 * i, Date = new DateTime(2014, i, 1) };
+                        if (t > 1) end = new ValueState<long>() { Value = 100000, Date = new DateTime(2050, 12, 31) };
                     }
                     _.Code = string.Format("POJAZD_{0}", i);
                     _.BrandInfo = string.Format("Marka pojazdu {0}", i);
                     _.RegisterNumber = string.Format("WWL000{0}", i);
-                    _.EvidenceBegin = beg;
+                    _.EvidenceBeg = beg;
                     _.EvidenceEnd = end;
                     _.Info = CreateInfo(i);
+                    _.FuelType = GetEnumValue<FuelType>(i);
                 });
             }
         }
@@ -170,20 +181,20 @@ namespace BlueBit.CarsEvidence.Console
             address.AddCompany);
         }
 
-        static IEnumerable<Tuple<int, int>> CreateData_PeriodsYM(DateTime dt)
+        static IEnumerable<Tuple<int, int, int>> CreateData_PeriodsYMD(DateTime dt)
         {
             var year = dt.Year;
             var month = dt.Month;
-
-            do
+            yield return Tuple.Create(year, month++, dt.Day);
+            while (year < 2016)
             {
-                yield return Tuple.Create(year, month++);
                 if (month > 12)
                 {
                     year++;
                     month = 1;
                 }
-            } while (year < 2016);
+                yield return Tuple.Create(year, month++, 1);
+            }
         }
 
         static IEnumerable<Period> CreateData_Periods(
@@ -207,19 +218,25 @@ namespace BlueBit.CarsEvidence.Console
 
             foreach (var car in cars)
             {
-                if (car.EvidenceBegin == null)
+                if (car.EvidenceBeg == null)
                     continue;
+                var carDistance = car.EvidenceBeg.Value;
+                var carFuelVolume = 0m;
+                var carFuelAmount = 0m;
 
-                foreach (var ym in CreateData_PeriodsYM(car.EvidenceBegin.Date))
+                foreach (var ymd in CreateData_PeriodsYMD(car.EvidenceBeg.Date))
                 {
-                    var period = CreateEntity<Period>(_ => {
-                            _.Year = ym.Item1;
-                            _.Month = (byte)ym.Item2;
+                    var period = CreateEntity<Period>(
+                        _ =>
+                        {
+                            _.Year = ymd.Item1;
+                            _.Month = (byte)ymd.Item2;
+                            _.Info = CreateInfo(ymd.Item3);
                         },
                         car.AddPeriod
                     );
 
-                    var day = 1;
+                    var day = ymd.Item3;
                     while (true)
                     {
                         var dayDate = new DateTime(period.Year, period.Month, day);
@@ -228,9 +245,12 @@ namespace BlueBit.CarsEvidence.Console
                             var route = getNextRoute();
                             var person = getNextPerson();
 
-                            var periodEntry = CreateEntityChild<PeriodEntry>(_ => {
+                            var routeEntry = CreateEntityChild<PeriodRouteEntry>(
+                                _ =>
+                                {
                                     _.Day = (byte)day;
-                                    switch(day%3)
+                                    _.Info = CreateInfo(day);
+                                    switch (day % 3)
                                     {
                                         case 1:
                                             _.Distance = route.Distance + 1;
@@ -240,8 +260,29 @@ namespace BlueBit.CarsEvidence.Console
                                             break;
                                     }
                                 },
-                                period.AddPeriodEntry, person.AddPeriodEntry, route.AddPeriodEntry
+                                period.AddRouteEntry, person.AddPeriodRouteEntry, route.AddPeriodRouteEntry
                             );
+                            if (day % 5 == 0)
+                            {
+                                var cnt = 20 + day % 3;
+                                var price = 5m + (day % 5) * 0.01m;
+
+                                var fuelEntry = CreateEntityChild<PeriodFuelEntry>(
+                                    _ =>
+                                    {
+                                        _.Day = (byte)day;
+                                        _.TimeOfDay = day % 2 == 0 ? TimeOfDay.StartDay : TimeOfDay.EndDay;
+                                        _.Purchase = new FuelPurchase() { 
+                                            Volume = cnt, 
+                                            Amount = price * cnt, 
+                                            Type = FuelType.GasNoPb,
+                                        };
+                                        _.Info = CreateInfo(day);
+                                    },
+                                    period.AddFuelEntry, person.AddPeriodFuelEntry
+                                );
+                            }
+
                             if (routeIdx == routes.Count) routeIdx = 0;
                         }
 
@@ -249,7 +290,17 @@ namespace BlueBit.CarsEvidence.Console
                         if (nextDayDate.Month != period.Month) break;
                         ++day;
                     }
-
+                    {
+                        var stats = ValueStatsExt.CreateFrom(period.RouteEntries.Select(PeriodEntryDistanceExt.GetDistance), carDistance);
+                        period.RouteStats = stats;
+                        carDistance = stats.ValueEnd;
+                    }
+                    {
+                        var stats = PurchaseStatsExt.CreateFrom(period.FuelEntries.Select(_ => _.Purchase), _ => _.Volume, _ => _.Amount, carFuelVolume, carFuelAmount);
+                        period.FuelStats = stats;
+                        carFuelVolume = stats.VolumeEnd;
+                        carFuelAmount = stats.AmountEnd;
+                    }
                     yield return period;
                 }
             }

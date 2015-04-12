@@ -7,16 +7,35 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Diagnostics.Contracts;
+using BlueBit.CarsEvidence.BL.Entities.Enums;
+using BlueBit.CarsEvidence.BL.Entities.Components;
+using BlueBit.CarsEvidence.BL.Alghoritms;
 
 namespace BlueBit.CarsEvidence.BL.DTO.XML
 {
     [DataContract(Namespace = Consts.Namespace_DTO_XML)]
-    public class CounterState
+    public class ValueState<T>
     {
-        [DataMember]
+        [DataMember(Order = 1)]
         public DateTime Date { get; set; }
-        [DataMember]
-        public long Counter { get; set; }
+        [DataMember(Order = 2)]
+        public long Value { get; set; }
+    }
+
+    [DataContract(Namespace = Consts.Namespace_DTO_XML)]
+    public class FuelPurchase
+    {
+        [DataMember(Order = 1)]
+        public FuelType Type { get; set; }
+        [DataMember(Order = 2)]
+        public decimal Volume { get; set; }
+        [DataMember(Order = 3)]
+        public decimal Amount { get; set; }
+    }
+
+    [DataContract(Namespace = Consts.Namespace_DTO_XML)]
+    public class ValueStateLong : ValueState<long>
+    {
     }
 
     [DataContract(Namespace = Consts.Namespace_DTO_XML)]
@@ -27,72 +46,66 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
     }
 
     [DataContract(Namespace = Consts.Namespace_DTO_XML)]
-    public abstract class DTOWithCodeBase :
+    public abstract class DTOWithCodeAndInfoBase :
         DTOBase
     {
         [DataMember(Order = 1)]
         public string Code { get; set; }
+        [DataMember(Order = 2)]
+        public string Info { get; set; }
     }
 
     [DataContract(Namespace = Consts.Namespace_DTO_XML)]
     public class Address :
-        DTOWithCodeBase
+        DTOWithCodeAndInfoBase
     {
-        [DataMember]
-        public string Info { get; set; }
-        [DataMember]
+        [DataMember(Order = 10)]
         public string PostalCode { get; set; }
-        [DataMember]
+        [DataMember(Order = 11)]
         public string City { get; set; }
-        [DataMember]
+        [DataMember(Order = 12)]
         public string Street { get; set; }
-        [DataMember]
+        [DataMember(Order = 13)]
         public string BuildingNo { get; set; }
-        [DataMember]
+        [DataMember(Order = 14)]
         public string LocalNo { get; set; }
     }
 
     [DataContract(Namespace = Consts.Namespace_DTO_XML)]
     public class Company :
-        DTOWithCodeBase
+        DTOWithCodeAndInfoBase
     {
-        [DataMember]
-        public string Info { get; set; }
-        [DataMember]
+        [DataMember(Order = 10)]
         public string Name { get; set; }
-        [DataMember]
+        [DataMember(Order = 11)]
         public string IdentifierNIP { get; set; }
-        [DataMember]
+        [DataMember(Order = 12)]
         public string IdentifierREGON { get; set; }
-        [DataMember]
+        [DataMember(Order = 13)]
         public long AddressID { get; set; }
     }
 
     [DataContract(Namespace = Consts.Namespace_DTO_XML)]
     public class Car :
-        DTOWithCodeBase
+        DTOWithCodeAndInfoBase
     {
-        [DataMember]
-        public string Info { get; set; }
-        [DataMember]
+        [DataMember(Order = 10)]
         public string RegisterNumber { get; set; }
-        [DataMember]
+        [DataMember(Order = 11)]
         public string BrandInfo { get; set; }
-        [DataMember]
-        public CounterState EvidenceBegin { get; set; }
-        [DataMember]
-        public CounterState EvidenceEnd { get; set; }
+        [DataMember(Order = 12)]
+        public ValueStateLong EvidenceBeg { get; set; }
+        [DataMember(Order = 13)]
+        public ValueStateLong EvidenceEnd { get; set; }
     }
 
     [DataContract(Namespace = Consts.Namespace_DTO_XML)]
     public class Person :
-        DTOWithCodeBase
+        DTOWithCodeAndInfoBase
     {
-        [DataMember]
-        public string Info { get; set; }
-        [DataMember]
+        [DataMember(Order = 10)]
         public string FirstName { get; set; }
-        [DataMember]
+        [DataMember(Order = 11)]
         public string LastName { get; set; }
     }
 
@@ -107,36 +120,50 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
         [DataMember(Order = 12)]
         public long CarID { get; set; }
         [DataMember(Order = 20)]
-        public PeriodEntry[] PeriodEntries { get; set; }
+        public PeriodRouteEntry[] RouteEntries { get; set; }
+        [DataMember(Order = 21)]
+        public PeriodFuelEntry[] FuelEntries { get; set; }
     }
 
     [DataContract(Namespace = Consts.Namespace_DTO_XML)]
-    public class PeriodEntry :
+    public class PeriodRouteEntry :
         DTOBase
     {
-        [DataMember]
+        [DataMember(Order = 10)]
         public byte Day { get; set; }
-        [DataMember]
+        [DataMember(Order = 12)]
         public long PersonID { get; set; }
-        [DataMember]
+        [DataMember(Order = 13)]
         public long RouteID { get; set; }
-        [DataMember]
+        [DataMember(Order = 11)]
         public long? Distance { get; set; }
     }
 
     [DataContract(Namespace = Consts.Namespace_DTO_XML)]
-    public class Route :
-        DTOWithCodeBase
+    public class PeriodFuelEntry :
+        DTOBase
     {
-        [DataMember]
-        public string Info { get; set; }
-        [DataMember]
+        [DataMember(Order = 10)]
+        public byte Day { get; set; }
+        [DataMember(Order = 11)]
+        public TimeOfDay TimeOfDay { get; set; }
+        [DataMember(Order = 12)]
+        public long PersonID { get; set; }
+        [DataMember(Order = 13)]
+        public FuelPurchase Purchase { get; set; }
+    }
+
+    [DataContract(Namespace = Consts.Namespace_DTO_XML)]
+    public class Route :
+        DTOWithCodeAndInfoBase
+    {
+        [DataMember(Order = 10)]
         public long AddressFromID { get; set; }
-        [DataMember]
+        [DataMember(Order = 11)]
         public long AddressToID { get; set; }
-        [DataMember]
+        [DataMember(Order = 12)]
         public long Distance { get; set; }
-        [DataMember]
+        [DataMember(Order = 13)]
         public bool DistanceIsInBothDirections { get; set; }
     }
 
@@ -175,13 +202,21 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
 
         static DataEXP()
         {
-            Mapper.CreateMap<Entities.Components.CounterState, CounterState>();
+            Mapper.CreateMap<Entities.Components.ValueState<long>, ValueStateLong>();
+            Mapper.CreateMap<Entities.Components.FuelPurchase, FuelPurchase>();
             Mapper.CreateMap<Entities.Address, Address>();
             Mapper.CreateMap<Entities.Car, Car>();
             Mapper.CreateMap<Entities.Company, Company>();
             Mapper.CreateMap<Entities.Person, Person>();
-            Mapper.CreateMap<Entities.Period, Period>();
-            Mapper.CreateMap<Entities.PeriodEntry, PeriodEntry>();
+            Mapper.CreateMap<Entities.Period, Period>()
+                .ForSourceMember(
+                    src => src.RouteStats,
+                    cfg => cfg.Ignore())
+                .ForSourceMember(
+                    src => src.FuelStats,
+                    cfg => cfg.Ignore());
+            Mapper.CreateMap<Entities.PeriodRouteEntry, PeriodRouteEntry>();
+            Mapper.CreateMap<Entities.PeriodFuelEntry, PeriodFuelEntry>();
             Mapper.CreateMap<Entities.Route, Route>();
         }
 
@@ -202,7 +237,7 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
 
         private TDTO[] GetAllInArray<TEntity, TDTO>()
             where TEntity : class, IObjectInRepository
-            where TDTO: DTOWithCodeBase
+            where TDTO: DTOWithCodeAndInfoBase
         {
             return GetAll<TEntity, TDTO>()
                 .OrderBy(_ => _.Code)
@@ -244,16 +279,21 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
 
         static DataIMP()
         {
-            Mapper.CreateMap<CounterState, Entities.Components.CounterState>();
+            Mapper.CreateMap<ValueStateLong, Entities.Components.ValueState<long>>();
+            Mapper.CreateMap<FuelPurchase, Entities.Components.FuelPurchase>();
             PrepareMap<Address, Entities.Address>();
             PrepareMap<Car, Entities.Car>();
             PrepareMap<Company, Entities.Company>();
             PrepareMap<Person, Entities.Person>();
             PrepareMap<Period, Entities.Period>()
                 .ForMember(
-                    dst => dst.PeriodEntries,
+                    dst => dst.RouteEntries,
+                    cfg => cfg.Ignore())
+                .ForMember(
+                    dst => dst.FuelEntries,
                     cfg => cfg.Ignore());
-            PrepareMap<PeriodEntry, Entities.PeriodEntry>();
+            PrepareMap<PeriodRouteEntry, Entities.PeriodRouteEntry>();
+            PrepareMap<PeriodFuelEntry, Entities.PeriodFuelEntry>();
             PrepareMap<Route, Entities.Route>();
         }
 
@@ -286,6 +326,8 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
             long srcID, 
             Action<TDst> action)
         {
+            Contract.Assert(srcID > 0);
+
             if (_actions == null)
                 _actions = new List<Action>();
 
@@ -371,17 +413,25 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
                     .ToDictionary(_ => _.ID, _ =>
                     {
                         var obj = Mapper.Map<Period, Entities.Period>(_);
-                        _.PeriodEntries.Each(__ =>
+                        _.RouteEntries.NullAsEmpty().Each(__ =>
                             {
-                                var objChild = Mapper.Map<PeriodEntry, Entities.PeriodEntry>(__);
-                                Entities.PeriodExtensions.AddPeriodEntry(obj, objChild);
+                                var objChild = Mapper.Map<PeriodRouteEntry, Entities.PeriodRouteEntry>(__);
+                                Entities.PeriodExtensions.AddRouteEntry(obj, objChild);
                                 AddActionForDict(
                                     () => _persons, __.PersonID,
-                                    (i) => Entities.PersonExtensions.AddPeriodEntry(i, objChild));
+                                    (i) => Entities.PersonExtensions.AddPeriodRouteEntry(i, objChild));
                                 AddActionForDict(
                                     () => _routes, __.RouteID,
-                                    (i) => Entities.RouteExtensions.AddPeriodEntry(i, objChild));
+                                    (i) => Entities.RouteExtensions.AddPeriodRouteEntry(i, objChild));
                             });
+                        _.FuelEntries.NullAsEmpty().Each(__ =>
+                        {
+                            var objChild = Mapper.Map<PeriodFuelEntry, Entities.PeriodFuelEntry>(__);
+                            Entities.PeriodExtensions.AddFuelEntry(obj, objChild);
+                            AddActionForDict(
+                                () => _persons, __.PersonID,
+                                (i) => Entities.PersonExtensions.AddPeriodFuelEntry(i, objChild));
+                        });
                         AddActions(
                             () => Entities.CarExtensions.AddPeriod(_cars[_.CarID], obj)
                             );
@@ -403,8 +453,9 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
                 .Union(_persons.Values.OrderBy(_ => _.Code))
                 .Union(_cars.Values.OrderBy(_ => _.Code))
                 .Union(_routes.Values.OrderBy(_ => _.Code))
-                .Union(_periods.Values)
+                .Union(_periods.Values.RecalculateStats().OrderBy(_ => _.Car.Code))
                 ;
         }
+
     }
 }

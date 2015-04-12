@@ -1,14 +1,22 @@
-﻿using FluentNHibernate.Automapping;
+﻿using BlueBit.CarsEvidence.Commons.Templates;
+using FluentNHibernate.Automapping;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
-using System.Runtime.Serialization;
 
 namespace BlueBit.CarsEvidence.BL.Entities
 {
     public class Address :
-        EntityWithCodeBase
+        EntityBase,
+        IObjectWithGetCode,
+        IObjectWithGetInfo
     {
+        [Required]
+        [MaxLength(Configuration.Consts.LengthCode)]
+        public virtual string Code { get; set; }
+        [MaxLength(Configuration.Consts.LengthInfo)]
+        public virtual string Info { get; set; }
+
         [MaxLength(Configuration.Consts.LengthPostalCode)]
         public virtual string PostalCode { get; set; }
         [Required]
@@ -22,8 +30,6 @@ namespace BlueBit.CarsEvidence.BL.Entities
         public virtual string BuildingNo { get; set; }
         [MaxLength(Configuration.Consts.LengthCode)]
         public virtual string LocalNo { get; set; }
-        [MaxLength(Configuration.Consts.LengthInfo)]
-        public virtual string Info { get; set; }
 
         public virtual ISet<Company> Companies { get; set; }
         public virtual ISet<Route> Routes { get; set; }

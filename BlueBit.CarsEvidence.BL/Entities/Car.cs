@@ -1,25 +1,33 @@
 ﻿using BlueBit.CarsEvidence.BL.Entities.Components;
+using BlueBit.CarsEvidence.BL.Entities.Enums;
+using BlueBit.CarsEvidence.Commons.Templates;
 using FluentNHibernate.Automapping;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.Contracts;
-using System.Runtime.Serialization;
 
 namespace BlueBit.CarsEvidence.BL.Entities
 {
     public class Car :
-        EntityWithCodeBase
+        EntityBase,
+        IObjectWithGetCode,
+        IObjectWithGetInfo
     {
+        [Required]
+        [MaxLength(Configuration.Consts.LengthCode)]
+        public virtual string Code { get; set; }
+        [MaxLength(Configuration.Consts.LengthInfo)]
+        public virtual string Info { get; set; }
+
         [Required]
         [MaxLength(Configuration.Consts.LengthRegisterNumber)]
         public virtual string RegisterNumber { get; set; }
         [MaxLength(Configuration.Consts.LengthText)]
         public virtual string BrandInfo { get; set; }
-        public virtual CounterState EvidenceBegin { get; set; }
-        public virtual CounterState EvidenceEnd { get; set; }
-        [MaxLength(Configuration.Consts.LengthInfo)]
-        public virtual string Info { get; set; }
+        public virtual ValueState<long> EvidenceBeg { get; set; }
+        public virtual ValueState<long> EvidenceEnd { get; set; }
+        [Required]
+        public virtual FuelType FuelType { get; set; }
 
         public virtual ISet<Period> Periods { get; set; }
 

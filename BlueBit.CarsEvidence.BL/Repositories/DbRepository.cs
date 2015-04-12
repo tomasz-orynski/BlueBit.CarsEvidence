@@ -1,18 +1,16 @@
-﻿using BlueBit.CarsEvidence.BL.Alghoritms;
-using BlueBit.CarsEvidence.BL.Entities;
+﻿using BlueBit.CarsEvidence.BL.Entities;
 using BlueBit.CarsEvidence.Commons.Diagnostics;
+using BlueBit.CarsEvidence.Commons.Templates;
 using dotNetExt;
 using NHibernate;
 using NHibernate.Persister.Entity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Runtime.Serialization;
 
 namespace BlueBit.CarsEvidence.BL.Repositories
 {
@@ -25,7 +23,7 @@ namespace BlueBit.CarsEvidence.BL.Repositories
     [DebuggerDisplay("ID={ID}")]
     public abstract class ObjectInRepositoryBase :
         IObjectInRepository,
-        Alghoritms.IObjectWithSetID
+        IObjectWithSetID
     {
         [Required]
         public virtual long ID { get; set; }
@@ -43,7 +41,7 @@ namespace BlueBit.CarsEvidence.BL.Repositories
     [DebuggerDisplay("ID={ID}")]
     public abstract class ObjectChildInRepositoryBase :
         IObjectInRepository,
-        Alghoritms.IObjectWithSetID
+        IObjectWithSetID
     {
         [Required]
         public virtual long ID { get; set; }
@@ -165,7 +163,8 @@ namespace BlueBit.CarsEvidence.BL.Repositories
         {
             ExecuteInTransaction(() =>
             {
-                DeleteAll_<PeriodEntry>();
+                DeleteAll_<PeriodFuelEntry>();
+                DeleteAll_<PeriodRouteEntry>();
                 DeleteAll_<Period>();
                 DeleteAll_<Route>();
                 DeleteAll_<Car>();
@@ -244,13 +243,13 @@ namespace BlueBit.CarsEvidence.BL.Repositories
         }
         bool IDbRepository<Person>.CanDelete(long id)
         {
-            if (CheckExists<PeriodEntry>(_ => _.Person.ID == id))
+            if (CheckExists<PeriodRouteEntry>(_ => _.Person.ID == id))
                 return false;
             return true;
         }
         bool IDbRepository<Route>.CanDelete(long id)
         {
-            if (CheckExists<PeriodEntry>(_ => _.Route.ID == id))
+            if (CheckExists<PeriodRouteEntry>(_ => _.Route.ID == id))
                 return false;
             return true;
         }

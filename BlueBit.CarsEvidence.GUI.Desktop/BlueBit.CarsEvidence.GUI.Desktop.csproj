@@ -57,13 +57,13 @@
     <ApplicationIcon>Resources\Icons\globe.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=3.3.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+    <Reference Include="AutoMapper, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AutoMapper.3.3.0\lib\net40\AutoMapper.dll</HintPath>
+      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="AutoMapper.Net4, Version=3.3.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+    <Reference Include="AutoMapper.Net4, Version=3.3.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AutoMapper.3.3.0\lib\net40\AutoMapper.Net4.dll</HintPath>
+      <HintPath>..\packages\AutoMapper.3.3.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
     <Reference Include="dotNetExt">
       <HintPath>..\packages\dotNetExt.1.3.0\lib\net\dotNetExt.dll</HintPath>
@@ -106,7 +106,7 @@
     </Reference>
     <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NHibernate.4.0.2.4000\lib\net40\NHibernate.dll</HintPath>
+      <HintPath>..\packages\NHibernate.4.0.3.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -172,10 +172,16 @@
     <Compile Include="Configuration\Settings.UnityContainerExtensions.cs" />
     <Compile Include="Configuration\Settings.UnityContainerExtensions.Utils.cs" />
     <Compile Include="Model\Attributes\CanEditAllInDocumentView.cs" />
+    <Compile Include="Model\Components\Container.cs" />
+    <Compile Include="Model\Components\PurchaseStatsContainer.cs" />
+    <Compile Include="Model\Components\ValueStatsContainer.cs" />
     <Compile Include="Model\Objects\Edit\Documents\Company.cs" />
     <Compile Include="Model\Objects\Edit\Documents\EditDocumentObjectBase.cs" />
+    <Compile Include="Model\Objects\Edit\Documents\PeriodFuelEntry.cs" />
+    <Compile Include="Model\Objects\View\General\Helpers\EV.cs" />
     <Compile Include="Model\Objects\View\Panels\ViewPanelObjectBase.cs" />
     <Compile Include="Resources\Info.cs" />
+    <Compile Include="ViewModel\Documents\EditGridViewModel.cs" />
     <Compile Include="ViewModel\Interactions\Behaviors\Behavior.cs" />
     <Compile Include="ViewModel\Interactions\Behaviors\FocusBehavior.cs" />
     <Compile Include="ViewModel\Interactions\Behaviors\GroupBehavior.cs" />
@@ -203,7 +209,7 @@
     <Compile Include="Model\Objects\Edit\Documents\Address.cs" />
     <Compile Include="Model\Objects\Edit\Documents\Car.cs" />
     <Compile Include="Model\Objects\Edit\Documents\Period.cs" />
-    <Compile Include="Model\Objects\Edit\Documents\PeriodEntry.cs" />
+    <Compile Include="Model\Objects\Edit\Documents\PeriodRouteEntry.cs" />
     <Compile Include="Model\Objects\Edit\Documents\Person.cs" />
     <Compile Include="Model\Objects\Edit\Documents\Route.cs" />
     <Compile Include="Model\Objects\Edit\EditObjectBase.cs" />
@@ -275,6 +281,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Documents\EditDocumentView.Dictionary.Period.FuelEntries.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Documents\EditDocumentView.Dictionary.Period.RouteEntries.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Documents\EditDocumentView.ResourceDictionary.Templates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainWindowView.ResourceDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -323,7 +341,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Documents\EditDocumentView.Dictionary.xaml">
+    <Page Include="View\Documents\EditDocumentView.ResourceDictionary.Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -351,7 +369,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Panels\ListPanelView.Dictionary.xaml">
+    <Page Include="View\Panels\ListPanelView.ResourceDictionary.Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -509,7 +527,7 @@
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
   <Import Project="$(XamlSpyInstallPath)MSBuild\FirstFloor.XamlSpy.WPF.targets" Condition="'$(XamlSpyInstallPath)' != '' and '$(Configuration)' == 'DEBUG'" />
-  <Import Project="..\packages\AutoMapper.3.3.0\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.0\tools\AutoMapper.targets')" />
+  <Import Project="..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

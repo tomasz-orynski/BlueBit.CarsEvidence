@@ -26,6 +26,8 @@ namespace BlueBit.CarsEvidence.Console
                 }
 
             SelectData();
+            System.Console.WriteLine("Press <ENTER>...");
+            System.Console.ReadLine();
         }
 
         static void CreateSchema()
@@ -46,11 +48,11 @@ namespace BlueBit.CarsEvidence.Console
             using (var session = sessionFactory.OpenSession())
             {
                 BL.Entities.Period periodAlias = null;
-                BL.Entities.PeriodEntry periodEntryAlias = null;
+                BL.Entities.PeriodRouteEntry periodEntryAlias = null;
                 BL.Entities.Person personAlias = null;
 
                 var queryResult = session
-                    .QueryOver<BL.Entities.PeriodEntry>(() => periodEntryAlias)
+                    .QueryOver<BL.Entities.PeriodRouteEntry>(() => periodEntryAlias)
                     .JoinAlias(() => periodEntryAlias.Period, () => periodAlias)
                     .JoinAlias(() => periodEntryAlias.Person, () => personAlias)
                     .Where(() => periodAlias.Year == 2014 && periodAlias.Month == 7)

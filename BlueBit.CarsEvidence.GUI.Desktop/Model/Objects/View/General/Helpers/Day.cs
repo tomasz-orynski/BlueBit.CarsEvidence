@@ -17,7 +17,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.General.Helpers
 
         public string Name { get { return CultureInfo.CurrentUICulture.DateTimeFormat.AbbreviatedDayNames[(int)_dayOfWeak]; } }
         public string Description { get { return string.Format("{0:D2}. {1}", Number, Name); } }
-        public string DescriptionForTitle { get { return string.Format("{0}. {1}", Number, Name); } }
+        public string DescriptionForToolTip { get { return string.Format("{0}. {1}", Number, Name); } }
 
         public bool IsWeekend { get { return _dayOfWeak == DayOfWeek.Sunday || _dayOfWeak == DayOfWeek.Saturday; } }
 

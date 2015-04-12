@@ -11,9 +11,9 @@ using System.Windows.Media;
 namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
 {
     [Attributes.EditInDocumentViewAsChild(typeof(Period))]
-    [Attributes.EntityType(typeof(BL.Entities.PeriodEntry))]
-    [Attributes.ConverterType(typeof(PeriodEntryConverter))]
-    public class PeriodEntry :
+    [Attributes.EntityType(typeof(BL.Entities.PeriodRouteEntry))]
+    [Attributes.ConverterType(typeof(PeriodRouteEntryConverter))]
+    public class PeriodRouteEntry :
         EditDocumentObjectChildBase
     {
         public ObservableCollection<View.General.Helpers.Day> AllDays { get { return _Period.YearMonthDays; } }
@@ -22,22 +22,22 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
 
         private Period _Period;
         [Required]
-        public Period Period { get { return _Period; } set { Set(ref _Period, value); } }
+        public Period Period { get { return _Period; } set { _Set(ref _Period, value); } }
 
         private Day _Day;
         [Required]
-        public Day Day { get { return _Day; } set { Set(ref _Day, value); } }
+        public Day Day { get { return _Day; } set { _Set(ref _Day, value); } }
 
         private View.General.Person _Person;
         [Required]
-        public View.General.Person Person { get { return _Person; } set { Set(ref _Person, value); } }
+        public View.General.Person Person { get { return _Person; } set { _Set(ref _Person, value); } }
 
         private View.General.Route _Route;
         [Required]
-        public View.General.Route Route { get { return _Route; } set { Set(ref _Route, value, OnChangeRoute); } }
+        public View.General.Route Route { get { return _Route; } set { _Set(ref _Route, value, OnChangeInternal); } }
 
         private long? _Distance;
-        public long? Distance { get { return _Distance; } set { Set(ref _Distance, value); } }
+        public long? Distance { get { return _Distance; } set { _Set(ref _Distance, value, OnChangeInternal); } }
 
         public bool DistanceState { 
             get { return _Distance.HasValue; } 
@@ -62,7 +62,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
             get { return _Day != null && !_Day.IsWeekend ? Brushes.White : Brushes.Yellow; }
         }
 
-        private void OnChangeRoute()
+        private void OnChangeInternal()
         {
             if (_Route != null && _Distance == default(long))
                 Distance = _Route.Distance;
@@ -74,15 +74,15 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
         private readonly Func<IViewObjects<View.General.Person>> _persons;
         private readonly Func<IViewObjects<View.General.Route>> _routes;
 
-        static PeriodEntry()
+        static PeriodRouteEntry()
         {
-            RegisterPropertyDependency<PeriodEntry>()
+            RegisterPropertyDependency<PeriodRouteEntry>()
                 .Add(x => x.Colour, x => x.Day)
                 .Add(x => x.DistanceState, x => x.Distance)
                 .Add(x => x.DistanceValue, x => x.Distance);
         }
 
-        public PeriodEntry(
+        public PeriodRouteEntry(
             Func<IViewObjects<View.General.Person>> persons,
             Func<IViewObjects<View.General.Route>> routes
             )
@@ -92,16 +92,16 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
         }
     }
 
-    public class PeriodEntryConverter :
+    public class PeriodRouteEntryConverter :
         EditObjectConverterWithContext<
             Tuple<Period, BL.Entities.Period>, 
-            PeriodEntry, BL.Entities.PeriodEntry>
+            PeriodRouteEntry, BL.Entities.PeriodRouteEntry>
     {
         private readonly Func<IDbRepositories> _repository;
         private readonly Func<IViewObjects<View.General.Person>> _persons;
         private readonly Func<IViewObjects<View.General.Route>> _routes;
 
-        public PeriodEntryConverter(
+        public PeriodRouteEntryConverter(
             Func<IDbRepositories> repository,
             Func<IViewObjects<View.General.Person>> persons,
             Func<IViewObjects<View.General.Route>> routes
@@ -112,7 +112,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
             _routes = routes;
         }
 
-        protected override IMappingExpression<BL.Entities.PeriodEntry, PeriodEntry> OnInitialize(IMappingExpression<BL.Entities.PeriodEntry, PeriodEntry> mapingExpr)
+        protected override IMappingExpression<BL.Entities.PeriodRouteEntry, PeriodRouteEntry> OnInitialize(IMappingExpression<BL.Entities.PeriodRouteEntry, PeriodRouteEntry> mapingExpr)
         {
             return base.OnInitialize(mapingExpr)
                 .ForMember(
@@ -143,7 +143,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
                 );
         }
 
-        protected override IMappingExpression<PeriodEntry, BL.Entities.PeriodEntry> OnInitialize(IMappingExpression<PeriodEntry, BL.Entities.PeriodEntry> mapingExpr)
+        protected override IMappingExpression<PeriodRouteEntry, BL.Entities.PeriodRouteEntry> OnInitialize(IMappingExpression<PeriodRouteEntry, BL.Entities.PeriodRouteEntry> mapingExpr)
         {
             return base.OnInitialize(mapingExpr)
                 .ForMember(
@@ -170,7 +170,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
                 );
         }
 
-        protected override void OnCreateUpdate(Tuple<Period, BL.Entities.Period> ctx, BL.Entities.PeriodEntry src, PeriodEntry dst)
+        protected override void OnCreateUpdate(Tuple<Period, BL.Entities.Period> ctx, BL.Entities.PeriodRouteEntry src, PeriodRouteEntry dst)
         {
             dst.Period = ctx.Item1;
             dst.Day = ctx.Item1.YearMonthDays.SingleOrDefault(_ => _.Number == src.Day);
@@ -181,7 +181,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
             }
         }
 
-        protected override void OnCreateUpdate(Tuple<Period, BL.Entities.Period> ctx, PeriodEntry src, BL.Entities.PeriodEntry dst)
+        protected override void OnCreateUpdate(Tuple<Period, BL.Entities.Period> ctx, PeriodRouteEntry src, BL.Entities.PeriodRouteEntry dst)
         {
             dst.Period = ctx.Item2;
         }

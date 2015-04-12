@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
-using BlueBit.CarsEvidence.BL.Alghoritms;
+using BlueBit.CarsEvidence.BL.Entities.Components;
 using BlueBit.CarsEvidence.BL.Repositories;
-using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.General.Helpers;
-using BlueBit.CarsEvidence.GUI.Desktop.Services;
 using BlueBit.CarsEvidence.Commons.Helpers;
 using BlueBit.CarsEvidence.Commons.Linq;
+using BlueBit.CarsEvidence.Commons.Templates;
+using BlueBit.CarsEvidence.GUI.Desktop.Model.Components;
+using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.General.Helpers;
+using BlueBit.CarsEvidence.GUI.Desktop.Services;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -22,25 +25,39 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
         public ObservableCollection<Month> AllMonths { get { return MonthExtensions.Items; } }
         public ObservableCollection<View.General.Car> AllCars { get { return _cars().Items; } }
 
+        private string _Info;
+        [MaxLength(BL.Configuration.Consts.LengthInfo)]
+        public string Info { get { return _Info; } set { _Set(ref _Info, value); } }
+
         private int _Year;
         [Required]
         [Attributes.Validation.YearRange]
-        public int Year { get { return _Year; } set { Set(ref _Year, value, OnChange); } }
+        public int Year { get { return _Year; } set { _Set(ref _Year, value, OnChangeInternal); } }
 
         private Month _Month;
         [Required]
-        public Month Month { get { return _Month; } set { Set(ref _Month, value, OnChange); } }
+        public Month Month { get { return _Month; } set { _Set(ref _Month, value, OnChangeInternal); } }
 
         private View.General.Car _Car;
         [Required]
-        public View.General.Car Car { get { return _Car; } set { Set(ref _Car, value, OnChange); } }
+        public View.General.Car Car { get { return _Car; } set { _Set(ref _Car, value, OnChangeInternal); } }
 
-        private ObservableCollection<PeriodEntry> _Entries;
+        private readonly ValueStatsContainer _RouteStats = new ValueStatsContainer();
+        public virtual ValueStatsContainer RouteStats { get { return _RouteStats; } }
+
+        private readonly PurchaseStatsContainer _FuelStats = new PurchaseStatsContainer();
+        public virtual PurchaseStatsContainer FuelStats { get { return _FuelStats; } }
+
+        private ObservableCollection<PeriodRouteEntry> _RouteEntries;
         [IgnoreMap]
-        public ObservableCollection<PeriodEntry> Entries { get { return _Entries; } set { Set(ref _Entries, value, OnChange); } }
+        public ObservableCollection<PeriodRouteEntry> RouteEntries { get { return _RouteEntries; } set { _SetColl(ref _RouteEntries, value, OnChange); } }
+
+        private ObservableCollection<PeriodFuelEntry> _FuelEntries;
+        [IgnoreMap]
+        public ObservableCollection<PeriodFuelEntry> FuelEntries { get { return _FuelEntries; } set { _SetColl(ref _FuelEntries, value, OnChange); } }
 
         public string Code { get { return string.Format("{0:0000}-{1:00}", _Year, _Month.Number); } }
-        public override sealed string DescriptionForTitle { get { return this.GetDescriptionForTitle(); } }
+        public override sealed string Description { get { return this.GetDescription(); } }
 
         public ObservableCollection<Day> YearMonthDays 
         { 
@@ -50,17 +67,11 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
             } 
         }
 
-        private long _DistanceTotal;
-        public long DistanceTotal { get { return _DistanceTotal; } private set { Set(ref _DistanceTotal, value); } }
-
-        private long? _CounterBegin;
-        public long? CounterBegin { get { return _CounterBegin; } private set { Set(ref _CounterBegin, value); } }
-
-        private long? _CounterEnd;
-        public long? CounterEnd { get { return _CounterEnd; } private set { Set(ref _CounterEnd, value); } }
-
         private readonly Func<IDbRepositories> _repository;
         private readonly Func<IViewObjects<View.General.Car>> _cars;
+
+        private readonly IEnumerable<Func<bool>> onChangePrevPeriodNeedInvalidate;
+        private BL.Entities.Period onChangePrevPeriod = null;
 
         public Period(
             Func<IDbRepositories> repository,
@@ -69,48 +80,68 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
         {
             _repository = repository;
             _cars = cars;
+
+            onChangePrevPeriodNeedInvalidate = new Func<bool>[] 
+            { 
+                () => _Car == null || _Month == null,
+                () => _Car.ID != onChangePrevPeriod.Car.ID,
+                () => _Year != onChangePrevPeriod.Year,
+                () => _Month.Number != onChangePrevPeriod.Month,
+            };        
         }
 
-        public PeriodEntry AddToEntries(PeriodEntry periodEntry)
+        public PeriodRouteEntry AddToEntries(PeriodRouteEntry periodEntry)
         {
             periodEntry.Period = this;
-            periodEntry.ID = Entries.GetTempID();
-            Entries.Add(periodEntry);
+            periodEntry.ID = RouteEntries.GetTempID();
+            RouteEntries.Add(periodEntry);
             return periodEntry;
         }
-        public void RemoveFromEntries(PeriodEntry periodEntry)
+        public void RemoveFromEntries(PeriodRouteEntry periodEntry)
         {
-            Entries.Remove(periodEntry);
+            RouteEntries.Remove(periodEntry);
+        }
+        public PeriodFuelEntry AddToEntries(PeriodFuelEntry fuelEntry)
+        {
+            fuelEntry.Period = this;
+            fuelEntry.ID = FuelEntries.GetTempID();
+            FuelEntries.Add(fuelEntry);
+            return fuelEntry;
+        }
+        public void RemoveFromEntries(PeriodFuelEntry fuelEntry)
+        {
+            FuelEntries.Remove(fuelEntry);
+        }
+
+
+        private void OnChangeInternal()
+        {
+            if (onChangePrevPeriod != null && onChangePrevPeriodNeedInvalidate.Any(_ => _()))
+                onChangePrevPeriod = null;
+            OnChange();
         }
 
         public void OnChange()
         {
-            var yearMonthDays = YearMonthDays;
-            if (Entries != null)
-            {
-                var distanceCurr = 0L;
+            if (onChangePrevPeriod == null && _Car != null && _Month != null)
+                onChangePrevPeriod = _repository().GetPreviousPeriod(_Car.ID, _Year, _Month.Number);
 
-                Entries
-                    .Each(entry =>
-                    {
-                        if (entry.Day != null)
-                            entry.Day = yearMonthDays.SingleOrDefault(_ => _.Number == entry.Day.Number);
-                        distanceCurr += entry.Distance ?? entry.Route.GetSafeValue(_ => _.Distance);
-                    });
+            recalculateRouteStats(onChangePrevPeriod);
+            recalculateFuelStats(onChangePrevPeriod);
+        }
 
-                if (_Car != null && _Month != null)
-                {
-                    var distancePrev = _repository().GetDistanceTotalForPrevMonths(_Car.ID, _Year, _Month.Number);
-                    CounterBegin = distancePrev;
-                    CounterEnd = distancePrev + distanceCurr;
-                }
-                else
-                {
-                    CounterBegin = null;
-                    CounterEnd = null;
-                }
-                DistanceTotal = distanceCurr;
-            }
+        private void recalculateRouteStats(BL.Entities.Period prevPeriod)
+        {
+            RouteStats.Item = ValueStatsExt.CreateFrom(
+                _RouteEntries.NullAsEmpty().Select(entry => entry.Distance ?? entry.Route.GetSafeValue(_ => _.Distance)),
+                prevPeriod.GetSafeValue(_ => _.RouteStats.ValueEnd));
+        }
+        private void recalculateFuelStats(BL.Entities.Period prevPeriod)
+        {
+            FuelStats.Item = PurchaseStatsExt.CreateFrom(
+                _FuelEntries.NullAsEmpty(), _ => _.PurchaseVolume, _ => _.PurchaseAmount,
+                prevPeriod.GetSafeValue(_ => _.FuelStats.VolumeEnd),
+                prevPeriod.GetSafeValue(_ => _.FuelStats.AmountEnd));
         }
     }
 
@@ -120,22 +151,28 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
         private readonly Func<IDbRepositories> _repository;
         private readonly Func<IEnviromentService> _enviromentService;
         private readonly Func<IViewObjects<View.General.Car>> _cars;
-        private readonly Func<IConverterFromEntityChild<Tuple<Period, BL.Entities.Period>, PeriodEntry, BL.Entities.PeriodEntry>> _converterFromEntity;
-        private readonly Func<IConverterToEntityChild<Tuple<Period, BL.Entities.Period>, PeriodEntry, BL.Entities.PeriodEntry>> _converterToEntity;
+        private readonly Func<IConverterFromEntityChild<Tuple<Period, BL.Entities.Period>, PeriodFuelEntry, BL.Entities.PeriodFuelEntry>> _converterFromFuelEntity;
+        private readonly Func<IConverterToEntityChild<Tuple<Period, BL.Entities.Period>, PeriodFuelEntry, BL.Entities.PeriodFuelEntry>> _converterToFuelEntity;
+        private readonly Func<IConverterFromEntityChild<Tuple<Period, BL.Entities.Period>, PeriodRouteEntry, BL.Entities.PeriodRouteEntry>> _converterFromRouteEntity;
+        private readonly Func<IConverterToEntityChild<Tuple<Period, BL.Entities.Period>, PeriodRouteEntry, BL.Entities.PeriodRouteEntry>> _converterToRouteEntity;
 
         public PeriodConverter(
             Func<IDbRepositories> repository,
             Func<IEnviromentService> enviromentService,
             Func<IViewObjects<View.General.Car>> cars,
-            Func<IConverterFromEntityChild<Tuple<Period, BL.Entities.Period>, PeriodEntry, BL.Entities.PeriodEntry>> converterFromEntity,
-            Func<IConverterToEntityChild<Tuple<Period, BL.Entities.Period>, PeriodEntry, BL.Entities.PeriodEntry>> converterToEntity
+            Func<IConverterFromEntityChild<Tuple<Period, BL.Entities.Period>, PeriodFuelEntry, BL.Entities.PeriodFuelEntry>> converterFromFuelEntity,
+            Func<IConverterToEntityChild<Tuple<Period, BL.Entities.Period>, PeriodFuelEntry, BL.Entities.PeriodFuelEntry>> converterToFuelEntity,
+            Func<IConverterFromEntityChild<Tuple<Period, BL.Entities.Period>, PeriodRouteEntry, BL.Entities.PeriodRouteEntry>> converterFromRouteEntity,
+            Func<IConverterToEntityChild<Tuple<Period, BL.Entities.Period>, PeriodRouteEntry, BL.Entities.PeriodRouteEntry>> converterToRouteEntity
             )
         {
             _repository = repository;
             _enviromentService = enviromentService;
             _cars = cars;
-            _converterFromEntity = converterFromEntity;
-            _converterToEntity = converterToEntity;
+            _converterFromFuelEntity = converterFromFuelEntity;
+            _converterToFuelEntity = converterToFuelEntity;
+            _converterFromRouteEntity = converterFromRouteEntity;
+            _converterToRouteEntity = converterToRouteEntity;
         }
 
         protected override void OnInitialize(IMappingExpression<BL.Entities.Period, Period> mapingExpr)
@@ -154,7 +191,11 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
                         )
                 )
                 .ForMember(
-                    r => r.Entries,
+                    r => r.RouteEntries,
+                    cfg => cfg.Ignore()
+                )
+                .ForMember(
+                    r => r.FuelEntries,
                     cfg => cfg.Ignore()
                 )
                 .IgnoreAllPropertiesWithAnInaccessibleSetter()
@@ -177,7 +218,11 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
                         )
                 )
                 .ForMember(
-                    r => r.PeriodEntries,
+                    r => r.RouteEntries,
+                    cfg => cfg.Ignore()
+                )
+                .ForMember(
+                    r => r.FuelEntries,
                     cfg => cfg.Ignore()
                 )
                 ;
@@ -193,19 +238,32 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
                 dst.Car = dst.AllCars.OnlyOneOrDefault();
             }
 
-            dst.Entries = _converterFromEntity().Convert(
+            dst.FuelEntries = _converterFromFuelEntity().Convert(
                 dst, src,
-                src.PeriodEntries
+                src.FuelEntries
                 );
+            dst.FuelStats.Item = src.FuelStats;
+            dst.RouteEntries = _converterFromRouteEntity().Convert(
+                dst, src,
+                src.RouteEntries
+                );
+            dst.RouteStats.Item = src.RouteStats;
         }
 
         protected override void OnAfterMap(Period src, BL.Entities.Period dst, Mode mode)
         {
-            dst.PeriodEntries = _converterToEntity().Convert(
+            dst.FuelEntries = _converterToFuelEntity().Convert(
                 src, dst,
-                src.Entries,
-                dst.PeriodEntries
+                src.FuelEntries,
+                dst.FuelEntries
                 );
+            dst.FuelStats = src.FuelStats.Item;
+            dst.RouteEntries = _converterToRouteEntity().Convert(
+                src, dst,
+                src.RouteEntries,
+                dst.RouteEntries
+                );
+            dst.RouteStats = src.RouteStats.Item;
         }
     }
 }

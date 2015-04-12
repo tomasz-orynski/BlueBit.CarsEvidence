@@ -1,11 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
+﻿using BlueBit.CarsEvidence.Commons.Templates;
+using System.ComponentModel.DataAnnotations;
 
 namespace BlueBit.CarsEvidence.BL.Entities
 {
-    public class PeriodEntry :
-        EntityChildBase
+    public class PeriodRouteEntry :
+        EntityChildBase,
+        IObjectWithGetInfo
     {
+        [MaxLength(Configuration.Consts.LengthInfo)]
+        public virtual string Info { get; set; }
+
         [Required]
         public virtual Period Period { get; set; }
         [Required]

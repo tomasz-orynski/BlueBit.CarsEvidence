@@ -74,14 +74,70 @@
 
                         <GridViewColumn>
                             <i:Interaction.Behaviors>
-                                <_bbceBevaviors:SortColumnBehavior PropertyName="DistanceTotal" />
+                                <_bbceBevaviors:SortColumnBehavior PropertyName="RouteStats.Count" />
                             </i:Interaction.Behaviors>
                             <GridViewColumn.Header>
-                                <TextBlock Text="{StaticResource strObjectProp_DistanceTotal_}" ToolTip="{StaticResource strObjectProp_DistanceTotal}" />
+                                <TextBlock Text="{StaticResource strObjectProp_RouteStatsCnt_}" ToolTip="{StaticResource strObjectProp_RouteStatsCnt}" />
                             </GridViewColumn.Header>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding DistanceTotal}" ToolTip="{Binding DistanceTotal}" HorizontalAlignment="Right" />
+                                    <TextBlock Text="{Binding RouteStats.Count}" HorizontalAlignment="Right" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn>
+                            <i:Interaction.Behaviors>
+                                <_bbceBevaviors:SortColumnBehavior PropertyName="RouteStats.ValueSum" />
+                            </i:Interaction.Behaviors>
+                            <GridViewColumn.Header>
+                                <TextBlock Text="{StaticResource strObjectProp_RouteStatsSum_}" ToolTip="{StaticResource strObjectProp_RouteStatsSum}" />
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding RouteStats.ValueSum}" HorizontalAlignment="Right" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn>
+                            <i:Interaction.Behaviors>
+                                <_bbceBevaviors:SortColumnBehavior PropertyName="FuelStats.Count" />
+                            </i:Interaction.Behaviors>
+                            <GridViewColumn.Header>
+                                <TextBlock Text="{StaticResource strObjectProp_FuelStatsCnt_}" ToolTip="{StaticResource strObjectProp_FuelStatsCnt}" />
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding FuelStats.Count}" HorizontalAlignment="Right" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn>
+                            <i:Interaction.Behaviors>
+                                <_bbceBevaviors:SortColumnBehavior PropertyName="FuelStats.VolumeSum" />
+                            </i:Interaction.Behaviors>
+                            <GridViewColumn.Header>
+                                <TextBlock Text="{StaticResource strObjectProp_FuelStatsVolumeSum_}" ToolTip="{StaticResource strObjectProp_FuelStatsVolumeSum}" />
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding FuelStats.VolumeSum}" HorizontalAlignment="Right" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
+                        <GridViewColumn>
+                            <i:Interaction.Behaviors>
+                                <_bbceBevaviors:SortColumnBehavior PropertyName="FuelStats.AmountSum" />
+                            </i:Interaction.Behaviors>
+                            <GridViewColumn.Header>
+                                <TextBlock Text="{StaticResource strObjectProp_FuelStatsAmountSum_}" ToolTip="{StaticResource strObjectProp_FuelStatsAmountSum}" />
+                            </GridViewColumn.Header>
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding FuelStats.AmountSum}" HorizontalAlignment="Right" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

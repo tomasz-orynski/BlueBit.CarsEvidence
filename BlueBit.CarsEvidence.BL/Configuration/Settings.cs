@@ -42,7 +42,13 @@ namespace BlueBit.CarsEvidence.BL.Configuration
         {
             return Fluently
                 .Configure()
-                .Database(MsSqlConfiguration.MsSql2012.ConnectionString(c => c.FromConnectionStringWithKey(connectionStringKey)))
+                .Database(
+                    MsSqlConfiguration.MsSql2012
+                        .ConnectionString(c => c.FromConnectionStringWithKey(connectionStringKey))
+#if DEBUG
+                        .ShowSql()
+#endif
+                    )
                 .Mappings(m => m
                     .AutoMappings
                     .Add(AutoMap.AssemblyOf<Entities.IEntity>(Automapping.Configuration.DefaultAutomappingConfiguration)

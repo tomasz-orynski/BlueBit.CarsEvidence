@@ -52,7 +52,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands
         {
             return objects.All(item =>
                  {
-                    if (_editDocumentViewModelCreator.GetInstance(_editObjects.Get(item.ID)) != null) return false;
+                    if (_editDocumentViewModelCreator.GetInstance(item.ID) != null) return false;
                     if (!_editObjects.CanDelete(item)) return false;
                     return true;
                 });

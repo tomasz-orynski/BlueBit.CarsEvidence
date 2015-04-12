@@ -27,5 +27,12 @@ namespace BlueBit.CarsEvidence.BL.Configuration
         public static readonly DateTime ValueMaxDateTime = new DateTime(ValueMaxYear, ValueMaxMonth, 31, 23, 59, 59);
 
         public const string MaskPostalCode = "^[0-9]{2}-[0-9]{3}$";
+
+        public const int AmountSPrecision = 9;
+        public const int Amount1Precision = 6;
+        public const int AmountScale = 2;
+        public const int VolumeSPrecision = 7;
+        public const int Volume1Precision = 4;
+        public const int VolumeScale = 1;
     }
 }

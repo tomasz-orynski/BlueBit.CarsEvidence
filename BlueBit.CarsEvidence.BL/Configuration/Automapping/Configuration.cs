@@ -1,4 +1,5 @@
-﻿using BlueBit.CarsEvidence.BL.Entities.Components;
+﻿using BlueBit.CarsEvidence.BL.Entities.Attributes;
+using BlueBit.CarsEvidence.BL.Entities.Components;
 using BlueBit.CarsEvidence.BL.Entities.UserTypes;
 using BlueBit.CarsEvidence.Commons.Reflection;
 using FluentNHibernate;
@@ -43,9 +44,7 @@ namespace BlueBit.CarsEvidence.BL.Configuration.Automapping
 
         private class _CommonConventions :
             IClassConvention,
-            IIdConvention,
-            IPropertyConvention, 
-            IPropertyConventionAcceptance
+            IIdConvention
         {
             public void Apply(IClassInstance instance)
             {
@@ -66,30 +65,10 @@ namespace BlueBit.CarsEvidence.BL.Configuration.Automapping
                 instance.Column(tableColumnNameWithID);
                 instance.GeneratedBy.Native();
             }
-
-            public void Accept(IAcceptanceCriteria<IPropertyInspector> criteria)
-            {
-                criteria.Expect(c => {
-                    var memberInfo = c.Property.MemberInfo;
-                    return memberInfo.HasAttribute<RequiredAttribute>()
-                        || memberInfo.HasAttribute<MaxLengthAttribute>()
-                        || memberInfo.IsPropertyType<string>();
-                });
-            }
-            public void Apply(IPropertyInstance instance)
-            {
-                System.Diagnostics.Debug.WriteLine("NHPropIns:[{0}].[{1}]",
-                    instance.EntityType,
-                    instance.Property.MemberInfo.Name);
-
-                var memberInfo = instance.Property.MemberInfo
-                    .OnAttribute<RequiredAttribute>((_, attr) => instance.Not.Nullable())
-                    .OnAttribute<MaxLengthAttribute>((_, attr) => instance.Length(attr.Length))
-                    .OnPropertyType<string>((_) => instance.CustomType<Text>());
-            }
         }
 
-        private class _ForeignKeyConvention : ForeignKeyConvention
+        private class _ForeignKeyConvention :
+            ForeignKeyConvention
         {
             protected override string GetKeyName(Member property, Type type)
             {
@@ -100,13 +79,71 @@ namespace BlueBit.CarsEvidence.BL.Configuration.Automapping
             }
         }
 
+        private class _RequiredAttributeConvention :
+            AttributePropertyConvention<RequiredAttribute>
+        {
+            protected override void Apply(RequiredAttribute attribute, IPropertyInstance instance)
+            {
+                instance.Not.Nullable();
+            }
+        }
+        private class _MaxLengthAttributeConvention :
+            AttributePropertyConvention<MaxLengthAttribute>
+        {
+            protected override void Apply(MaxLengthAttribute attribute, IPropertyInstance instance)
+            {
+                instance.Length(attribute.Length);
+            }
+        }
+
+        private class _PrecisionScaleAttributeConvention :
+            AttributePropertyConvention<PrecisionScaleAttribute>
+        {
+            protected override void Apply(PrecisionScaleAttribute attribute, IPropertyInstance instance)
+            {
+                instance.Precision(attribute.Precision);
+                instance.Scale(attribute.Scale);
+            }
+        }
+
+        private class _TextTypeConvention :
+            UserTypeConvention<Text>
+        {
+            public override void Accept(IAcceptanceCriteria<IPropertyInspector> criteria)
+            {
+                criteria.Expect(c => {
+                    var memberInfo = c.Property.MemberInfo;
+                    return memberInfo.IsPropertyType<string>();
+                });
+            }
+        }
+
+        private class _EnumTypeConvention :
+            IUserTypeConvention
+        {
+            public void Accept(IAcceptanceCriteria<IPropertyInspector> criteria)
+            {
+                criteria.Expect(e => e.Property.PropertyType.IsEnum);
+            }
+
+            public void Apply(IPropertyInstance instance)
+            {
+                instance.CustomType(instance.Property.PropertyType);
+            }
+        }
+
         public static DefaultAutomappingConfiguration DefaultAutomappingConfiguration { get { return new _DefaultAutomappingConfiguration(); }}
         public static IEnumerable<IConvention> Conventions 
         { 
             get { 
                 yield return new _CommonConventions(); 
                 yield return new _ForeignKeyConvention();
-            } 
+                yield return new _RequiredAttributeConvention();
+                yield return new _MaxLengthAttributeConvention();
+                yield return new _TextTypeConvention();
+                yield return new _EnumTypeConvention();
+                yield return new _PrecisionScaleAttributeConvention();
+            }
         }
     }
 }

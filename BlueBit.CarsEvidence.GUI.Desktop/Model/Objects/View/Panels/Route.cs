@@ -8,19 +8,19 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels
     [Attributes.EntityType(typeof(BL.Entities.Route))]
     [Attributes.ConverterType(typeof(RouteConverter))]
     public class Route :
-        ViewPanelObjectWithCodeBase
+        ViewPanelObjectWithCodeInfoBase
     {
         private General.Address _AddressFrom;
-        public General.Address AddressFrom { get { return _AddressFrom; } set { Set(ref _AddressFrom, value); } }
+        public General.Address AddressFrom { get { return _AddressFrom; } set { _Set(ref _AddressFrom, value); } }
 
         private General.Address _AddressTo;
-        public General.Address AddressTo { get { return _AddressTo; } set { Set(ref _AddressTo, value); } }
+        public General.Address AddressTo { get { return _AddressTo; } set { _Set(ref _AddressTo, value); } }
 
         private long _Distance;
-        public long Distance { get { return _Distance; } set { Set(ref _Distance, value); } }
+        public long Distance { get { return _Distance; } set { _Set(ref _Distance, value); } }
 
         private bool _DistanceIsInBothDirections;
-        public bool DistanceIsInBothDirections { get { return _DistanceIsInBothDirections; } set { Set(ref _DistanceIsInBothDirections, value); } }
+        public bool DistanceIsInBothDirections { get { return _DistanceIsInBothDirections; } set { _Set(ref _DistanceIsInBothDirections, value); } }
     }
 
     public class RouteConverter :

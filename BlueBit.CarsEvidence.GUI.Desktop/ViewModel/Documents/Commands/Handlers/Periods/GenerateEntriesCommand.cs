@@ -20,11 +20,11 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents.Commands.Handlers
         IGenerateEntriesCommand
     {
         private readonly Func<IDialogService<GenerateEntriesDialogViewModel>> _dialogService;
-        private readonly Func<PeriodEntry> _periodEntryCreator;
+        private readonly Func<PeriodRouteEntry> _periodEntryCreator;
 
         public GenerateEntriesCommand(
             Func<IDialogService<GenerateEntriesDialogViewModel>> dialogService,
-            Func<PeriodEntry> periodEntryCreator)
+            Func<PeriodRouteEntry> periodEntryCreator)
         {
             _dialogService = dialogService;
             _periodEntryCreator = periodEntryCreator;
@@ -54,7 +54,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents.Commands.Handlers
         private bool _Execute(GenerateEntriesDialogViewModel dvm)
         {
             var period = dvm.Period;
-            period.Entries.Clear();
+            period.RouteEntries.Clear();
 
             Func<int, bool> filter = (_) => {
                 if (!dvm.OnlyWorkDays) return true;

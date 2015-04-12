@@ -13,7 +13,6 @@
     <ad:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 
     <sys:String x:Key="strApp">CarsEvidence</sys:String>
-    <BitmapImage x:Key="imgApp" UriSource="Resources/Icons/globe.png" />
     
     <sys:String x:Key="strApp_RibbonMenu_Key">P</sys:String>
     <sys:String x:Key="strApp_RibbonTab_Repository">Kartoteki</sys:String>
@@ -113,6 +112,9 @@
     <sys:Int32 x:Key="lenObjectPropType_Number">10</sys:Int32>
     <sys:Double x:Key="widthObjectPropType_Number">100</sys:Double>
     <sys:Double x:Key="widthObjectPropType_Number_">60</sys:Double>
+    <sys:Int32 x:Key="lenObjectPropType_Cnt">3</sys:Int32>
+    <sys:Double x:Key="widthObjectPropType_Cnt">50</sys:Double>
+    <sys:Double x:Key="widthObjectPropType_Cnt_">40</sys:Double>
     <sys:Int32 x:Key="lenObjectPropType_Text">250</sys:Int32>
     <sys:Double x:Key="widthObjectPropType_Text">400</sys:Double>
     <sys:Double x:Key="widthObjectPropType_Date">110</sys:Double>
@@ -130,6 +132,8 @@
     <sys:Double x:Key="widthObjectProp_Year">50</sys:Double>
     <sys:Double x:Key="widthObjectProp_Month">65</sys:Double>
     <sys:Double x:Key="widthObjectProp_Day">65</sys:Double>
+    <sys:Double x:Key="widthObjectProp_TimeOfDay">65</sys:Double>
+    <sys:Double x:Key="widthObjectProp_FuelType">65</sys:Double>
     <sys:Int32 x:Key="lenObjectProp_PostalCode">6</sys:Int32>
     <sys:Double x:Key="widthObjectProp_PostalCode">50</sys:Double>
     <sys:Int32 x:Key="lenObjectProp_IdentifierNIP">13</sys:Int32>
@@ -193,6 +197,18 @@
     <sys:String x:Key="strObjectProp_Route">Trasa</sys:String>
     <sys:String x:Key="strObjectProp_Route_">Trasa</sys:String>
 
+    <sys:String x:Key="strObjectProp_Fuel">Tankowanie</sys:String>
+    <sys:String x:Key="strObjectProp_Fuel_">Tankowanie</sys:String>
+
+    <sys:String x:Key="strObjectProp_Count">Ilość</sys:String>
+    <sys:String x:Key="strObjectProp_Count_">Ilość</sys:String>
+
+    <sys:String x:Key="strObjectProp_Volume">Ilość</sys:String>
+    <sys:String x:Key="strObjectProp_Volume_">Ilość</sys:String>
+
+    <sys:String x:Key="strObjectProp_Amount">Kwota</sys:String>
+    <sys:String x:Key="strObjectProp_Amount_">Kwota</sys:String>
+
     <sys:String x:Key="strObjectProp_Distance">Odległość</sys:String>
     <sys:String x:Key="strObjectProp_Distance_">Odl.</sys:String>
 
@@ -214,6 +230,12 @@
     <sys:String x:Key="strObjectProp_Day">Dzień</sys:String>
     <sys:String x:Key="strObjectProp_Day_">Dzień</sys:String>
 
+    <sys:String x:Key="strObjectProp_TimeOfDay">Pora dnia</sys:String>
+    <sys:String x:Key="strObjectProp_TimeOfDay_">Pora dnia</sys:String>
+
+    <sys:String x:Key="strObjectProp_FuelType">Rodzaj paliwa</sys:String>
+    <sys:String x:Key="strObjectProp_FuelType_">Rodzaj paliwa</sys:String>
+
     <sys:String x:Key="strObjectProp_Name">Nazwa</sys:String>
     <sys:String x:Key="strObjectProp_Name_">Nazwa</sys:String>
 
@@ -231,6 +253,21 @@
 
     <sys:String x:Key="strObjectProp_IdentifierREGON">REGON</sys:String>
     <sys:String x:Key="strObjectProp_IdentifierREGON_">REGON</sys:String>
+
+    <sys:String x:Key="strObjectProp_RouteEntries">Przejazdy</sys:String>
+    <sys:String x:Key="strObjectProp_RouteStats">Stat. przejazdów</sys:String>
+    <sys:String x:Key="strObjectProp_RouteStatsCnt">Ilość przejazdów</sys:String>
+    <sys:String x:Key="strObjectProp_RouteStatsCnt_">Il.prz.</sys:String>
+    <sys:String x:Key="strObjectProp_RouteStatsSum">Suma odległości przejazdów</sys:String>
+    <sys:String x:Key="strObjectProp_RouteStatsSum_">S.prz.</sys:String>
+    <sys:String x:Key="strObjectProp_FuelEntries">Tankowania</sys:String>
+    <sys:String x:Key="strObjectProp_FuelStats">Stat. tankowań</sys:String>
+    <sys:String x:Key="strObjectProp_FuelStatsCnt">Ilość tankowań</sys:String>
+    <sys:String x:Key="strObjectProp_FuelStatsCnt_">Il.tnk.</sys:String>
+    <sys:String x:Key="strObjectProp_FuelStatsVolumeSum">Suma tankowań</sys:String>
+    <sys:String x:Key="strObjectProp_FuelStatsVolumeSum_">S.tnk.</sys:String>
+    <sys:String x:Key="strObjectProp_FuelStatsAmountSum">Kwota tankowań</sys:String>
+    <sys:String x:Key="strObjectProp_FuelStatsAmountSum_">K.tnk.</sys:String>
 
     <sys:String x:Key="strObjectProp_OnlyWorkDays">Tylko dni robocze</sys:String>
 

@@ -10,29 +10,25 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
     [Attributes.EntityType(typeof(BL.Entities.Route))]
     [Attributes.ConverterType(typeof(RouteConverter))]
     public class Route :
-        EditDocumentObjectWithCodeBase
+        EditDocumentObjectWithCodeInfoBase
     {
         public ObservableCollection<View.General.Address> AllAddresses { get { return _addresses().Items; } }
 
         private View.General.Address _AddressFrom;
         [Required]
-        public View.General.Address AddressFrom { get { return _AddressFrom; } set { Set(ref _AddressFrom, value); } }
+        public View.General.Address AddressFrom { get { return _AddressFrom; } set { _Set(ref _AddressFrom, value); } }
 
         private View.General.Address _AddressTo;
         [Required]
-        public View.General.Address AddressTo { get { return _AddressTo; } set { Set(ref _AddressTo, value); } }
+        public View.General.Address AddressTo { get { return _AddressTo; } set { _Set(ref _AddressTo, value); } }
 
         private long _Distance;
         [Required]
-        public long Distance { get { return _Distance; } set { Set(ref _Distance, value); } }
+        public long Distance { get { return _Distance; } set { _Set(ref _Distance, value); } }
 
         private bool _DistanceIsInBothDirections;
         [Required]
-        public bool DistanceIsInBothDirections { get { return _DistanceIsInBothDirections; } set { Set(ref _DistanceIsInBothDirections, value); } }
-
-        private string _Info;
-        [MaxLength(BL.Configuration.Consts.LengthInfo)]
-        public string Info { get { return _Info; } set { Set(ref _Info, value); } }
+        public bool DistanceIsInBothDirections { get { return _DistanceIsInBothDirections; } set { _Set(ref _DistanceIsInBothDirections, value); } }
 
         private readonly Func<IViewObjects<View.General.Address>> _addresses;
 

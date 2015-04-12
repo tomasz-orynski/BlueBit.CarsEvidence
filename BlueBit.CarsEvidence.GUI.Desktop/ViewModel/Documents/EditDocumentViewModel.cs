@@ -1,5 +1,5 @@
-﻿using BlueBit.CarsEvidence.BL.Alghoritms;
-using BlueBit.CarsEvidence.Commons.Templates;
+﻿using BlueBit.CarsEvidence.Commons.Templates;
+using BlueBit.CarsEvidence.GUI.Desktop.Configuration.Attributes;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents;
@@ -8,7 +8,8 @@ using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents.Commands.Handlers;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents.Commands.Handlers.Periods;
 using dotNetExt;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics.Contracts;
 using System.Windows.Input;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents
@@ -74,7 +75,6 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents
                 CmdKey.Cancel,
                 parameters.CmdCancel, () => Item));
         }
-
     }
 
     public class AddressEditDocumentViewModel : EditDocumentViewModelBase<Address>
@@ -104,37 +104,76 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents
         { }
     }
 
-    public class PeriodEditDocumentViewModel : EditDocumentViewModelBase<Period>
+    public abstract class PeriodEntriesEditGridViewModelBase<TEntry> :
+        EditGridViewModelBase<Period, TEntry>
     {
-        private readonly Lazy<ISelectionCommand<PeriodEntry>> _cmdSelected = CreateCommandForSelectionLazy<PeriodEntry>();
+        public PeriodEditDocumentViewModel ParentModel { get; set; }
+        protected Period GetParent() 
+        {
+            Contract.Assert(ParentModel != null);
+            return ParentModel.Item;
+        }
+    }
 
-        private readonly CommandsViewModel _entriesCommands = new CommandsViewModel();
-        public CommandsViewModel EntriesCommands { get { return _entriesCommands; } }
+    [Register(typeof(PeriodRouteEntriesEditGridViewModel))]
+    public class PeriodRouteEntriesEditGridViewModel :
+        PeriodEntriesEditGridViewModelBase<PeriodRouteEntry>
+    {
+        public override ObservableCollection<PeriodRouteEntry> Items { get { return GetParent().RouteEntries; } }
 
-        public ICommand EventCmdEntriesSelectectionChanged { get { return _cmdSelected.Value; } }
+        public PeriodRouteEntriesEditGridViewModel(
+            IAddEntryCommandHandler<PeriodRouteEntry> cmdAddEntry,
+            IDeleteEntriesCommandHandler<PeriodRouteEntry> cmdDeleteEntries,
+            IGenerateEntriesCommand cmdGenerateEntries
+            )
+        {
+            ItemsCommands.Add(CreateCommandForItem(CmdKey.Generate,
+                cmdGenerateEntries, GetParent));
+            ItemsCommands.Add(CreateCommandForItem(CmdKey.Add,
+                cmdAddEntry, GetParent));
+            ItemsCommands.Add(CreateCommandForSelected(CmdKey.Delete,
+                cmdDeleteEntries));
+        }
+    }
+
+    [Register(typeof(PeriodFuelEntriesEditGridViewModel))]
+    public class PeriodFuelEntriesEditGridViewModel :
+        PeriodEntriesEditGridViewModelBase<PeriodFuelEntry>
+    {
+        public override ObservableCollection<PeriodFuelEntry> Items { get { return GetParent().FuelEntries; } }
+
+        public PeriodFuelEntriesEditGridViewModel(
+            Func<Period> parent,
+            IAddEntryCommandHandler<PeriodFuelEntry> cmdAddEntry,
+            IDeleteEntriesCommandHandler<PeriodFuelEntry> cmdDeleteEntries
+            )
+        {
+            ItemsCommands.Add(CreateCommandForItem(CmdKey.Add,
+                cmdAddEntry, GetParent));
+            ItemsCommands.Add(CreateCommandForSelected(CmdKey.Delete,
+                cmdDeleteEntries));
+        }
+    }
+
+    public class PeriodEditDocumentViewModel : 
+        EditDocumentViewModelBase<Period>
+    {
+        private readonly PeriodRouteEntriesEditGridViewModel _RouteEntries;
+        public PeriodRouteEntriesEditGridViewModel RouteEntries { get { return _RouteEntries; } }
+        private readonly PeriodFuelEntriesEditGridViewModel _FuelEntries;
+        public PeriodFuelEntriesEditGridViewModel FuelEntries { get { return _FuelEntries; } }
 
         public PeriodEditDocumentViewModel(
             EditDocumentViewModelBaseParamSet<Period> parameters,
-            IAddEntryCommandHandler cmdAddEntry,
-            IDeleteEntriesCommandHandler cmdDeleteEntries,
-            IGenerateEntriesCommand cmdGenerateEntries
+            PeriodRouteEntriesEditGridViewModel routeEntriesModel,
+            PeriodFuelEntriesEditGridViewModel fuelEntriesModel
             )
             : base(parameters)
         {
-            EntriesCommands.Add(CreateCommandForItem(CmdKey.Generate,
-                cmdGenerateEntries, () => Item));
-            EntriesCommands.Add(CreateCommandForItem(CmdKey.Add,
-                cmdAddEntry, () => Item));
-            EntriesCommands.Add(CreateCommandForSelected(CmdKey.Delete,
-                cmdDeleteEntries));
-        }
-
-        private IEnumerable<PeriodEntry> GetSelectedSet() { return _cmdSelected.Value.SelectedSet; }
-        protected CommandInfo CreateCommandForSelected<TCmd>(CmdKey key, TCmd cmd)
-            where TCmd : ICommandHandlerForSelected<PeriodEntry>
-        {
-            cmd.SelectedSet = GetSelectedSet;
-            return CreateCommand(key, cmd);
+            _RouteEntries = routeEntriesModel;
+            _RouteEntries.ParentModel = this;
+            _FuelEntries = fuelEntriesModel;
+            _FuelEntries.ParentModel = this;
         }
     }
 

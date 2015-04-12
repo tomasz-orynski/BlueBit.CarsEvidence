@@ -194,12 +194,12 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel
         }
 
         public static string GetTitle<T>(this IObjectWithItem<T> @this)
-            where T : IObjectForEntityType, IObjectWithDescriptionForTitle
+            where T : IObjectForEntityType, IObjectWithDescription
         {
             Contract.Assert(@this != null);
             Contract.Assert(@this.Item != null);
             var frmt = @this.GetTitleFormat();
-            return string.Format(frmt, @this.Item.DescriptionForTitle);
+            return string.Format(frmt, @this.Item.Description);
         }
 
         public static Tuple<string, Version> GetAppNameVersion<T>(this T t)

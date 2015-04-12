@@ -73,7 +73,6 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands
         protected abstract TResult OnExecute(T item);
     }
 
-
     public abstract class CommandBase :
         ObservableObject,
         ICommand

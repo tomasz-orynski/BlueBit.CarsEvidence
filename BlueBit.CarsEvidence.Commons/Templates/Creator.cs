@@ -20,8 +20,9 @@ namespace BlueBit.CarsEvidence.Commons.Templates
 
     public interface ISingletonForItem<out T, in TItem>
         where T : IObjectWithItem<TItem>
+        where TItem : IObjectWithGetID
     {
-        T GetInstance(TItem item);
+        T GetInstance(long itemID);
     }
 
     public interface ICreatorForItem<out T, in TItem>
@@ -34,6 +35,7 @@ namespace BlueBit.CarsEvidence.Commons.Templates
         ICreatorForItem<T, TItem>,
         ISingletonForItem<T, TItem>
         where T : IObjectWithItem<TItem>
+        where TItem : IObjectWithGetID
     {
     }
 }

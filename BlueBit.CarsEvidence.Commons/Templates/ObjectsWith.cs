@@ -1,39 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BlueBit.CarsEvidence.BL.Alghoritms
+namespace BlueBit.CarsEvidence.Commons.Templates
 {
-    public interface IObjectWithGetID
-    {
-        long ID { get; }
-    }
-
-    public interface IObjectWithSetID
-    {
-        long ID { set; }
-    }
-
-    public interface IObjectWithGetCode
-    {
-        string Code { get; }
-    }
-
-    public static class IDExtensions
+    public static class ObjectsWithIDExtensions
     {
         private static IEnumerable<long> Range()
         {
             var id = -1L;
-            do {
+            do
+            {
                 yield return id;
             } while (--id > long.MinValue);
         }
 
         public static long GetTempID<T>(this IEnumerable<T> @this)
-            where T: IObjectWithGetID
+            where T : IObjectWithGetID
         {
             Contract.Assert(@this != null);
 

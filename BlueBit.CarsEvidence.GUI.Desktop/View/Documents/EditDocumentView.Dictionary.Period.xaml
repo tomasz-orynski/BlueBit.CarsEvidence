@@ -12,8 +12,12 @@
     <DataTemplate DataType="{x:Type _bbceDocuments:PeriodEditDocumentViewModel}">
         <Grid x:Name="root">
             <Grid.Resources>
-                <SolidColorBrush x:Key="RedGridLine" Color="#FFFF4444" />
-                <SolidColorBrush x:Key="BlueGridLine" Color="#554444FF"/>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="EditDocumentView.Dictionary.Period.RouteEntries.xaml" />
+                        <ResourceDictionary Source="EditDocumentView.Dictionary.Period.FuelEntries.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
             </Grid.Resources>
             
             <Grid.ColumnDefinitions>
@@ -76,366 +80,51 @@
                     </ComboBox.ItemTemplate>
                 </ComboBox>
             </StackPanel>
-                
+
             <Label 
-                Grid.Row="3" Grid.Column="0"
-                Content="{StaticResource strObjectProp_DistanceTotal}"/>
-            <StackPanel
+                Grid.Row="3" Grid.Column="0" 
+                Content="{StaticResource strObjectProp_Info}"/>
+            <TextBox 
                 Grid.Row="3" Grid.Column="1" 
-                Orientation="Horizontal"
-                >
-                <TextBox 
-                Text="{Binding Item.DistanceTotal, Mode=OneWay}" 
-                IsEnabled="False"
-                TextAlignment="Right"
-                MaxLength="{StaticResource lenObjectPropType_Number}"
-                Width="{StaticResource widthObjectPropType_Number}"/>
-            </StackPanel>
+                Text="{Binding Item.Info, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                MaxLength="{StaticResource lenObjectProp_Info}"
+                Width="{StaticResource widthObjectProp_Info}"
+                Height="{StaticResource heightObjectProp_Info}"
+                AcceptsReturn="True"
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Auto"
+                />
 
             <Label 
                 Grid.Row="4" Grid.Column="0"
-                Content="{StaticResource strObjectProp_CounterBegEnd}"/>
-            <StackPanel
+                Content="{StaticResource strObjectProp_RouteStats}"/>
+            <ContentControl 
                 Grid.Row="4" Grid.Column="1" 
-                Orientation="Horizontal"
-                >
-                <TextBox 
-                    Text="{Binding Item.CounterBegin, Mode=OneWay}" 
-                    IsEnabled="False"
-                    TextAlignment="Right"
-                    MaxLength="{StaticResource lenObjectPropType_Number}"
-                    Width="{StaticResource widthObjectPropType_Number}"
-                    />
-                <TextBox 
-                    Text="{Binding Item.CounterEnd, Mode=OneWay}" 
-                    IsEnabled="False"
-                    TextAlignment="Right"
-                    MaxLength="{StaticResource lenObjectPropType_Number}"
-                    Width="{StaticResource widthObjectPropType_Number}"/>
-            </StackPanel>
+                ContentTemplate="{DynamicResource dtValueStatsLong}"
+                Content="{Binding Item.RouteStats}" />
+            
+            <Label 
+                Grid.Row="5" Grid.Column="0"
+                Content="{StaticResource strObjectProp_FuelStats}"/>
+            <ContentControl 
+                Grid.Row="5" Grid.Column="1" 
+                ContentTemplate="{DynamicResource dtPurchaseStatsLong}"
+                Content="{Binding Item.FuelStats}" />
 
             <Label 
-                Grid.Row="5" Grid.Column="0" 
+                Grid.Row="6" Grid.Column="0" 
                 Content="{StaticResource strObjectProp_Entries}"/>
-            <StackPanel
-                Grid.Row="5" Grid.Column="1" 
-                Orientation="Vertical"
+            <TabControl
+                Grid.Row="6" Grid.Column="1" 
+                Width="630"
                 >
-                <DataGrid 
-                    ItemsSource="{Binding Item.Entries}"
-                    AutoGenerateColumns="False"
-                    CanUserAddRows="True"
-                    CanUserDeleteRows="True"
-                    CanUserResizeRows="False"
-                    CanUserResizeColumns="False"
-                    CanUserSortColumns="True"
-                    MaxHeight="800"
-                    >
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Loaded">
-                            <mvvm:EventToCommand Command="{Binding Path=EventCmdEntriesSelectectionChanged}" PassEventArgsToCommand="True" />
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <mvvm:EventToCommand Command="{Binding Path=EventCmdEntriesSelectectionChanged}" PassEventArgsToCommand="True" />
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="InitializingNewItem">
-                            <mvvm:EventToCommand Command="{Binding Path=EventCmdEntriesInitializingNewItem}" PassEventArgsToCommand="True" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                
-                    <DataGrid.Resources>
-                        <!-- Niestety style globalne nie działają bo są też tu używane! -->
-                        <Style TargetType="DataGrid">
-                            <Setter Property="Margin" Value="2" />
-                            <Setter Property="VerticalGridLinesBrush" Value="LightGray" />
-                            <Setter Property="HorizontalGridLinesBrush" Value="LightGray" />
-                            <Setter Property="RowHeight" Value="25" />
-                            <Setter Property="ContextMenu">
-                                <Setter.Value>
-                                    <ContextMenu 
-                                        ItemsSource="{Binding EntriesCommands.Items}" 
-                                        ItemContainerStyle="{DynamicResource sCommandMenuItem}" />
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-
-                        <Style TargetType="{x:Type TextBox}">
-                            <Setter Property="Margin" Value="0" />
-                            <Setter Property="HorizontalAlignment" Value="Stretch" />
-                            <Setter Property="VerticalAlignment" Value="Stretch" />
-                            <Setter Property="VerticalContentAlignment" Value="Center" />
-                        </Style>
-
-                        <Style TargetType="{x:Type ComboBox}">
-                            <Setter Property="Margin" Value="0" />
-                            <Setter Property="HorizontalAlignment" Value="Stretch" />
-                            <Setter Property="VerticalAlignment" Value="Stretch" />
-                            <Setter Property="HorizontalContentAlignment" Value="Left" />
-                            <Setter Property="VerticalContentAlignment" Value="Center" />
-                        </Style>
-
-                        <Style TargetType="{x:Type tk:CalculatorUpDown}">
-                            <Setter Property="Margin" Value="0" />
-                            <Setter Property="HorizontalAlignment" Value="Stretch" />
-                            <Setter Property="VerticalAlignment" Value="Stretch" />
-                            <Setter Property="VerticalContentAlignment" Value="Center" />
-                        </Style>
-                    </DataGrid.Resources>
-
-                    <DataGrid.Columns>
-<!-- TODO
-                        <DataGridTemplateColumn
-                            MinWidth="30"
-                            MaxWidth="30"
-                            >
-                            <DataGridTemplateColumn.Header>
-                                <CheckBox IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext.EventCmdEntriesSelectectionChanged.SelectedState}" />
-                            </DataGridTemplateColumn.Header>
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <CheckBox 
-                                        Tag="{Binding ID}" 
-                                        ToolTip="{Binding ID}"
-                                        IsChecked="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGridRow}}, Path=IsSelected}" 
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Center"
-                                        />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
--->
-                        <DataGridTemplateColumn
-                            Header="{StaticResource strObjectProp_Day_}"
-                            SortMemberPath="Day.Number"
-                            >
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock 
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Left"
-                                        Text="{Binding Day.Description}" 
-                                        Width="{StaticResource widthObjectProp_Day}"
-                                        />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                            <DataGridTemplateColumn.CellEditingTemplate>
-                                <DataTemplate>
-                                    <ComboBox
-                                        ItemsSource="{Binding AllDays}"
-                                        SelectedItem="{Binding Day}"
-                                        Width="{StaticResource widthObjectProp_Day}"
-                                        >
-                                        <i:Interaction.Behaviors>
-                                            <_bbceBevaviors:SortDefaultBehavior PropertyNames="Description" />
-                                            <_bbceBevaviors:FocusBehavior />
-                                        </i:Interaction.Behaviors>
-
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Description}" />
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellEditingTemplate>
-                        </DataGridTemplateColumn>
-
-                        <DataGridTemplateColumn
-                            Header="{StaticResource strObjectProp_Person_}"
-                            SortMemberPath="Person.Description"
-                            >
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock 
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Left"
-                                        Text="{Binding Person.Description}" 
-                                        Width="{StaticResource widthObjectProp_Description}"
-                                        />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                            <DataGridTemplateColumn.CellEditingTemplate>
-                                <DataTemplate>
-                                    <ComboBox
-                                        ItemsSource="{Binding AllPersons}"
-                                        SelectedItem="{Binding Person}"
-                                        Width="{StaticResource widthObjectProp_Description}"
-                                        >
-                                        <i:Interaction.Behaviors>
-                                            <_bbceBevaviors:SortDefaultBehavior PropertyNames="Description" />
-                                            <_bbceBevaviors:FocusBehavior />
-                                        </i:Interaction.Behaviors>
-
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock 
-                                                    Text="{Binding Description}" />
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellEditingTemplate>
-                        </DataGridTemplateColumn>
-
-                        <DataGridTemplateColumn
-                            Header="{StaticResource strObjectProp_Route_}"
-                            SortMemberPath="Route.Description"
-                            >
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Left"
-                                            Text="{Binding Route.Description}" 
-                                            Width="{StaticResource widthObjectProp_Description}"
-                                            />
-                                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                        <TextBlock 
-                                            Text="{Binding Route.Distance}"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Right"
-                                            TextAlignment="Right"
-                                            Width="{StaticResource widthObjectPropType_Number_}"
-                                            Foreground="Gray"
-                                            />
-                                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                        <CheckBox 
-                                            IsChecked="{Binding Route.DistanceIsInBothDirections, UpdateSourceTrigger=PropertyChanged}"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Center"
-                                            IsEnabled="False" 
-                                            />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                            <DataGridTemplateColumn.CellEditingTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <ComboBox
-                                            ItemsSource="{Binding AllRoutes}"
-                                            SelectedItem="{Binding Route, UpdateSourceTrigger=PropertyChanged}"
-                                            Width="{StaticResource widthObjectProp_Description}"
-                                            >
-                                            <i:Interaction.Behaviors>
-                                                <_bbceBevaviors:SortDefaultBehavior PropertyNames="Description" />
-                                                <_bbceBevaviors:FocusBehavior />
-                                            </i:Interaction.Behaviors>
-
-                                            <ComboBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock Text="{Binding Description}" />
-                                                </DataTemplate>
-                                            </ComboBox.ItemTemplate>
-                                        </ComboBox>
-                                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                        <TextBlock 
-                                            Text="{Binding Route.Distance}"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Right"
-                                            TextAlignment="Right"
-                                            Width="{StaticResource widthObjectPropType_Number_}"
-                                            Foreground="Gray"
-                                            />
-                                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                        <CheckBox 
-                                            IsChecked="{Binding Route.DistanceIsInBothDirections, UpdateSourceTrigger=PropertyChanged}"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Center"
-                                            IsEnabled="False" 
-                                            />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellEditingTemplate>
-                        </DataGridTemplateColumn>
-
-                        <DataGridTemplateColumn
-                            Header="{StaticResource strObjectProp_Distance_}"
-                            MinWidth="{StaticResource widthObjectPropType_Number}"
-                            >
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <CheckBox
-                                            IsEnabled="False"
-                                            IsChecked="{Binding DistanceState, UpdateSourceTrigger=PropertyChanged}"
-                                            />
-                                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                        <TextBlock 
-                                            Text="{Binding DistanceValue}"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Right"
-                                            TextAlignment="Right"
-                                            Width="{StaticResource widthObjectPropType_Number}"
-                                            Visibility="{Binding DistanceState, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter={x:Static Visibility.Hidden}}"
-                                            />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                            <DataGridTemplateColumn.CellEditingTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <CheckBox
-                                            x:Name="chkbox"
-                                            IsChecked="{Binding DistanceState, UpdateSourceTrigger=PropertyChanged}"
-                                            >
-                                            <i:Interaction.Behaviors>
-                                                <_bbceBevaviors:FocusBehavior />
-                                            </i:Interaction.Behaviors>
-                                        </CheckBox>
-                                        <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                        <tk:CalculatorUpDown 
-                                            Text="{Binding DistanceValue, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
-                                            IsEnabled="{Binding ElementName=chkbox, Path=IsChecked}"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Right"
-                                            TextAlignment="Right"
-                                            Width="{StaticResource widthObjectPropType_Number}"
-                                            />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellEditingTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                
-                    <DataGrid.RowStyle>
-                        <Style TargetType="DataGridRow">
-                            <Setter Property="Background" Value="{Binding Colour}" />
-                        </Style>
-                    </DataGrid.RowStyle>
-                </DataGrid>
-
-<!-- TODO
-                <Border 
-                    BorderThickness="1" 
-                    BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" 
-                    Background="{DynamicResource {x:Static SystemColors.GradientInactiveCaptionBrushKey}}"
-                    Margin="1"
-                    >
-                    <StackPanel
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        >
-                        <TextBlock>
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0}: #{1}/{2}">
-                                    <Binding Source="{StaticResource strSelectionInfo}" />
-                                    <Binding Path="ItemsSelected.SelectedCount" />
-                                    <Binding Path="Items.Count" />
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                    </StackPanel>
-                </Border>
--->
-                
-                <ContentControl 
-                    Margin="5,5,0,5" HorizontalAlignment="Right" 
-                    Content="{Binding EntriesCommands}" 
-                    ContentTemplate="{DynamicResource dtCommandsButons}"
-                    />
-            </StackPanel>
+                <TabItem Header="{StaticResource strObjectProp_RouteEntries}">
+                    <ContentControl Content="{Binding RouteEntries}"/>
+                </TabItem>
+                <TabItem Header="{StaticResource strObjectProp_FuelEntries}">
+                    <ContentControl Content="{Binding FuelEntries}"/>
+                </TabItem>
+            </TabControl>
 
         </Grid>
     </DataTemplate>

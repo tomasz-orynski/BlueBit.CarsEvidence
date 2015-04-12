@@ -1,11 +1,11 @@
-﻿using BlueBit.CarsEvidence.BL.Alghoritms;
+﻿using BlueBit.CarsEvidence.Commons.Templates;
 using System.ComponentModel.DataAnnotations;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
 {
     public interface IEditDocumentObject :
         IEditObject,
-        IObjectWithDescriptionForTitle
+        IObjectWithDescription
     {
     }
 
@@ -13,10 +13,10 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
         EditObjectBase,
         IEditDocumentObject
     {
-        public abstract string DescriptionForTitle { get; }
+        public abstract string Description { get; }
     }
 
-    public abstract class EditDocumentObjectWithCodeBase :
+    public abstract class EditDocumentObjectWithCodeInfoBase :
         EditDocumentObjectBase,
         IObjectWithGetCode
     {
@@ -24,9 +24,13 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
         [Required]
         [MaxLength(BL.Configuration.Consts.LengthCode)]
         [Key]
-        public string Code { get { return _code; } set { Set(ref _code, value); } }
+        public string Code { get { return _code; } set { _Set(ref _code, value); } }
 
-        public override sealed string DescriptionForTitle { get { return this.GetDescriptionForTitle(); } }
+        private string _Info;
+        [MaxLength(BL.Configuration.Consts.LengthInfo)]
+        public string Info { get { return _Info; } set { _Set(ref _Info, value); } }
+
+        public override sealed string Description { get { return this.GetDescription(); } }
     }
 
     public interface IEditDocumentObjectChild :

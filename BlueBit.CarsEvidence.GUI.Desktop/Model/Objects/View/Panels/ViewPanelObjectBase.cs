@@ -1,9 +1,4 @@
-﻿using BlueBit.CarsEvidence.BL.Alghoritms;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BlueBit.CarsEvidence.Commons.Templates;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels
 {
@@ -20,19 +15,23 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels
         public abstract string DescriptionForToolTip { get; }
     }
 
-    public abstract class ViewPanelObjectWithCodeBase :
+    public abstract class ViewPanelObjectWithCodeInfoBase :
         ViewPanelObjectBase,
-        IObjectWithGetCode
+        IObjectWithGetCode,
+        IObjectWithGetInfo
     {
         private string _code;
-        public string Code { get { return _code; } set { Set(ref _code, value); } }
+        public string Code { get { return _code; } set { _Set(ref _code, value); } }
+
+        private string _info;
+        public string Info { get { return _info; } set { _Set(ref _info, value); } }
 
         public override sealed string DescriptionForToolTip { get { return this.GetDescriptionForToolTip(); } }
 
-        static ViewPanelObjectWithCodeBase()
+        static ViewPanelObjectWithCodeInfoBase()
         {
-            RegisterPropertyDependency<ViewPanelObjectWithCodeBase>()
-                .Add(x => x.DescriptionForToolTip, x => x.Code);
+            RegisterPropertyDependency<ViewPanelObjectWithCodeInfoBase>()
+                .Add(_ => _.DescriptionForToolTip, _ => _.Code, _ => _.Info);
         }
     }
 }

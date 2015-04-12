@@ -22,4 +22,14 @@ namespace BlueBit.CarsEvidence.Commons.Helpers
                 : getter(@this.Value);
         }
     }
+
+
+    public static class ValueHelper
+    {
+        public static Lazy<TValue> InitLazy<TValue>(this Func<TValue> getter)
+        {
+            Contract.Assert(getter != null);
+            return new Lazy<TValue>(getter);
+        }
+    }
 }

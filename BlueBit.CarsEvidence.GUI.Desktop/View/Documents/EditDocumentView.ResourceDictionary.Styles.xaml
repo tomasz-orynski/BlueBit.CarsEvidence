@@ -48,6 +48,10 @@
         </Style.Triggers>
     </Style>
 
+    <Style TargetType="{x:Type TabControl}">
+        <Setter Property="Margin" Value="2" />
+    </Style>
+
     <Style TargetType="{x:Type DataGrid}">
         <Setter Property="Margin" Value="2" />
         <Setter Property="HorizontalAlignment" Value="Left" />

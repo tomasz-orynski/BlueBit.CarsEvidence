@@ -83,13 +83,17 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Interactions
 
         public T GetInstance(TItem item)
         {
-            return _model().DocumentViewModels.Castable<T>().FirstOrDefault(d => d.Item.Equals(item));
+            return _model().DocumentViewModels.Castable<T>().FirstOrDefault(d => d.Item.ID == item.ID);
+        }
+        public T GetInstance(long itemID)
+        {
+            return _model().DocumentViewModels.Castable<T>().FirstOrDefault(d => d.Item.ID == itemID);
         }
 
         public T GetInstanceAndActivate(TItem item)
         {
             var model = _model();
-            var instance = model.DocumentViewModels.Castable<T>().FirstOrDefault(d => d.Item.Equals(item));
+            var instance = model.DocumentViewModels.Castable<T>().FirstOrDefault(d => d.Item.ID == item.ID);
             if (instance != null)
                 model.ActiveViewModel = instance;
             return instance;

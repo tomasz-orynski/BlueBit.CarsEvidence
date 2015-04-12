@@ -3,10 +3,11 @@ using System;
 
 namespace BlueBit.CarsEvidence.BL.Entities.Components
 {
-    public class CounterState :
+    public class ValueState<T> :
         ComponentBase
+        where T: struct
     {
         public DateTime Date { get; set; }
-        public long Counter { get; set; }
+        public T Value { get; set; }
     }
 }

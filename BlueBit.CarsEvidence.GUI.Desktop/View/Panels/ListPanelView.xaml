@@ -14,7 +14,11 @@
     KeyboardNavigation.IsTabStop="True"
     >
     <UserControl.Resources>
-        <ResourceDictionary Source="ListPanelView.Dictionary.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ListPanelView.ResourceDictionary.Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
     
     <Grid>

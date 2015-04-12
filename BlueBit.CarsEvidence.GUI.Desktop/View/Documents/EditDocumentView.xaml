@@ -10,7 +10,12 @@
     KeyboardNavigation.IsTabStop="True"
     >
     <UserControl.Resources>
-        <ResourceDictionary Source="EditDocumentView.Dictionary.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="EditDocumentView.ResourceDictionary.Styles.xaml" />
+                <ResourceDictionary Source="EditDocumentView.ResourceDictionary.Templates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <Grid>
