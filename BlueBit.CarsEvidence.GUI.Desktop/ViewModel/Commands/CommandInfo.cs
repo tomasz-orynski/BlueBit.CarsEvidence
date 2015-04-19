@@ -19,8 +19,10 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands
         Generate,
         ShowList,
 
-        Import,
-        Export,
+        DataDelete,
+        DataImport,
+        DataExport,
+        DataRecalculate,
 
         Exit,
         Settings,

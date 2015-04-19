@@ -10,7 +10,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands.Handlers
     {
         private readonly IDbRepositories _entitiesRepository;
 
-        public override CmdKey Key { get { return CmdKey.Export; } }
+        public override CmdKey Key { get { return CmdKey.DataExport; } }
 
         public DataExportCommandHandler(
             IDbRepositories entitiesRepository

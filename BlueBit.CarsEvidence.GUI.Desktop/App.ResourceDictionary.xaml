@@ -44,12 +44,18 @@
     <sys:String x:Key="strCmd_Cancel">Anuluj</sys:String>
     <BitmapImage x:Key="imgCmd_s_Cancel" UriSource="Resources/Icons/cmd-cancel-26.png" />
 
-    <sys:String x:Key="strCmd_Import">Import danych</sys:String>
-    <BitmapImage x:Key="imgCmd_s_Import" UriSource="Resources/Icons/cmd-import-26.png" />
+    <sys:String x:Key="strCmd_DataImport">Import danych</sys:String>
+    <BitmapImage x:Key="imgCmd_s_DataImport" UriSource="Resources/Icons/cmd-import-26.png" />
 
-    <sys:String x:Key="strCmd_Export">Eksport danych</sys:String>
-    <BitmapImage x:Key="imgCmd_s_Export" UriSource="Resources/Icons/cmd-export-26.png" />
-    
+    <sys:String x:Key="strCmd_DataExport">Eksport danych</sys:String>
+    <BitmapImage x:Key="imgCmd_s_DataExport" UriSource="Resources/Icons/cmd-export-26.png" />
+
+    <sys:String x:Key="strCmd_DataDelete">Usuwanie danych</sys:String>
+    <BitmapImage x:Key="imgCmd_s_DataDelete" UriSource="Resources/Icons/cmd-delete-26.png" />
+
+    <sys:String x:Key="strCmd_DataRecalculate">Przeliczanie danych</sys:String>
+    <BitmapImage x:Key="imgCmd_s_DataRecalculate" UriSource="Resources/Icons/cmd-settings-26.png" />
+
     <sys:String x:Key="strCmd_Exit">Koniec</sys:String>
     <BitmapImage x:Key="imgCmd_s_Exit" UriSource="Resources/Icons/cmd-exit-26.png" />
     <BitmapImage x:Key="imgCmd_n_Exit" UriSource="Resources/Icons/cmd-exit-32.png" />
@@ -151,11 +157,11 @@
 
     <sys:String x:Key="strObjectProp_CounterBegEnd">Stany licznika</sys:String>
 
-    <sys:String x:Key="strObjectProp_EvidenceBegin">Rozpoczęcie ewidencji</sys:String>
-    <sys:String x:Key="strObjectProp_EvidenceDateBegin">Data rozpoczęcia ewidencji</sys:String>
-    <sys:String x:Key="strObjectProp_EvidenceDateBegin_">Data rozp.</sys:String>
-    <sys:String x:Key="strObjectProp_EvidenceCounterBegin">Stan początkowy licznika</sys:String>
-    <sys:String x:Key="strObjectProp_EvidenceCounterBegin_">L. pocz.</sys:String>
+    <sys:String x:Key="strObjectProp_EvidenceBeg">Rozpoczęcie ewidencji</sys:String>
+    <sys:String x:Key="strObjectProp_EvidenceDateBeg">Data rozpoczęcia ewidencji</sys:String>
+    <sys:String x:Key="strObjectProp_EvidenceDateBeg_">Data rozp.</sys:String>
+    <sys:String x:Key="strObjectProp_EvidenceCounterBeg">Stan początkowy licznika</sys:String>
+    <sys:String x:Key="strObjectProp_EvidenceCounterBeg_">L. pocz.</sys:String>
 
     <sys:String x:Key="strObjectProp_EvidenceEnd">Zakończenie ewidencji</sys:String>
     <sys:String x:Key="strObjectProp_EvidenceDateEnd">Data zakończenia ewidencji</sys:String>

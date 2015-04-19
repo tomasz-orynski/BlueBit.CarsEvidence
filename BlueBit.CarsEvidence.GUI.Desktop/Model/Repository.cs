@@ -45,29 +45,29 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model
             _entitiesRepository.Dispose();
         }
 
-        public void Import(IEnumerable<EntityBase> entites)
+        public void DeleteAll()
         {
-            _entitiesRepository.DeleteAllInDB();
-
             _viewObjects.Values
                 .SelectMany(_ => _.Values)
                 .Cast<_IViewObjectsCache>()
                 .Each(_ => _.Clear());
 
-            _entitiesRepository.Add(entites);
-
-            //TODO-pogrupować po typie, ale i posortować po typie (niezależność od innych typów).
-            entites.Each(entity =>
-            {
-                IDictionary<Type, object> vo;
-                if (_viewObjects.TryGetValue(entity.GetType(), out vo))
-                    vo.Values
-                        .Cast<_IViewObjectsCache>()
-                        .Each(_ => _.HandleAddOnImport(entity));
-
-            });
+            _entitiesRepository.DeleteAllInDB();
         }
 
+        public void Save(IEnumerable<EntityBase> entites)
+        {
+            _entitiesRepository.Add(entites);
+            entites.GroupBy(_ => _.GetType())
+                .Each(_ =>
+                {
+                    IDictionary<Type, object> vo;
+                    if (_viewObjects.TryGetValue(_.Key, out vo))
+                        vo.Values
+                            .Cast<_IViewObjectsCache>()
+                            .Each(voc => voc.HandleAddOnSave(_));
+                });
+        }
 
         private static TColl GetObjectsInternal<TColl, T, TEntity>(
             IDictionary<Type, IDictionary<Type, object>> objectsColl,

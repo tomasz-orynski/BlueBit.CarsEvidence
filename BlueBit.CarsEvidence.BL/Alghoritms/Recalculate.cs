@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace BlueBit.CarsEvidence.BL.Alghoritms
 {
-    internal static class RecalculateExtensions
+    public static class RecalculateExtensions
     {
         public static IEnumerable<Entities.Period> RecalculateStats(this IEnumerable<Entities.Period> @this)
         {

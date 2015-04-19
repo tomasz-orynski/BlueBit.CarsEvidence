@@ -61,7 +61,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model
 
     public interface IRepositoryGeneral
     {
-        void Import(IEnumerable<EntityBase> entites);
+        void DeleteAll();
+        void Save(IEnumerable<EntityBase> entites);
     }
 
     public interface IRepositoryViewObjects<T>
@@ -81,7 +82,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model
         private interface  _IViewObjectsCache
         {
             void Clear();
-            void HandleAddOnImport(EntityBase entity);
+            void HandleAddOnSave(IEnumerable<EntityBase> entities);
         }
 
         private interface _IViewObjectsCache<TEntity> :
@@ -198,10 +199,19 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model
                 }
             }
 
-            public void HandleAddOnImport(EntityBase entity)
+            public void HandleAddOnSave(IEnumerable<EntityBase> entities)
             {
-                Contract.Assert(entity is TEntity);
-                HandleAdd((TEntity)entity);
+                Contract.Assert(entities != null);
+                if (_items.IsValueCreated)
+                {
+                    entities
+                        .Cast<TEntity>()
+                        .Select(_convertFromEntity.Value.Create)
+                        .Each(_ => {
+                            _items.Value.Item2[_.ID] = _;
+                            _items.Value.Item1.Add(_);
+                        });
+                }
             }
 
             public void HandleAdd(TEntity entity)

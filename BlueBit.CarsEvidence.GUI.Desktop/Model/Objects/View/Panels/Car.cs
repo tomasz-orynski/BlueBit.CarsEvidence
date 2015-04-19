@@ -15,8 +15,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels
         private string _brandInfo;
         public string BrandInfo { get { return _brandInfo; } set { _Set(ref _brandInfo, value); } }
 
-        private ValueState<long> _evidenceBegin;
-        public ValueState<long> EvidenceBegin { get { return _evidenceBegin; } set { _Set(ref _evidenceBegin, value); } }
+        private ValueState<long> _evidenceBeg;
+        public ValueState<long> EvidenceBeg { get { return _evidenceBeg; } set { _Set(ref _evidenceBeg, value); } }
 
         private ValueState<long> _evidenceEnd;
         public ValueState<long> EvidenceEnd { get { return _evidenceEnd; } set { _Set(ref _evidenceEnd, value); } }

@@ -181,6 +181,8 @@
     <Compile Include="Model\Objects\View\General\Helpers\EV.cs" />
     <Compile Include="Model\Objects\View\Panels\ViewPanelObjectBase.cs" />
     <Compile Include="Resources\Info.cs" />
+    <Compile Include="ViewModel\Commands\Handlers\DataDelete.cs" />
+    <Compile Include="ViewModel\Commands\Handlers\DataRecalculate.cs" />
     <Compile Include="ViewModel\Documents\EditGridViewModel.cs" />
     <Compile Include="ViewModel\Interactions\Behaviors\Behavior.cs" />
     <Compile Include="ViewModel\Interactions\Behaviors\FocusBehavior.cs" />
