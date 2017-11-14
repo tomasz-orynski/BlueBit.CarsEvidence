@@ -45,7 +45,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
             return Name2Value[name];
         }
         public static EntityType GetValueForObjectType<T>()
-            where T : ObjectBase
+            where T : ObjectWithIDBase
         {
             var name = typeof(T).Name;
             return Name2Value[name];
@@ -74,7 +74,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
 
             var sb = new StringBuilder();
 #if DEBUG
-            sb.AppendFormat("»{0}« #{1}", @this.Code, @this.ID);
+            sb.AppendFormat("GD: »{0}« #{1}", @this.Code, @this.ID);
 #else
             sb.Append(@this.Code);
 #endif
@@ -87,7 +87,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
 
             var sb = new StringBuilder();
 #if DEBUG
-            sb.AppendFormat("»{0}« #{1}", @this.Code, @this.ID);
+            sb.AppendFormat("GDTT: »{0}« #{1}", @this.Code, @this.ID);
 #else
             sb.Append(@this.Code);
 #endif
@@ -95,6 +95,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
             if (!string.IsNullOrWhiteSpace(info))
             {
                 sb.AppendLine();
+                sb.AppendLine("---");
                 sb.Append(info);
             }
 
@@ -106,41 +107,25 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
     {
     }
 
-    [DebuggerDisplay("ID={ID}")]
     public abstract class ObjectBase :
         ObservableObject,
         IObject,
-        IObjectForEntityType,
-        IObjectWithGetID,
-        IObjectWithSetID,
-        IEquatable<ObjectBase>
+        IObjectForEntityType
     {
-        /// <summary>
-        /// ID nie powinno podlegać zmianie, stąd brak notyfikacji o zmianach.
-        /// </summary>Type ForType { get; }
-        public long ID { get; set; }
         public Type ForEntityType
-        { 
-            get {
+        {
+            get
+            {
                 var type = GetType()
                     .GetAttribute<Attributes.EntityTypeAttribute>()
                     .EntityType;
                 return type;
-            } 
+            }
         }
         public EntityType ForType { get { return EntityTypeDict.GetValueForEntityType(ForEntityType); } }
 
-        public bool Equals(ObjectBase other)
-        {
-            if (other == null) return false;
-            if (!GetType().Equals(other.GetType())) return false;
-            return ID == other.ID;
-        }
-        public override bool Equals(object obj) { return Equals(obj as ObjectBase); }
-        public override int GetHashCode() { return ID.GetHashCode(); }
-
         protected void _Set<T>(
-            ref T value, T newValue, 
+            ref T value, T newValue,
             Action onChange = null,
             [CallerMemberName] string propertyName = null
             )
@@ -178,19 +163,19 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
 
         public interface IRegistrator<TObj>
         {
-            IRegistrator<TObj> Add<TV1, TV2>(Expression<Func<TObj, TV1>> dependencyProperty, params Expression<Func<TObj, TV2>>[] basedOnProperties);
+            IRegistrator<TObj> Add<TDP>(Expression<Func<TObj, TDP>> dependencyProperty, params Expression<Func<TObj, object>>[] basedOnProperties);
         }
         private class Registrator<TObj> :
             IRegistrator<TObj>
         {
             public Dictionary<string, HashSet<string>> typePropertyDependencies;
 
-            public IRegistrator<TObj> Add<TDP, TP>(Expression<Func<TObj, TDP>> dependencyProperty, params Expression<Func<TObj, TP>>[] basedOnProperties)
+            public IRegistrator<TObj> Add<TDP>(Expression<Func<TObj, TDP>> dependencyProperty, params Expression<Func<TObj, object>>[] basedOnProperties)
             {
                 var dependencyPropertyName = PropertyHelper<TObj>.GetPropertyName<TDP>(dependencyProperty);
                 basedOnProperties.Each(property =>
                 {
-                    var propertyName = PropertyHelper<TObj>.GetPropertyName<TP>(property);
+                    var propertyName = PropertyHelper.GetPropertyName_(property);
                     HashSet<string> propertyDependencies = null;
                     if (!typePropertyDependencies.TryGetValue(propertyName, out propertyDependencies))
                     {
@@ -216,7 +201,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
             return new Registrator<T>() { typePropertyDependencies = typePropertyDependencies };
         }
 
-        private IEnumerable<string> GetPropertyDependency(string propertyName) 
+        private IEnumerable<string> GetPropertyDependency(string propertyName)
         {
             for (var type = GetType(); type != null; type = type.BaseType)
             {
@@ -228,8 +213,37 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
                         return propertyDependencies;
                 }
             }
-            return Enumerable.Empty<string>(); 
+            return Enumerable.Empty<string>();
         }
+
+#if DEBUG
+        public override string ToString()
+        {
+            return string.Format("DBG:Type={0}", GetType().Name);
+        }
+#endif
+    }
+
+    [DebuggerDisplay("ID={ID}")]
+    public abstract class ObjectWithIDBase :
+        ObjectBase,
+        IObjectWithGetID,
+        IObjectWithSetID,
+        IEquatable<ObjectWithIDBase>
+    {
+        /// <summary>
+        /// ID nie powinno podlegać zmianie, stąd brak notyfikacji o zmianach.
+        /// </summary>Type ForType { get; }
+        public long ID { get; set; }
+
+        public bool Equals(ObjectWithIDBase other)
+        {
+            if (other == null) return false;
+            if (!GetType().Equals(other.GetType())) return false;
+            return ID == other.ID;
+        }
+        public override bool Equals(object obj) { return Equals(obj as ObjectWithIDBase); }
+        public override int GetHashCode() { return ID.GetHashCode(); }
 
 #if DEBUG
         public override string ToString()
@@ -239,9 +253,9 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
 #endif
     }
 
-    public static class ObjectBaseExtensions
+    public static class ObjectWithIDBaseExtensions
     {
-        public static bool IsFromDb(this ObjectBase @this)
+        public static bool IsFromDb(this ObjectWithIDBase @this)
         {
             Contract.Assert(@this != null);
             return @this.ID > 0;

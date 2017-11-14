@@ -32,6 +32,7 @@
                     <ContentControl.Resources>
                         <ResourceDictionary>
                             <ResourceDictionary.MergedDictionaries>
+                                <ResourceDictionary Source="Commands\DialogView.Dictionary.EditInfo.xaml" />
                                 <ResourceDictionary Source="Commands\Periods\DialogView.Dictionary.GenerateEntries.xaml" />
                             </ResourceDictionary.MergedDictionaries>
                         </ResourceDictionary>

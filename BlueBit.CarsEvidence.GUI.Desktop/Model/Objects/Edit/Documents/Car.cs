@@ -21,20 +21,20 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
         [MaxLength(BL.Configuration.Consts.LengthText)]
         public string BrandInfo { get { return _brandInfo; } set { _Set(ref _brandInfo, value); } }
 
-        private ValueState<long> _evidenceBeg;
-        public ValueState<long> EvidenceBeg { get { return _evidenceBeg; } set { _Set(ref _evidenceBeg, value); } }
+        private ValueState<long> _evidenceBegin;
+        public ValueState<long> EvidenceBegin { get { return _evidenceBegin; } set { _Set(ref _evidenceBegin, value); } }
 
-        public bool EvidenceBegState {
-            get { return _evidenceBeg != null; }
+        public bool EvidenceBeginState {
+            get { return _evidenceBegin != null; }
             set
             {
                 if (value)
                 {
-                    EvidenceBeg = new ValueState<long>() { Date = DateTime.Today };
+                    EvidenceBegin = new ValueState<long>() { Date = DateTime.Today };
                 }
                 else
                 {
-                    EvidenceBeg = null;
+                    EvidenceBegin = null;
                     EvidenceEnd = null;
                 }
             }
@@ -45,7 +45,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
 
         public bool EvidenceEndState
         {
-            get { return _evidenceBeg != null && _evidenceEnd != null; }
+            get { return _evidenceBegin != null && _evidenceEnd != null; }
             set
             {
                 EvidenceEnd = value
@@ -57,8 +57,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
         static Car()
         {
             RegisterPropertyDependency<Car>()
-                .Add(x => x.EvidenceBegState, x => x.EvidenceBeg)
-                .Add(x => x.EvidenceEndState, x => x.EvidenceBeg, x => x.EvidenceEnd);
+                .Add(x => x.EvidenceBeginState, x => x.EvidenceBegin)
+                .Add(x => x.EvidenceEndState, x => x.EvidenceBegin, x => x.EvidenceEnd);
         }
     }
 }

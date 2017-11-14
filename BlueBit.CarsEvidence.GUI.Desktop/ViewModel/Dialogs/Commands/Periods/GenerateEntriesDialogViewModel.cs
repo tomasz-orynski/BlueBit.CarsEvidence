@@ -1,17 +1,9 @@
-﻿using BlueBit.CarsEvidence.Commons.Reflection;
-using BlueBit.CarsEvidence.Commons.Templates;
+﻿using BlueBit.CarsEvidence.Commons.Linq;
+using BlueBit.CarsEvidence.GUI.Desktop.Model;
+using System;
+using System.Collections.ObjectModel;
 using EditModels = BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents;
 using ViewModels = BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.General;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BlueBit.CarsEvidence.Commons.Linq;
-using BlueBit.CarsEvidence.GUI.Desktop.Model;
 
 namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Dialogs.Commands.Periods
 {

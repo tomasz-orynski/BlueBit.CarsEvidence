@@ -1,5 +1,4 @@
-﻿using dotNetExt;
-using BlueBit.CarsEvidence.BL.DTO.XML;
+﻿using BlueBit.CarsEvidence.BL.DTO.XML;
 using BlueBit.CarsEvidence.GUI.Desktop.Model;
 using Microsoft.Win32;
 using System.Linq;
@@ -12,7 +11,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands.Handlers
     {
         private readonly Repositories _repositories;
 
-        public override CmdKey Key { get { return CmdKey.DataImport; } }
+        public override CmdKey Key { get { return CmdKey.Import; } }
 
         public DataImportCommandHandler(Repositories repositories)
         {
@@ -31,9 +30,10 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands.Handlers
 
             if (dlg.ShowDialog() == true)
             {
-                DeSerialize<DataIMP>(dlg.FileName)
+                var data = DeSerialize<DataIMP>(dlg.FileName)
                     .GetEntities()
-                    .Each(_repositories.Save);
+                    .ToList();
+                _repositories.Import(data);
                 MessageBox.Show("Import finished.", "TODO", MessageBoxButton.OK);
             }
         }

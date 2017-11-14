@@ -7,9 +7,31 @@ namespace BlueBit.CarsEvidence.Commons.Reflection
 {
     public static class PropertyHelper
     {
+        public static string GetPropertyName_(LambdaExpression expression)
+        {
+            Contract.Assert(expression != null);
+
+            MemberExpression memberExpression;
+            if (expression.Body.NodeType == ExpressionType.Convert)
+            {
+                var convertExpression = (expression.Body as UnaryExpression);
+                Contract.Assert(convertExpression != null);
+                memberExpression = convertExpression.Operand as MemberExpression;
+            }
+            else
+                memberExpression = (expression.Body as MemberExpression);
+
+            Contract.Assert(memberExpression != null);
+            var name = memberExpression.Member.Name;
+            Contract.Assert(!string.IsNullOrWhiteSpace(name));
+            return name;
+        }
+
         public static string GetPropertyName<T>(Expression<Func<T>> propertyExpression)
         {
-            var name = (propertyExpression.Body as MemberExpression).Member.Name;
+            var memberExpression = (propertyExpression.Body as MemberExpression);
+            Contract.Assert(memberExpression != null);
+            var name = memberExpression.Member.Name;
             Contract.Assert(!string.IsNullOrWhiteSpace(name));
             return name;
         }
@@ -33,7 +55,6 @@ namespace BlueBit.CarsEvidence.Commons.Reflection
             return Tuple.Create((object)obj, string.Join(".", names));
         }
     }
-
     public static class PropertyHelper<TObj>
     {
         public static string GetPropertyName<T>(Expression<Func<TObj, T>> expression)

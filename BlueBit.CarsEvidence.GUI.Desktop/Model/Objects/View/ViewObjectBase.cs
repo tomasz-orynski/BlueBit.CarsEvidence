@@ -11,7 +11,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View
 
     [DebuggerDisplay("ID={ID}")]
     public abstract class ViewObjectBase :
-        ObjectBase,
+        ObjectWithIDBase,
         IViewObject
     {
     }

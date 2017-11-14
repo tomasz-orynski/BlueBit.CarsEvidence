@@ -64,9 +64,9 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels
             _viewObjects = viewObjects;
         }
 
-        private IEnumerable<ObjectBase> GetSelectedSet() { return _cmdSelected.Value.SelectedSet; }
+        private IEnumerable<ObjectWithIDBase> GetSelectedSet() { return _cmdSelected.Value.SelectedSet; }
         protected CommandInfo CreateCommandForSelected<TCmd>(CmdKey key, TCmd cmd)
-            where TCmd: ICommandHandlerForSelected<ObjectBase>
+            where TCmd: ICommandHandlerForSelected<ObjectWithIDBase>
         {
             cmd.SelectedSet = GetSelectedSet;
             return _CreateCommand(key, cmd.Execute, cmd.CanExecute);

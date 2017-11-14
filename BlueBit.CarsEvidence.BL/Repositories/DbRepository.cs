@@ -113,56 +113,45 @@ namespace BlueBit.CarsEvidence.BL.Repositories
 #endif
 
         private readonly ISessionFactory _sessionFactory;
-        private ISession _session = null;
-        private ISession Session
-        {
-            get
-            {
-                if (_session == null)
-                    _session = _sessionFactory.OpenSession();
-                return _session;
-            }
-        }
+        private readonly Lazy<ISession> _session;
 
         public DbRepositories(
             ISessionFactory sessionFactory
             )
         {
             _sessionFactory = sessionFactory;
+            _session = new Lazy<ISession>(_sessionFactory.OpenSession);
         }
 
         public void Dispose()
         {
-            if (_session != null)
-            {
-                _session.Dispose();
-                _session = null;
-            }
+            if (_session.IsValueCreated)
+                _session.Value.Dispose();
         }
 
         public void Add(IEnumerable<ObjectInRepositoryBase> objs)
         {
             Contract.Assert(objs != null);
-            ExecuteInTransaction(() => objs.Each(_ => Session.Save(_)));
+            ExecuteInTransaction(() => objs.Each(_ => _session.Value.Save(_)));
         }
 
         public void Update(IEnumerable<ObjectInRepositoryBase> objs)
         {
             Contract.Assert(objs != null);
-            ExecuteInTransaction(() => objs.Each(_ => Session.Update(_)));
+            ExecuteInTransaction(() => objs.Each(_ => _session.Value.Update(_)));
         }
 
         public void Delete<T>(IEnumerable<long> ids) where T : IObjectInRepository
         {
             Contract.Assert(ids != null);
-            ExecuteInTransaction(() => ids.Each(_ => Session.Delete(Session.Load<T>(_))));
+            ExecuteInTransaction(() => ids.Each(_ => _session.Value.Delete(_session.Value.Load<T>(_))));
         }
 
         private void DeleteAll_<T>() where T : IObjectInRepository
         {
             var meta = (AbstractEntityPersister)_sessionFactory.GetClassMetadata(typeof(T));
             var sql = string.Format("DELETE FROM \"{0}\"", meta.TableName);
-            Session.CreateSQLQuery(sql).ExecuteUpdate();
+            _session.Value.CreateSQLQuery(sql).ExecuteUpdate();
         }
 
         public void DeleteAll<T>() where T : IObjectInRepository
@@ -172,7 +161,6 @@ namespace BlueBit.CarsEvidence.BL.Repositories
 
         public void DeleteAllInDB()
         {
-            Dispose();
             ExecuteInTransaction(() =>
             {
                 DeleteAll_<PeriodFuelEntry>();
@@ -184,36 +172,35 @@ namespace BlueBit.CarsEvidence.BL.Repositories
                 DeleteAll_<Company>();
                 DeleteAll_<Address>();
             });
-            Dispose();
         }
 
         public IList<TEntity> GetAll<TEntity>()
             where TEntity : class, IObjectInRepository
         {
-            return Session.QueryOver<TEntity>().List();
+            return _session.Value.QueryOver<TEntity>().List();
         }
 
         public TEntity Get<TEntity>(long id)
             where TEntity : class, IObjectInRepository
         {
-            return Session.Get<TEntity>(id);
+            return _session.Value.Get<TEntity>(id);
         }
 
         public TEntity Load<TEntity>(long id)
             where TEntity : class, IObjectInRepository
         {
-            return Session.Load<TEntity>(id);
+            return _session.Value.Load<TEntity>(id);
         }
 
         public IQueryOver<T, T> CreateQuery<T>()
             where T : class, IObjectInRepository
         {
-            return Session.QueryOver<T>();
+            return _session.Value.QueryOver<T>();
         }
 
         protected void ExecuteInTransaction(Action action)
         {
-            using (var transaction = Session.BeginTransaction())
+            using (var transaction = _session.Value.BeginTransaction())
             {
                 action();
                 transaction.Commit();
@@ -223,7 +210,7 @@ namespace BlueBit.CarsEvidence.BL.Repositories
         private bool CheckExists<T>(Expression<Func<T, bool>> criteria)
             where T: class, IObjectInRepository
         {
-            var result = Session
+            var result = _session.Value
                 .QueryOver<T>()
                 .Select(_ => _.ID)
                 .Where(criteria)

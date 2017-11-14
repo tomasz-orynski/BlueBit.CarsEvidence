@@ -12,8 +12,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands
     public interface IOpenEditDocumentCommandHelper<T>
         where T : EditDocumentObjectBase
     {
-        bool CanEditDocument(IEnumerable<ObjectBase> objects);
-        void OpenEditDocument(IEnumerable<ObjectBase> objects);
+        bool CanEditDocument(IEnumerable<ObjectWithIDBase> objects);
+        void OpenEditDocument(IEnumerable<ObjectWithIDBase> objects);
         void NewEditDocument();
     }
 
@@ -36,12 +36,12 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands
             _editDocumentViewModelCreator = editDocumentViewModelCreator;
         }
 
-        public bool CanEditDocument(IEnumerable<ObjectBase> objects)
+        public bool CanEditDocument(IEnumerable<ObjectWithIDBase> objects)
         {
             Contract.Assert(objects != null);
             return true;
         }
-        public void OpenEditDocument(IEnumerable<ObjectBase> objects)
+        public void OpenEditDocument(IEnumerable<ObjectWithIDBase> objects)
         {
             Contract.Assert(objects != null);
             objects.Each(item => {

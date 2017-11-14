@@ -18,7 +18,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
 
     public abstract class EditDocumentObjectWithCodeInfoBase :
         EditDocumentObjectBase,
-        IObjectWithGetCode
+        IEditObjectWithCode,
+        IEditObjectWithInfo
     {
         private string _code;
         [Required]
@@ -30,7 +31,15 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
         [MaxLength(BL.Configuration.Consts.LengthInfo)]
         public string Info { get { return _Info; } set { _Set(ref _Info, value); } }
 
+        public bool HasInfo { get { return !string.IsNullOrWhiteSpace(_Info); } }
+
         public override sealed string Description { get { return this.GetDescription(); } }
+
+        static EditDocumentObjectWithCodeInfoBase()
+        {
+            RegisterPropertyDependency<EditDocumentObjectWithCodeInfoBase>()
+                .Add(x => x.HasInfo, x => x.Info);
+        }
     }
 
     public interface IEditDocumentObjectChild :
@@ -42,5 +51,22 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
         EditObjectBase,
         IEditDocumentObjectChild
     {
+    }
+
+    public abstract class EditDocumentObjectChildWithInfoBase :
+        EditDocumentObjectChildBase,
+        IEditObjectWithInfo
+    {
+        private string _Info;
+        [MaxLength(BL.Configuration.Consts.LengthInfo)]
+        public string Info { get { return _Info; } set { _Set(ref _Info, value); } }
+
+        public bool HasInfo { get { return !string.IsNullOrWhiteSpace(_Info); } }
+
+        static EditDocumentObjectChildWithInfoBase()
+        {
+            RegisterPropertyDependency<EditDocumentObjectChildWithInfoBase>()
+                .Add(x => x.HasInfo, x => x.Info);
+        }
     }
 }

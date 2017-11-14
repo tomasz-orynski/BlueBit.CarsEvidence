@@ -26,7 +26,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents
     public interface IEditDocumentViewModel<T> :
         IObjectWithItem<T>,
         IObjectForEntityType
-        where T : ObjectBase
+        where T : ObjectWithIDBase
     {
     }
 
@@ -124,9 +124,12 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents
         public PeriodRouteEntriesEditGridViewModel(
             IAddEntryCommandHandler<PeriodRouteEntry> cmdAddEntry,
             IDeleteEntriesCommandHandler<PeriodRouteEntry> cmdDeleteEntries,
-            IGenerateEntriesCommand cmdGenerateEntries
+            IGenerateEntriesCommand cmdGenerateEntries,
+            IEditInfoEntriesCommandHandler<PeriodRouteEntry> cmdEditInfo
             )
         {
+            ItemsCommands.Add(CreateCommandForSelected(CmdKey.EditInfo,
+                cmdEditInfo));
             ItemsCommands.Add(CreateCommandForItem(CmdKey.Generate,
                 cmdGenerateEntries, GetParent));
             ItemsCommands.Add(CreateCommandForItem(CmdKey.Add,
@@ -145,9 +148,12 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents
         public PeriodFuelEntriesEditGridViewModel(
             Func<Period> parent,
             IAddEntryCommandHandler<PeriodFuelEntry> cmdAddEntry,
-            IDeleteEntriesCommandHandler<PeriodFuelEntry> cmdDeleteEntries
+            IDeleteEntriesCommandHandler<PeriodFuelEntry> cmdDeleteEntries,
+            IEditInfoEntriesCommandHandler<PeriodFuelEntry> cmdEditInfo
             )
         {
+            ItemsCommands.Add(CreateCommandForSelected(CmdKey.EditInfo,
+                cmdEditInfo));
             ItemsCommands.Add(CreateCommandForItem(CmdKey.Add,
                 cmdAddEntry, GetParent));
             ItemsCommands.Add(CreateCommandForSelected(CmdKey.Delete,

@@ -72,14 +72,14 @@
                     </GridViewColumn>
                     <GridViewColumn>
                         <i:Interaction.Behaviors>
-                            <_bbceBevaviors:SortColumnBehavior PropertyName="EvidenceBeg.Date" />
+                            <_bbceBevaviors:SortColumnBehavior PropertyName="EvidenceBegin.Date" />
                         </i:Interaction.Behaviors>
                         <GridViewColumn.Header>
-                            <TextBlock Text="{StaticResource strObjectProp_EvidenceDateBeg_}" ToolTip="{StaticResource strObjectProp_EvidenceDateBeg}" />
+                            <TextBlock Text="{StaticResource strObjectProp_EvidenceDateBegin_}" ToolTip="{StaticResource strObjectProp_EvidenceDateBegin}" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding EvidenceBeg.Date, StringFormat={}{0:yyyy-MM-dd}}" HorizontalAlignment="Center" />
+                                <TextBlock Text="{Binding EvidenceBegin.Date, StringFormat={}{0:yyyy-MM-dd}}" HorizontalAlignment="Center" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -98,27 +98,27 @@
                     </GridViewColumn>
                     <GridViewColumn>
                         <i:Interaction.Behaviors>
-                            <_bbceBevaviors:SortColumnBehavior PropertyName="EvidenceBeg.Value" />
+                            <_bbceBevaviors:SortColumnBehavior PropertyName="EvidenceBegin.Counter" />
                         </i:Interaction.Behaviors>
                         <GridViewColumn.Header>
-                            <TextBlock Text="{StaticResource strObjectProp_EvidenceCounterBeg_}" ToolTip="{StaticResource strObjectProp_EvidenceCounterBeg}" />
+                            <TextBlock Text="{StaticResource strObjectProp_EvidenceCounterBegin_}" ToolTip="{StaticResource strObjectProp_EvidenceCounterBegin}" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding EvidenceBeg.Value}" HorizontalAlignment="Right" />
+                                <TextBlock Text="{Binding EvidenceBegin.Counter}" HorizontalAlignment="Right" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
                     <GridViewColumn>
                         <i:Interaction.Behaviors>
-                            <_bbceBevaviors:SortColumnBehavior PropertyName="EvidenceEnd.Value" />
+                            <_bbceBevaviors:SortColumnBehavior PropertyName="EvidenceEnd.Counter" />
                         </i:Interaction.Behaviors>
                         <GridViewColumn.Header>
                             <TextBlock Text="{StaticResource strObjectProp_EvidenceCounterEnd_}" ToolTip="{StaticResource strObjectProp_EvidenceCounterEnd}" />
                         </GridViewColumn.Header>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding EvidenceEnd.Value}" HorizontalAlignment="Right" />
+                                <TextBlock Text="{Binding EvidenceEnd.Counter}" HorizontalAlignment="Right" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

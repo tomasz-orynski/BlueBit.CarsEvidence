@@ -20,7 +20,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
     [Attributes.ConverterType(typeof(PeriodConverter))]
     public class Period :
         EditDocumentObjectBase,
-        IObjectWithGetCode
+        IObjectWithGetCode,
+        IEditObjectWithInfo
     {
         public ObservableCollection<Month> AllMonths { get { return MonthExtensions.Items; } }
         public ObservableCollection<View.General.Car> AllCars { get { return _cars().Items; } }
@@ -195,7 +196,15 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
                     cfg => cfg.Ignore()
                 )
                 .ForMember(
+                    r => r.RouteStats,
+                    cfg => cfg.Ignore()
+                )
+                .ForMember(
                     r => r.FuelEntries,
+                    cfg => cfg.Ignore()
+                )
+                .ForMember(
+                    r => r.FuelStats,
                     cfg => cfg.Ignore()
                 )
                 .IgnoreAllPropertiesWithAnInaccessibleSetter()
@@ -222,7 +231,15 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
                     cfg => cfg.Ignore()
                 )
                 .ForMember(
+                    r => r.RouteStats,
+                    cfg => cfg.Ignore()
+                )
+                .ForMember(
                     r => r.FuelEntries,
+                    cfg => cfg.Ignore()
+                )
+                .ForMember(
+                    r => r.FuelStats,
                     cfg => cfg.Ignore()
                 )
                 ;

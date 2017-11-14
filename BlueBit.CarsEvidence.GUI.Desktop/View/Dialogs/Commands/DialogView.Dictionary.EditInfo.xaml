@@ -1,0 +1,37 @@
+﻿<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:mvvm="http://www.galasoft.ch/mvvmlight"
+    xmlns:_bbceCommands="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Dialogs.Commands"
+    xmlns:_bbceBevaviors="clr-namespace:BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Interactions.Behaviors"
+>
+    <DataTemplate DataType="{x:Type _bbceCommands:EditInfoDialogViewModel}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Label 
+                Grid.Row="1" Grid.Column="0" 
+                Content="{StaticResource strObjectProp_Info}"/>
+            <TextBox 
+                Grid.Row="1" Grid.Column="1" 
+                Text="{Binding Info, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                MaxLength="{StaticResource lenObjectProp_Info}"
+                Width="{StaticResource widthObjectProp_Info}"
+                Height="{StaticResource heightObjectProp_Info_Big}"
+                AcceptsReturn="True"
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Auto"
+                HorizontalContentAlignment="Left"
+                VerticalContentAlignment="Top"
+                />
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

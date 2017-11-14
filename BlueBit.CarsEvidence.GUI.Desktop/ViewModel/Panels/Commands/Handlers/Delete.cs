@@ -13,13 +13,13 @@ using System.Windows;
 namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands
 {
     public interface IDeleteCommandHandler<T> :
-        ICommandHandlerForSelected<ObjectBase>
+        ICommandHandlerForSelected<ObjectWithIDBase>
         where T : EditDocumentObjectBase
     {
     }
 
     public class DeleteCommandHandler<T> :
-        CommandHandlerForSelectedBase<ObjectBase>,
+        CommandHandlerForSelectedBase<ObjectWithIDBase>,
         IDeleteCommandHandler<T>
         where T : EditDocumentObjectBase
     {
@@ -37,7 +37,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands
             _editDocumentViewModelCreator = editDocumentViewModelCreator;
         }
 
-        protected override void OnExecute(IEnumerable<ObjectBase> objects)
+        protected override void OnExecute(IEnumerable<ObjectWithIDBase> objects)
         {
             if (MessageBox.Show("Czy chcesz usunąć?", "TODO", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
@@ -48,7 +48,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands
             }
         }
 
-        protected override bool OnCanExecute(IEnumerable<ObjectBase> objects)
+        protected override bool OnCanExecute(IEnumerable<ObjectWithIDBase> objects)
         {
             return objects.All(item =>
                  {

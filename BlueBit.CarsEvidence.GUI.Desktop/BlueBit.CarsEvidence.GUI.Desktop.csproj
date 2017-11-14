@@ -181,8 +181,10 @@
     <Compile Include="Model\Objects\View\General\Helpers\EV.cs" />
     <Compile Include="Model\Objects\View\Panels\ViewPanelObjectBase.cs" />
     <Compile Include="Resources\Info.cs" />
-    <Compile Include="ViewModel\Commands\Handlers\DataDelete.cs" />
     <Compile Include="ViewModel\Commands\Handlers\DataRecalculate.cs" />
+    <Compile Include="ViewModel\Dialogs\Commands\EditInfoDialogViewModel.cs" />
+    <Compile Include="ViewModel\Documents\Commands\Handlers\EditInfo.cs" />
+    <Compile Include="ViewModel\Documents\Commands\Handlers\Periods\EditInfoEntriesCommand.cs" />
     <Compile Include="ViewModel\Documents\EditGridViewModel.cs" />
     <Compile Include="ViewModel\Interactions\Behaviors\Behavior.cs" />
     <Compile Include="ViewModel\Interactions\Behaviors\FocusBehavior.cs" />
@@ -276,6 +278,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="App.ResourceDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Dialogs\Commands\DialogView.Dictionary.EditInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -515,6 +521,8 @@
       <Link>_DataBase_\BlueBit.CarsEvidence.Logs.ldf</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Icons\cmd-recalculate-26.png" />
+    <Resource Include="Resources\Icons\cmd-edit-info-26.png" />
     <Resource Include="Resources\Icons\globe-48.png" />
     <Resource Include="Resources\Icons\globe-32.png" />
     <Resource Include="Resources\Icons\globe-26.png" />

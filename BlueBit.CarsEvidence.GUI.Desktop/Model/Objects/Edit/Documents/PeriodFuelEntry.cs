@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BlueBit.CarsEvidence.BL.Entities.Components;
 using BlueBit.CarsEvidence.BL.Entities.Enums;
 using BlueBit.CarsEvidence.BL.Repositories;
 using BlueBit.CarsEvidence.Commons.Linq;
@@ -15,7 +16,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
     [Attributes.EntityType(typeof(BL.Entities.PeriodFuelEntry))]
     [Attributes.ConverterType(typeof(PeriodFuelEntryConverter))]
     public class PeriodFuelEntry :
-        EditDocumentObjectChildBase
+        EditDocumentObjectChildWithInfoBase
     {
         public ObservableCollection<View.General.Helpers.Day> AllDays { get { return _Period.YearMonthDays; } }
         public ObservableCollection<EV<TimeOfDay>> AllTimeOfDays { get { return EVExtensions<TimeOfDay>.Items; } }
@@ -103,17 +104,20 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
                     r => r.Person,
                     cfg => cfg.MapFrom(
                         r => _persons.ConvertByGet(r.Person)
-                        ))
+                    )
+                )
                 .ForMember(
                     r => r.TimeOfDay,
                     cfg => cfg.MapFrom(
                         r => EVExtensions<TimeOfDay>.GetItem(r.TimeOfDay)
-                        ))
+                    )
+                )
                 .ForMember(
                     r => r.PurchaseType,
                     cfg => cfg.MapFrom(
                         r => EVExtensions<FuelType>.GetItem(r.Purchase.Type)
-                        ))
+                    )
+                )
                 .ForMember(
                     r => r.Period,
                     cfg => cfg.Ignore()
@@ -134,6 +138,23 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
                         )
                 )
                 .ForMember(
+                    r => r.TimeOfDay,
+                    cfg => cfg.MapFrom(
+                        r => r.TimeOfDay.Value
+                    )
+                )
+                .ForMember(
+                    r => r.Purchase,
+                    cfg => cfg.MapFrom(
+                        r => new FuelPurchase()
+                        {
+                            Type = r.PurchaseType.Value,
+                            Amount = r.PurchaseAmount,
+                            Volume = r.PurchaseVolume,
+                        }
+                    )
+                )
+                .ForMember(
                     r => r.Period,
                     cfg => cfg.Ignore()
                 )
@@ -141,7 +162,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
                     r => r.Day,
                     cfg => cfg.MapFrom(
                         r => r.Day.Number
-                        )
+                    )
                 );
         }
 

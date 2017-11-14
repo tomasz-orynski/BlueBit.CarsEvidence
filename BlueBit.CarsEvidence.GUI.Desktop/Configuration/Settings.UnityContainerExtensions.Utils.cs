@@ -19,7 +19,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Configuration
         }
 
         private static Type GetConverterType<T>(Type entityType)
-            where T : ObjectBase
+            where T : ObjectWithIDBase
         {
             return GetConverterType(typeof(T), entityType);
         }

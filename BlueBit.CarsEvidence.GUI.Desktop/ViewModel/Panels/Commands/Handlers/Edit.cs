@@ -7,13 +7,13 @@ using System.Collections.Generic;
 namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands
 {
     public interface IEditCommandHandler<T> :
-        ICommandHandlerForSelected<ObjectBase>
+        ICommandHandlerForSelected<ObjectWithIDBase>
         where T : EditDocumentObjectBase
     {
     }
 
     public class EditCommandHandler<T> :
-        CommandHandlerForSelectedBase<ObjectBase>,
+        CommandHandlerForSelectedBase<ObjectWithIDBase>,
         IEditCommandHandler<T>
         where T : EditDocumentObjectBase
     {
@@ -29,12 +29,12 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Panels.Commands
             _helper = helper;
         }
 
-        protected override void OnExecute(IEnumerable<ObjectBase> objects)
+        protected override void OnExecute(IEnumerable<ObjectWithIDBase> objects)
         {
             _helper.OpenEditDocument(objects);
         }
 
-        protected override bool OnCanExecute(IEnumerable<ObjectBase> objects)
+        protected override bool OnCanExecute(IEnumerable<ObjectWithIDBase> objects)
         {
             return _helper.CanEditDocument(objects);
         }

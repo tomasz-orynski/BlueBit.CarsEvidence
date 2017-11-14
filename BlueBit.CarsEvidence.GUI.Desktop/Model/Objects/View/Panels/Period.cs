@@ -10,8 +10,12 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels
     [Attributes.ConverterType(typeof(PeriodConverter))]
     public class Period :
         ViewPanelObjectBase,
-        IObjectWithGetCode
+        IObjectWithGetCode,
+        IObjectWithGetInfo
     {
+        private string _info;
+        public string Info { get { return _info; } set { _Set(ref _info, value); } }
+
         private int _Year;
         public int Year { get { return _Year; } set { _Set(ref _Year, value); } }
 
@@ -30,14 +34,14 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.View.Panels
         public string Code { get { return string.Format("{0:0000}-{1:00}", _Year, _Month); } }
 
         public string Description { get { return this.GetDescription(); } }
-        public sealed override string DescriptionForToolTip { get { return this.GetDescription(); } }
+        public sealed override string DescriptionForToolTip { get { return this.GetDescriptionForToolTip(); } }
 
         static Period()
         {
             RegisterPropertyDependency<Period>()
                 .Add(x => x.Code, x => x.Year, x => x.Month)
                 .Add(x => x.Description, x => x.Year, x => x.Month)
-                .Add(x => x.DescriptionForToolTip, x => x.Year, x => x.Month);
+                .Add(x => x.DescriptionForToolTip, x => x.Year, x => x.Month, x => x.Info);
         }
     }
 

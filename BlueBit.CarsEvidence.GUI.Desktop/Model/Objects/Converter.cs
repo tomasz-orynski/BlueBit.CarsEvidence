@@ -38,7 +38,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
     }
 
     public interface IConverterFromEntity<TObject, in TEntity>
-        where TObject : ObjectBase
+        where TObject : ObjectWithIDBase
         where TEntity : EntityBase
     {
         TObject Create(TEntity src);
@@ -46,7 +46,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
     }
 
     public interface IConverterToEntity<in TObject, TEntity>
-        where TObject : ObjectBase
+        where TObject : ObjectWithIDBase
         where TEntity : EntityBase
     {
         TEntity Create(TObject src);
@@ -54,7 +54,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
     }
 
     public interface IConverterFromEntityChild<in TParentContext, TObject, in TEntity>
-        where TObject : ObjectBase
+        where TObject : ObjectWithIDBase
         where TEntity : IObjectInRepository
     {
         TObject Create(TParentContext ctx, TEntity src);
@@ -62,7 +62,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
     }
 
     public interface IConverterToEntityChild<in TParentContext, in TObject, TEntity>
-        where TObject : ObjectBase
+        where TObject : ObjectWithIDBase
         where TEntity : IObjectInRepository
     {
         TEntity Create(TParentContext ctx, TObject src);
@@ -77,8 +77,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
             TParentEntity parentEntity,
             IEnumerable<TEntity> entities
             )
-            where TParentObj : ObjectBase
-            where TObj : ObjectBase
+            where TParentObj : ObjectWithIDBase
+            where TObj : ObjectWithIDBase
             where TParentEntity : IEntity
             where TEntity : IEntityChild
         {
@@ -97,8 +97,8 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
             IEnumerable<TObj> objects,
             ISet<TEntity> entities
             )
-            where TParentObj : ObjectBase
-            where TObj : ObjectBase
+            where TParentObj : ObjectWithIDBase
+            where TObj : ObjectWithIDBase
             where TParentEntity : IEntity
             where TEntity : IEntityChild
         {
@@ -125,14 +125,14 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects
 
 
         public static TObj ConvertByGet<TObj>(this Func<IGeneralObjects<TObj>> objects, long id)
-            where TObj : ObjectBase
+            where TObj : ObjectWithIDBase
         {
             Contract.Assert(objects != null);
             return objects().Get(id);
         }
 
         public static TObj ConvertByGet<TObj, TEntity>(this Func<IGeneralObjects<TObj>> objects, TEntity entity)
-            where TObj : ObjectBase
+            where TObj : ObjectWithIDBase
             where TEntity : BL.Entities.EntityBase
         {
             if (entity == null) return default(TObj);

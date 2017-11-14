@@ -73,6 +73,20 @@
 
                 <DataGrid.Columns>
                     <DataGridTemplateColumn
+                            Header="{StaticResource strObjectProp_Info_}"
+                            SortMemberPath="HasInfo"
+                            >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox
+                                    IsEnabled="False"
+                                    IsChecked="{Binding HasInfo, Mode=OneWay}"
+                                    />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    
+                    <DataGridTemplateColumn
                             Header="{StaticResource strObjectProp_Day_}"
                             SortMemberPath="Day.Number"
                             >

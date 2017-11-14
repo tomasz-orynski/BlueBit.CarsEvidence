@@ -55,14 +55,14 @@
 
             <Label 
                 Grid.Row="4" Grid.Column="0"
-                Content="{StaticResource strObjectProp_EvidenceBeg}"/>
+                Content="{StaticResource strObjectProp_EvidenceBegin}"/>
             <StackPanel 
                 Grid.Row="4" Grid.Column="1"
                 Orientation="Horizontal"
                 >
                 <CheckBox
                     x:Name="chkbox1"
-                    IsChecked="{Binding EvidenceBegState, UpdateSourceTrigger=PropertyChanged}"
+                    IsChecked="{Binding EvidenceBeginState, UpdateSourceTrigger=PropertyChanged}"
                     />
 
                 <tk:DateTimePicker 
@@ -70,12 +70,12 @@
                     Format="ShortDate"
                     FormatString="yyyy-MM-dd"
                     TimePickerVisibility="Collapsed"
-                    Value="{Binding EvidenceBeg.Date, ValidatesOnNotifyDataErrors=True, Mode=TwoWay}"
+                    Value="{Binding EvidenceBegin.Date, ValidatesOnNotifyDataErrors=True, Mode=TwoWay}"
                     Width="{StaticResource widthObjectPropType_Date}"
                     />
                 <tk:CalculatorUpDown
                     IsEnabled="{Binding ElementName=chkbox1, Path=IsChecked}"
-                    Text="{Binding EvidenceBeg.Value, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                    Text="{Binding EvidenceBegin.Counter, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                     Width="{StaticResource widthObjectPropType_Number}"
                     />
             </StackPanel>
@@ -103,7 +103,7 @@
                     />
                 <tk:CalculatorUpDown
                     IsEnabled="{Binding ElementName=chkbox2, Path=IsChecked}"
-                    Text="{Binding EvidenceEnd.Value, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
+                    Text="{Binding EvidenceEnd.Counter, ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
                     Width="{StaticResource widthObjectPropType_Number}"
                     />
             </StackPanel>

@@ -14,7 +14,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents
     [Attributes.EntityType(typeof(BL.Entities.PeriodRouteEntry))]
     [Attributes.ConverterType(typeof(PeriodRouteEntryConverter))]
     public class PeriodRouteEntry :
-        EditDocumentObjectChildBase
+        EditDocumentObjectChildWithInfoBase
     {
         public ObservableCollection<View.General.Helpers.Day> AllDays { get { return _Period.YearMonthDays; } }
         public ObservableCollection<View.General.Route> AllRoutes { get { return _routes().Items; } }

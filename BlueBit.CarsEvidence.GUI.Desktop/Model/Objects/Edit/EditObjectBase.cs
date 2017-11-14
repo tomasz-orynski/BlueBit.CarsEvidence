@@ -2,6 +2,7 @@
 using BlueBit.CarsEvidence.BL.Alghoritms;
 using BlueBit.CarsEvidence.BL.Repositories;
 using BlueBit.CarsEvidence.Commons.Diagnostics;
+using BlueBit.CarsEvidence.Commons.Templates;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,12 +15,27 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit
 {
     public interface IEditObject :
         IObject,
+        IObjectWithGetID,
         INotifyDataErrorInfo
     {
     }
 
+    public interface IEditObjectWithCode :
+        IEditObject,
+        IObjectWithGetCode
+    {
+        new string Code { get; set; }
+    }
+
+    public interface IEditObjectWithInfo :
+        IEditObject,
+        IObjectWithGetInfo
+    {
+        new string Info { get; set; }
+    }
+
     public abstract class EditObjectBase :
-        ObjectBase,
+        ObjectWithIDBase,
         IEditObject
     {
         private readonly Dictionary<string, List<string>> _validationErrors = new Dictionary<string, List<string>>();

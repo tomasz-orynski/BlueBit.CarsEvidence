@@ -15,7 +15,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model
 {
     public interface IGeneralObjects<T> :
         IObjectForEntityType
-        where T : Objects.ObjectBase
+        where T : Objects.ObjectWithIDBase
     {
         T Get(long id);
         IEnumerable<T> GetAll();
@@ -41,7 +41,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model
 
     public static class EditObjectsExtensions
     {
-        public static bool CanDelete<T>(this IEditObjects<T> @this, Objects.ObjectBase obj)
+        public static bool CanDelete<T>(this IEditObjects<T> @this, Objects.ObjectWithIDBase obj)
             where T : Objects.Edit.EditObjectBase
         {
             Contract.Assert(@this != null);
@@ -49,7 +49,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model
             Contract.Assert(@this.ForType == obj.ForType);
             return @this.CanDelete(obj.ID);
         }
-        public static void Delete<T>(this IEditObjects<T> @this, Objects.ObjectBase obj)
+        public static void Delete<T>(this IEditObjects<T> @this, Objects.ObjectWithIDBase obj)
             where T : Objects.Edit.EditObjectBase
         {
             Contract.Assert(@this != null);
@@ -61,8 +61,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model
 
     public interface IRepositoryGeneral
     {
-        void DeleteAll();
-        void Save(IEnumerable<EntityBase> entites);
+        void Import(IEnumerable<EntityBase> entites);
     }
 
     public interface IRepositoryViewObjects<T>
@@ -82,7 +81,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model
         private interface  _IViewObjectsCache
         {
             void Clear();
-            void HandleAddOnSave(IEnumerable<EntityBase> entities);
+            void HandleAddOnImport(EntityBase entity);
         }
 
         private interface _IViewObjectsCache<TEntity> :
@@ -130,7 +129,7 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model
             _ObjectsBase<TEntity>,
             IGeneralObjects<T>
             where TEntity : EntityBase
-            where T : Objects.ObjectBase
+            where T : Objects.ObjectWithIDBase
         {
 #if DEBUG
             private readonly object _dbgSc = new SingletonChecker<_ObjectsBase<T, TEntity>>();
@@ -199,19 +198,10 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.Model
                 }
             }
 
-            public void HandleAddOnSave(IEnumerable<EntityBase> entities)
+            public void HandleAddOnImport(EntityBase entity)
             {
-                Contract.Assert(entities != null);
-                if (_items.IsValueCreated)
-                {
-                    entities
-                        .Cast<TEntity>()
-                        .Select(_convertFromEntity.Value.Create)
-                        .Each(_ => {
-                            _items.Value.Item2[_.ID] = _;
-                            _items.Value.Item1.Add(_);
-                        });
-                }
+                Contract.Assert(entity is TEntity);
+                HandleAdd((TEntity)entity);
             }
 
             public void HandleAdd(TEntity entity)

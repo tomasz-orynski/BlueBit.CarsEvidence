@@ -1,6 +1,7 @@
 ﻿using BlueBit.CarsEvidence.GUI.Desktop.Configuration.Attributes;
 using BlueBit.CarsEvidence.GUI.Desktop.Model.Objects.Edit.Documents;
 using BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Commands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -12,41 +13,40 @@ namespace BlueBit.CarsEvidence.GUI.Desktop.ViewModel.Documents.Commands.Handlers
     {
     }
 
-    [Register(typeof(IDeleteEntriesCommandHandler<PeriodRouteEntry>))]
-    public class DeleteRouteEntriesCommandHandler :
-        CommandHandlerForSelectedBase<PeriodRouteEntry>,
-        IDeleteEntriesCommandHandler<PeriodRouteEntry>
+    public abstract class DeleteEntriesCommandHandlerBase<TEntry> :
+        CommandHandlerForSelectedBase<TEntry>,
+        IDeleteEntriesCommandHandler<TEntry>
     {
-        protected override void OnExecute(IEnumerable<PeriodRouteEntry> objects)
+        protected abstract Action<TEntry> RemoveMethod { get; }
+
+        protected sealed override void OnExecute(IEnumerable<TEntry> objects)
         {
             if (MessageBox.Show("Czy chcesz usunąć?", "TODO", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                objects.ToList().ForEach(_ => _.Period.RemoveFromEntries(_));
+                objects.ToList().ForEach(RemoveMethod);
             }
         }
 
-        protected override bool OnCanExecute(IEnumerable<PeriodRouteEntry> objects)
+        protected sealed override bool OnCanExecute(IEnumerable<TEntry> objects)
         {
             return true;
         }
     }
 
+
+    [Register(typeof(IDeleteEntriesCommandHandler<PeriodRouteEntry>))]
+    public class DeleteRouteEntriesCommandHandler :
+        DeleteEntriesCommandHandlerBase<PeriodRouteEntry>
+    {
+        private static void Remove(PeriodRouteEntry entry) { entry.Period.RemoveFromEntries(entry); }
+        protected override Action<PeriodRouteEntry> RemoveMethod { get { return Remove; }}
+    }
+
     [Register(typeof(IDeleteEntriesCommandHandler<PeriodFuelEntry>))]
     public class DeleteFuelEntriesCommandHandler :
-        CommandHandlerForSelectedBase<PeriodFuelEntry>,
-        IDeleteEntriesCommandHandler<PeriodFuelEntry>
+        DeleteEntriesCommandHandlerBase<PeriodFuelEntry>
     {
-        protected override void OnExecute(IEnumerable<PeriodFuelEntry> objects)
-        {
-            if (MessageBox.Show("Czy chcesz usunąć?", "TODO", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-            {
-                objects.ToList().ForEach(_ => _.Period.RemoveFromEntries(_));
-            }
-        }
-
-        protected override bool OnCanExecute(IEnumerable<PeriodFuelEntry> objects)
-        {
-            return true;
-        }
+        private static void Remove(PeriodFuelEntry entry) { entry.Period.RemoveFromEntries(entry); }
+        protected override Action<PeriodFuelEntry> RemoveMethod { get { return Remove; } }
     }
 }

@@ -59,15 +59,15 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
     public class Address :
         DTOWithCodeAndInfoBase
     {
-        [DataMember(Order = 12)]
+        [DataMember(Order = 10)]
         public string PostalCode { get; set; }
         [DataMember(Order = 11)]
         public string City { get; set; }
-        [DataMember(Order = 13)]
+        [DataMember(Order = 12)]
         public string Street { get; set; }
-        [DataMember(Order = 10)]
+        [DataMember(Order = 13)]
         public string BuildingNo { get; set; }
-        [DataMember(Order = 11)]
+        [DataMember(Order = 14)]
         public string LocalNo { get; set; }
     }
 
@@ -75,13 +75,13 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
     public class Company :
         DTOWithCodeAndInfoBase
     {
-        [DataMember(Order = 13)]
+        [DataMember(Order = 10)]
         public string Name { get; set; }
         [DataMember(Order = 11)]
         public string IdentifierNIP { get; set; }
         [DataMember(Order = 12)]
         public string IdentifierREGON { get; set; }
-        [DataMember(Order = 10)]
+        [DataMember(Order = 13)]
         public long AddressID { get; set; }
     }
 
@@ -89,13 +89,13 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
     public class Car :
         DTOWithCodeAndInfoBase
     {
-        [DataMember(Order = 13)]
-        public string RegisterNumber { get; set; }
         [DataMember(Order = 10)]
-        public string BrandInfo { get; set; }
+        public string RegisterNumber { get; set; }
         [DataMember(Order = 11)]
-        public ValueStateLong EvidenceBeg { get; set; }
+        public string BrandInfo { get; set; }
         [DataMember(Order = 12)]
+        public ValueStateLong EvidenceBeg { get; set; }
+        [DataMember(Order = 13)]
         public ValueStateLong EvidenceEnd { get; set; }
     }
 
@@ -440,7 +440,7 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
             }
         }
 
-        public IEnumerable<IEnumerable<Entities.EntityBase>> GetEntities()
+        public IEnumerable<Entities.EntityBase> GetEntities()
         {
             if (_actions != null)
             {
@@ -448,14 +448,13 @@ namespace BlueBit.CarsEvidence.BL.DTO.XML
                 _actions = null;
             }
 
-            yield return _company.MakeEnumerable<Entities.EntityBase>()
+            return _company.MakeEnumerable<Entities.EntityBase>()
                 .Union(_addresses.Values.OrderBy(_ => _.Code))
                 .Union(_persons.Values.OrderBy(_ => _.Code))
                 .Union(_cars.Values.OrderBy(_ => _.Code))
-                .Union(_routes.Values.OrderBy(_ => _.Code));
-
-            foreach (var period in _periods.Values.RecalculateStats().OrderBy(_ => _.Car.Code))
-                yield return period.MakeEnumerable();
+                .Union(_routes.Values.OrderBy(_ => _.Code))
+                .Union(_periods.Values.RecalculateStats().OrderBy(_ => _.Car.Code))
+                ;
         }
 
     }

@@ -116,7 +116,7 @@
                 Content="{StaticResource strObjectProp_Entries}"/>
             <TabControl
                 Grid.Row="6" Grid.Column="1" 
-                Width="630"
+                Width="660"
                 >
                 <TabItem Header="{StaticResource strObjectProp_RouteEntries}">
                     <ContentControl Content="{Binding RouteEntries}"/>
